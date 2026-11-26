@@ -1,0 +1,4497 @@
+[
+ {
+  "id": "a1",
+  "theme": "nature",
+  "niveau": 1,
+  "titre": "Pourquoi les feuilles deviennent rouges avant de tomber",
+  "corps": "En été, les feuilles sont vertes parce qu'elles contiennent de la chlorophylle. Cette molécule capte la lumière du soleil et permet à l'arbre de fabriquer du sucre, sa nourriture. Elle est très active, et sa couleur cache toutes les autres. Les feuilles contiennent aussi des pigments jaunes et orange, mais ils restent discrets tant que le vert domine.\n\nÀ l'automne, les jours raccourcissent et la lumière baisse. La production de chlorophylle coûte cher à l'arbre en énergie. Comme les feuilles vont bientôt tomber, cet effort devient inutile : l'arbre cesse donc peu à peu d'en fabriquer. Le vert s'efface et laisse apparaître les pigments jaunes et orange, présents depuis l'été mais invisibles.\n\nChez certains arbres, comme l'érable, un autre phénomène se produit. Les sucres restent dans la feuille au lieu de descendre vers les racines, et forment des pigments rouges, les anthocyanes. Ces pigments jouent peut-être un rôle de protection contre une lumière trop forte. Plus les nuits sont fraîches et les journées ensoleillées, plus ce rouge est vif.\n\nToutes les espèces ne suivent pas ce scénario. Les arbres à aiguilles, comme les pins, gardent leurs feuilles plusieurs années et restent verts tout l'hiver.\n\nEnsuite, l'arbre ferme la base du pétiole. La feuille se détache et tombe. Elle se décompose au sol et lui rend une partie des éléments qu'elle avait puisés.",
+  "q": [
+   {
+    "q": "De quoi la chlorophylle a-t-elle besoin pour fonctionner ?",
+    "o": [
+     "De la lumière du soleil",
+     "De l'air froid de l'automne",
+     "Du sucre déjà stocké dans l'arbre"
+    ],
+    "r": 0,
+    "e": "Le texte précise que la chlorophylle capte la lumière du soleil pour fabriquer du sucre."
+   },
+   {
+    "q": "Que permet à l'arbre de fabriquer la chlorophylle ?",
+    "o": [
+     "Du sucre",
+     "De l'eau",
+     "Du bois"
+    ],
+    "r": 0,
+    "e": "La chlorophylle capte la lumière et permet à l'arbre de fabriquer du sucre, sa nourriture."
+   },
+   {
+    "q": "Pourquoi les pigments jaunes restent-ils invisibles en été ?",
+    "o": [
+     "Le vert de la chlorophylle les masque",
+     "Ils n'existent pas encore dans la feuille",
+     "La lumière du soleil les détruit"
+    ],
+    "r": 0,
+    "e": "Ces pigments sont présents depuis l'été, mais la couleur verte de la chlorophylle les cache."
+   },
+   {
+    "q": "Qu'est-ce qui change à l'automne ?",
+    "o": [
+     "Les jours raccourcissent et la lumière baisse",
+     "La température du sol augmente",
+     "Les racines cessent de boire"
+    ],
+    "r": 0,
+    "e": "Le texte cite la baisse de la lumière et le raccourcissement des jours comme point de départ."
+   },
+   {
+    "q": "Pourquoi l'arbre cesse-t-il de produire de la chlorophylle ?",
+    "o": [
+     "Parce que cet effort devient inutile avant la chute",
+     "Parce que le sol devient trop froid",
+     "Parce que les racines refusent l'eau"
+    ],
+    "r": 0,
+    "e": "La production coûte cher et n'a plus d'intérêt quand la feuille va tomber."
+   },
+   {
+    "q": "Quel arbre est cité pour ses pigments rouges ?",
+    "o": [
+     "L'érable",
+     "Le chêne",
+     "Le bouleau"
+    ],
+    "r": 0,
+    "e": "L'érable est le seul arbre nommé dans le passage sur les pigments rouges."
+   },
+   {
+    "q": "Comment s'appellent les pigments rouges ?",
+    "o": [
+     "Les anthocyanes",
+     "Les carotènes",
+     "Les tanins"
+    ],
+    "r": 0,
+    "e": "Le texte nomme anthocyanes les pigments rouges formés à partir des sucres restés dans la feuille."
+   },
+   {
+    "q": "Que deviennent les sucres chez l'érable en automne ?",
+    "o": [
+     "Ils restent dans la feuille",
+     "Ils descendent vers les racines",
+     "Ils sont rejetés par le pétiole"
+    ],
+    "r": 0,
+    "e": "D'après le texte, les sucres restent dans la feuille et servent à former les pigments rouges."
+   },
+   {
+    "q": "Quel rôle les anthocyanes pourraient-elles jouer ?",
+    "o": [
+     "Protéger la feuille d'une lumière trop forte",
+     "Nourrir les oiseaux migrateurs",
+     "Accélérer la chute des feuilles"
+    ],
+    "r": 0,
+    "e": "Le texte présente cette protection comme une hypothèse possible, pas comme une certitude."
+   },
+   {
+    "q": "Quelles conditions rendent le rouge plus vif ?",
+    "o": [
+     "Des nuits fraîches et des journées ensoleillées",
+     "Des nuits douces et des journées pluvieuses",
+     "Des journées courtes et un ciel couvert"
+    ],
+    "r": 0,
+    "e": "Le texte lie l'intensité du rouge aux nuits fraîches et aux journées ensoleillées."
+   },
+   {
+    "q": "Que font les pins en hiver ?",
+    "o": [
+     "Ils gardent leurs aiguilles et restent verts",
+     "Ils perdent toutes leurs aiguilles",
+     "Ils deviennent rouges puis tombent"
+    ],
+    "r": 0,
+    "e": "Les arbres à aiguilles conservent leurs feuilles plusieurs années et restent verts."
+   },
+   {
+    "q": "Que fait l'arbre à la base du pétiole ?",
+    "o": [
+     "Il la ferme",
+     "Il l'allonge",
+     "Il la colore en rouge"
+    ],
+    "r": 0,
+    "e": "Le texte indique que l'arbre ferme la base du pétiole avant la chute de la feuille."
+   },
+   {
+    "q": "Que se passe-t-il une fois le pétiole fermé ?",
+    "o": [
+     "La feuille se détache et tombe",
+     "La feuille verdit à nouveau",
+     "L'arbre produit plus de chlorophylle"
+    ],
+    "r": 0,
+    "e": "La fermeture du pétiole est suivie par le détachement puis la chute de la feuille."
+   },
+   {
+    "q": "Que devient la feuille tombée ?",
+    "o": [
+     "Elle se décompose et rend des éléments au sol",
+     "Elle remonte dans l'arbre",
+     "Elle reste intacte des années"
+    ],
+    "r": 0,
+    "e": "La feuille morte se décompose et restitue au sol une partie des éléments puisés."
+   },
+   {
+    "q": "Un automne aux nuits douces et au ciel couvert donnera probablement…",
+    "o": [
+     "des rouges moins vifs",
+     "des feuilles plus vertes qu'en été",
+     "des feuilles qui ne tomberont pas"
+    ],
+    "r": 0,
+    "e": "Le rouge est vif quand les nuits sont fraîches et les journées ensoleillées, donc l'inverse donne des couleurs plus ternes."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Les causes du changement de couleur des feuilles",
+     "La culture des érables en Europe",
+     "Le rôle des racines pendant l'hiver"
+    ],
+    "r": 0,
+    "e": "Le texte explique pourquoi et comment les feuilles changent de couleur avant de tomber."
+   },
+   {
+    "q": "Pourquoi l'auteur commence-t-il par le rôle de la chlorophylle ?",
+    "o": [
+     "Pour expliquer pourquoi le vert domine avant l'automne",
+     "Pour vanter les qualités des arbres feuillus",
+     "Pour décrire la fabrication du sucre dans l'industrie"
+    ],
+    "r": 0,
+    "e": "Comprendre le rôle du vert permet de comprendre pourquoi sa disparition révèle les autres couleurs."
+   }
+  ]
+ },
+ {
+  "id": "a2",
+  "theme": "animaux",
+  "niveau": 1,
+  "titre": "L'hiver du manchot empereur",
+  "corps": "Chez les manchots empereurs, la reproduction commence au début de l'hiver antarctique, quand la température descend très bas et que la nuit dure des semaines. L'espèce est la plus grande des manchots : un adulte mesure environ un mètre dix et peut peser près de quarante kilos.\n\nLa femelle pond un seul œuf. Elle le confie aussitôt au mâle, puis part vers la mer pour se nourrir. Le mâle pose l'œuf sur ses pattes et le recouvre d'un repli de peau chaud, comme une poche. Il ne peut pas le poser : s'il le laissait sur la glace, l'œuf gèlerait en quelques minutes. Le passage d'un parent à l'autre doit donc être rapide et précis.\n\nPendant environ deux mois, le mâle ne mange rien. Il reste debout, immobile, et se serre contre ses voisins pour garder la chaleur. Les mâles forment ainsi de grands groupes compacts, qui tournent lentement pour que chacun passe au centre. Là, la température reste bien plus élevée qu'à l'extérieur du groupe, où le vent souffle sans obstacle.\n\nQuand la femelle revient, elle retrouve son compagnon et reprend l'œuf. Elle a repris des forces en mer et peut nourrir le poussin qui vient d'éclore, en régurgitant de la nourriture. Le mâle part alors à son tour vers la mer, après plusieurs semaines de jeûne.\n\nLes poussins restent ensuite blottis contre les pattes d'un adulte. Les skuas, oiseaux prédateurs de la région, guettent les jeunes laissés seuls.",
+  "q": [
+   {
+    "q": "À quelle saison commence la reproduction des manchots empereurs ?",
+    "o": [
+     "Au début de l'hiver antarctique",
+     "Au début de l'été antarctique",
+     "Au milieu du printemps austral"
+    ],
+    "r": 0,
+    "e": "Le texte situe le début de la reproduction au commencement de l'hiver antarctique."
+   },
+   {
+    "q": "Quelle taille atteint environ un adulte ?",
+    "o": [
+     "Un mètre dix",
+     "Soixante centimètres",
+     "Un mètre quatre-vingts"
+    ],
+    "r": 0,
+    "e": "Le texte donne environ un mètre dix pour un adulte."
+   },
+   {
+    "q": "Combien peut peser un manchot empereur adulte ?",
+    "o": [
+     "Près de quarante kilos",
+     "Près de cinq kilos",
+     "Près de cent kilos"
+    ],
+    "r": 0,
+    "e": "Le texte indique un poids pouvant approcher quarante kilos."
+   },
+   {
+    "q": "Combien d'œufs la femelle pond-elle ?",
+    "o": [
+     "Un seul",
+     "Deux",
+     "Trois"
+    ],
+    "r": 0,
+    "e": "Le texte précise que la femelle pond un seul œuf."
+   },
+   {
+    "q": "Où le mâle pose-t-il l'œuf ?",
+    "o": [
+     "Sur ses pattes",
+     "Sur la glace",
+     "Dans un trou creusé"
+    ],
+    "r": 0,
+    "e": "Le mâle place l'œuf sur ses pattes et le couvre d'un repli de peau."
+   },
+   {
+    "q": "Que fait la femelle juste après avoir confié l'œuf ?",
+    "o": [
+     "Elle part vers la mer pour se nourrir",
+     "Elle reste près du mâle",
+     "Elle cherche un abri sur la glace"
+    ],
+    "r": 0,
+    "e": "Le texte dit qu'elle part vers la mer pour se nourrir après avoir confié l'œuf."
+   },
+   {
+    "q": "Que se passerait-il si l'œuf restait sur la glace ?",
+    "o": [
+     "Il gèlerait en quelques minutes",
+     "Il serait recouvert de neige",
+     "Il serait pris pour un caillou"
+    ],
+    "r": 0,
+    "e": "Le texte affirme que l'œuf posé sur la glace gèlerait en quelques minutes."
+   },
+   {
+    "q": "Pourquoi le passage de l'œuf entre les parents doit-il être rapide ?",
+    "o": [
+     "Parce que l'œuf se refroidirait très vite",
+     "Parce que le mâle doit partir chasser",
+     "Parce que la glace se brise"
+    ],
+    "r": 0,
+    "e": "L'œuf ne peut rester exposé au froid, ce qui impose un transfert précis."
+   },
+   {
+    "q": "Pendant combien de temps le mâle ne mange-t-il rien ?",
+    "o": [
+     "Environ deux mois",
+     "Environ deux semaines",
+     "Environ six mois"
+    ],
+    "r": 0,
+    "e": "Le texte indique une durée d'environ deux mois sans nourriture."
+   },
+   {
+    "q": "Comment les mâles se réchauffent-ils ?",
+    "o": [
+     "Ils se serrent en groupes compacts",
+     "Ils s'allongent sur le ventre",
+     "Ils remuent les ailes sans arrêt"
+    ],
+    "r": 0,
+    "e": "Les mâles se regroupent en masses compactes pour conserver la chaleur."
+   },
+   {
+    "q": "Pourquoi les groupes de mâles tournent-ils lentement ?",
+    "o": [
+     "Pour que chacun passe au centre",
+     "Pour suivre le soleil",
+     "Pour chasser les prédateurs"
+    ],
+    "r": 0,
+    "e": "La rotation lente permet à chaque oiseau de profiter tour à tour de la position centrale."
+   },
+   {
+    "q": "Où fait-il le plus chaud dans un groupe de mâles ?",
+    "o": [
+     "Au centre",
+     "Sur le bord exposé au vent",
+     "Au sommet de la masse"
+    ],
+    "r": 0,
+    "e": "Le texte précise que la température est bien plus élevée au centre qu'à l'extérieur."
+   },
+   {
+    "q": "Qui reprend l'œuf au retour de la femelle ?",
+    "o": [
+     "La femelle",
+     "Le mâle",
+     "Un autre couple"
+    ],
+    "r": 0,
+    "e": "Le texte indique que la femelle reprend l'œuf à son retour, puis le mâle part à son tour."
+   },
+   {
+    "q": "Comment la femelle nourrit-elle le poussin ?",
+    "o": [
+     "Elle régurgite de la nourriture",
+     "Elle lui apporte des poissons entiers",
+     "Elle lui donne de la neige fondue"
+    ],
+    "r": 0,
+    "e": "La femelle nourrit le poussin en régurgitant la nourriture rapportée de la mer."
+   },
+   {
+    "q": "Quel oiseau guette les jeunes laissés seuls ?",
+    "o": [
+     "Le skua",
+     "Le goéland argenté",
+     "Le pingouin"
+    ],
+    "r": 0,
+    "e": "Le texte cite les skuas comme prédateurs des jeunes."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "La manière dont le manchot empereur couve son œuf",
+     "La chasse des manchots dans l'océan Austral",
+     "Les différents oiseaux de l'Antarctique"
+    ],
+    "r": 0,
+    "e": "Le texte décrit surtout le rôle du mâle pendant l'incubation, en hiver."
+   },
+   {
+    "q": "Pourquoi l'auteur insiste-t-il sur le froid et la nuit ?",
+    "o": [
+     "Pour montrer que la couvaison est une épreuve",
+     "Pour expliquer la couleur du plumage",
+     "Pour décrire le paysage polaire en détail"
+    ],
+    "r": 0,
+    "e": "Ces deux éléments soulignent la difficulté de la tâche accomplie par le mâle."
+   }
+  ]
+ },
+ {
+  "id": "a3",
+  "theme": "cuisine",
+  "niveau": 1,
+  "titre": "Le levain qui fait lever le pain",
+  "corps": "Pour faire du pain, on mélange de la farine, de l'eau et du sel. On peut y ajouter de la levure, ou bien utiliser du levain.\n\nLe levain est une pâte gardée de côté et nourrie régulièrement avec de la farine et de l'eau. Elle abrite des levures et des bactéries venues de l'air et de la farine. Les levures mangent les sucres de la farine et rejettent du gaz carbonique. Les bactéries, elles, produisent des acides qui donnent au pain son goût légèrement acidulé.\n\nLe gaz forme des bulles dans la pâte. Une protéine de la farine, le gluten, rend la pâte élastique : elle retient les bulles au lieu de les laisser partir. La pâte gonfle donc, parfois pendant plusieurs heures. Un levain très actif peut faire lever la pâte en trois ou quatre heures ; un levain plus jeune demande une nuit entière.\n\nÀ la cuisson, la chaleur fige la structure. Les bulles restent prisonnières, et c'est ce qui donne au pain sa mie pleine de trous. La croûte se forme quand la surface sèche et brunit.\n\nLes acides du levain ont un autre effet : ils ralentissent le développement des moisissures. Un pain au levain se garde donc souvent plus longtemps qu'un pain à la levure seule.\n\nCette méthode est ancienne. Les premiers pains levés, en Égypte, utilisaient déjà des pâtes laissées à l'air libre, où les micro-organismes s'installaient seuls.",
+  "q": [
+   {
+    "q": "Que mélange-t-on de base pour faire du pain ?",
+    "o": [
+     "Farine, eau et sel",
+     "Farine, sucre et lait",
+     "Eau, sel et beurre"
+    ],
+    "r": 0,
+    "e": "Le texte cite la farine, l'eau et le sel comme base, avec levure ou levain en plus."
+   },
+   {
+    "q": "Qu'est-ce que le levain ?",
+    "o": [
+     "Une pâte gardée et nourrie de farine et d'eau",
+     "Un mélange de sel et de levure sèche",
+     "Un reste de pâte cuite la veille"
+    ],
+    "r": 0,
+    "e": "Le levain est décrit comme une pâte conservée et régulièrement nourrie."
+   },
+   {
+    "q": "Avec quoi nourrit-on le levain ?",
+    "o": [
+     "De la farine et de l'eau",
+     "Du sucre et du sel",
+     "Du lait et du beurre"
+    ],
+    "r": 0,
+    "e": "Le texte précise qu'on l'entretient avec de la farine et de l'eau."
+   },
+   {
+    "q": "D'où viennent les levures et les bactéries du levain ?",
+    "o": [
+     "De l'air et de la farine",
+     "Du sel ajouté",
+     "Du four utilisé"
+    ],
+    "r": 0,
+    "e": "Le texte les fait venir de l'air et de la farine."
+   },
+   {
+    "q": "Que rejettent les levures ?",
+    "o": [
+     "Du gaz carbonique",
+     "De l'acide",
+     "De l'alcool pur"
+    ],
+    "r": 0,
+    "e": "Les levures consomment les sucres de la farine et rejettent du gaz carbonique."
+   },
+   {
+    "q": "Que produisent les bactéries du levain ?",
+    "o": [
+     "Des acides",
+     "Des sucres",
+     "Du gluten"
+    ],
+    "r": 0,
+    "e": "Les bactéries produisent des acides qui donnent le goût acidulé."
+   },
+   {
+    "q": "Quel effet ont ces acides sur le pain ?",
+    "o": [
+     "Ils lui donnent un goût légèrement acidulé",
+     "Ils le rendent plus sucré",
+     "Ils le colorent en brun"
+    ],
+    "r": 0,
+    "e": "Le texte relie les acides au goût légèrement acidulé du pain."
+   },
+   {
+    "q": "Quelle protéine rend la pâte élastique ?",
+    "o": [
+     "Le gluten",
+     "La chlorophylle",
+     "L'amidon"
+    ],
+    "r": 0,
+    "e": "Le gluten est la protéine de la farine qui donne son élasticité à la pâte."
+   },
+   {
+    "q": "Quel est le rôle du gluten pendant la pousse ?",
+    "o": [
+     "Retenir les bulles de gaz",
+     "Nourrir les levures",
+     "Apporter le sel"
+    ],
+    "r": 0,
+    "e": "Le gluten retient les bulles au lieu de les laisser s'échapper."
+   },
+   {
+    "q": "Combien de temps un levain très actif met-il à faire lever la pâte ?",
+    "o": [
+     "Trois ou quatre heures",
+     "Trois ou quatre minutes",
+     "Trois ou quatre jours"
+    ],
+    "r": 0,
+    "e": "Le texte donne trois ou quatre heures pour un levain très actif."
+   },
+   {
+    "q": "Combien de temps faut-il avec un levain plus jeune ?",
+    "o": [
+     "Une nuit entière",
+     "Une heure",
+     "Une semaine"
+    ],
+    "r": 0,
+    "e": "Un levain plus jeune demande une nuit entière pour lever la pâte."
+   },
+   {
+    "q": "Que fait la chaleur à la cuisson ?",
+    "o": [
+     "Elle fige la structure de la pâte",
+     "Elle fait repartir les levures",
+     "Elle évapore tout le gluten"
+    ],
+    "r": 0,
+    "e": "La chaleur fige la structure et emprisonne les bulles formées pendant la pousse."
+   },
+   {
+    "q": "Comment se forme la croûte ?",
+    "o": [
+     "La surface sèche et brunit",
+     "Les bulles éclatent en surface",
+     "Le sel remonte à la surface"
+    ],
+    "r": 0,
+    "e": "La croûte apparaît quand la surface de la pâte sèche puis brunit."
+   },
+   {
+    "q": "Quel effet les acides ont-ils sur la conservation ?",
+    "o": [
+     "Ils ralentissent les moisissures",
+     "Ils accélèrent le dessèchement",
+     "Ils attirent les insectes"
+    ],
+    "r": 0,
+    "e": "Les acides freinent le développement des moisissures et prolongent la conservation."
+   },
+   {
+    "q": "Où les premiers pains levés sont-ils apparus ?",
+    "o": [
+     "En Égypte",
+     "En Grèce",
+     "En Chine"
+    ],
+    "r": 0,
+    "e": "Le texte situe en Égypte les premiers pains levés connus."
+   },
+   {
+    "q": "Pourquoi le pain au levain a-t-il un goût particulier ?",
+    "o": [
+     "Parce que des bactéries y produisent des acides",
+     "Parce qu'on y ajoute du vinaigre",
+     "Parce que la farine est grillée"
+    ],
+    "r": 0,
+    "e": "Le goût acidulé vient des acides fabriqués par les bactéries du levain."
+   },
+   {
+    "q": "Pourquoi faut-il attendre avant d'enfourner ?",
+    "o": [
+     "Parce que les bulles doivent se former dans la pâte",
+     "Parce que le four doit refroidir",
+     "Parce que le sel doit disparaître"
+    ],
+    "r": 0,
+    "e": "La pousse laisse le temps aux levures de produire le gaz qui gonflera la pâte."
+   }
+  ]
+ },
+ {
+  "id": "a4",
+  "theme": "sport",
+  "niveau": 1,
+  "titre": "D'où vient la distance du marathon",
+  "corps": "Le marathon est une course à pied de 42,195 kilomètres. Cette distance exacte n'a pourtant pas toujours existé.\n\nLe nom vient d'une légende grecque. Un messager aurait couru de la ville de Marathon jusqu'à Athènes pour annoncer une victoire, puis serait mort d'épuisement. Les historiens discutent encore de ce récit : aucun texte antique ne le raconte exactement ainsi.\n\nAux premiers Jeux olympiques modernes, à Athènes en 1896, la course longue mesurait environ quarante kilomètres. Pendant plusieurs années, les organisateurs ont choisi des parcours variables. Le marathon de Londres en 1908, tracé pour finir devant une tribune précise, mesurait déjà 42,195 kilomètres. C'est seulement en 1921 que la fédération internationale a fixé cette distance comme référence mondiale.\n\nAujourd'hui, des centaines de marathons sont organisés chaque année. Les meilleurs coureurs mettent un peu plus de deux heures. La plupart des participants visent surtout à terminer la course, ce qui demande déjà des mois d'entraînement.\n\nLa course a longtemps été réservée aux hommes dans les grandes compétitions. Le marathon féminin n'est entré aux Jeux olympiques qu'en 1984, à Los Angeles.\n\nSur le parcours, un moment difficile est bien connu : beaucoup de coureurs faiblissent après trente kilomètres, quand les réserves de sucre s'épuisent. Les ravitaillements en eau et en boissons sucrées servent à retarder cette baisse.",
+  "q": [
+   {
+    "q": "Quelle est la distance exacte du marathon ?",
+    "o": [
+     "42,195 kilomètres",
+     "40 kilomètres",
+     "45,5 kilomètres"
+    ],
+    "r": 0,
+    "e": "Le texte donne 42,195 kilomètres comme distance actuelle."
+   },
+   {
+    "q": "D'où vient le nom du marathon ?",
+    "o": [
+     "D'une légende grecque",
+     "D'un empereur romain",
+     "D'un village italien"
+    ],
+    "r": 0,
+    "e": "Le nom vient d'une légende grecque racontant une course entre Marathon et Athènes."
+   },
+   {
+    "q": "Que raconte cette légende ?",
+    "o": [
+     "Un messager court de Marathon à Athènes",
+     "Un soldat traverse la mer en barque",
+     "Un berger cherche son troupeau"
+    ],
+    "r": 0,
+    "e": "Le messager aurait couru de Marathon jusqu'à Athènes pour annoncer une victoire."
+   },
+   {
+    "q": "Que serait-il arrivé au messager après son annonce ?",
+    "o": [
+     "Il serait mort d'épuisement",
+     "Il serait devenu roi",
+     "Il serait reparti aussitôt"
+    ],
+    "r": 0,
+    "e": "La légende rapporte qu'il serait mort d'épuisement après avoir annoncé la victoire."
+   },
+   {
+    "q": "Que disent les historiens de ce récit ?",
+    "o": [
+     "Ils en discutent encore",
+     "Ils l'ont prouvé par des fouilles",
+     "Ils l'ont totalement oublié"
+    ],
+    "r": 0,
+    "e": "Le texte précise qu'aucun récit antique ne rapporte exactement cette version."
+   },
+   {
+    "q": "Où et quand ont lieu les premiers Jeux olympiques modernes ?",
+    "o": [
+     "À Athènes en 1896",
+     "À Paris en 1900",
+     "À Londres en 1908"
+    ],
+    "r": 0,
+    "e": "Le texte situe les premiers Jeux modernes à Athènes, en 1896."
+   },
+   {
+    "q": "Combien mesurait la course longue en 1896 ?",
+    "o": [
+     "Environ quarante kilomètres",
+     "Environ vingt kilomètres",
+     "Environ soixante kilomètres"
+    ],
+    "r": 0,
+    "e": "En 1896, la course mesurait environ quarante kilomètres."
+   },
+   {
+    "q": "Quelle course de 1908 mesurait déjà 42,195 kilomètres ?",
+    "o": [
+     "Le marathon de Londres",
+     "Le marathon de Paris",
+     "Le marathon de Boston"
+    ],
+    "r": 0,
+    "e": "Le parcours de Londres en 1908 atteignait déjà cette distance."
+   },
+   {
+    "q": "Quand la distance actuelle a-t-elle été fixée ?",
+    "o": [
+     "En 1921",
+     "En 1896",
+     "En 1950"
+    ],
+    "r": 0,
+    "e": "C'est en 1921 que la fédération internationale a fixé la distance."
+   },
+   {
+    "q": "Qui a fixé cette distance ?",
+    "o": [
+     "La fédération internationale",
+     "Le comité d'Athènes",
+     "Les coureurs eux-mêmes"
+    ],
+    "r": 0,
+    "e": "Le texte attribue la décision à la fédération internationale."
+   },
+   {
+    "q": "Combien de temps mettent les meilleurs coureurs ?",
+    "o": [
+     "Un peu plus de deux heures",
+     "Environ une heure",
+     "Près de quatre heures"
+    ],
+    "r": 0,
+    "e": "Le texte indique un peu plus de deux heures pour les meilleurs."
+   },
+   {
+    "q": "Que visent la plupart des participants ?",
+    "o": [
+     "Terminer la course",
+     "Battre le record du monde",
+     "Arriver dans les dix premiers"
+    ],
+    "r": 0,
+    "e": "La plupart cherchent d'abord à finir, ce qui demande déjà des mois de préparation."
+   },
+   {
+    "q": "Quand le marathon féminin est-il entré aux Jeux olympiques ?",
+    "o": [
+     "En 1984",
+     "En 1921",
+     "En 1960"
+    ],
+    "r": 0,
+    "e": "Le marathon féminin n'a été admis aux Jeux qu'en 1984, à Los Angeles."
+   },
+   {
+    "q": "À quel moment du parcours beaucoup de coureurs faiblissent-ils ?",
+    "o": [
+     "Après trente kilomètres",
+     "Dès le cinquième kilomètre",
+     "Dans les cent derniers mètres"
+    ],
+    "r": 0,
+    "e": "Le texte situe la baisse vers trente kilomètres, quand les réserves de sucre s'épuisent."
+   },
+   {
+    "q": "Pourquoi les organisateurs installent-ils des ravitaillements ?",
+    "o": [
+     "Pour retarder l'épuisement des coureurs",
+     "Pour mesurer la vitesse du vent",
+     "Pour compter les participants"
+    ],
+    "r": 0,
+    "e": "Eau et boissons sucrées aident à retarder la baisse d'énergie."
+   },
+   {
+    "q": "Pourquoi les parcours ont-ils longtemps varié ?",
+    "o": [
+     "Parce que la distance n'était pas encore fixée",
+     "Parce que les villes changeaient de nom",
+     "Parce que les coureurs refusaient la plaine"
+    ],
+    "r": 0,
+    "e": "Tant que la distance n'était pas officielle, chaque organisation choisissait son parcours."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "L'origine et la distance du marathon",
+     "Les records du monde du cent mètres",
+     "La vie des athlètes grecs"
+    ],
+    "r": 0,
+    "e": "Le texte raconte l'origine du nom et la fixation de la distance."
+   }
+  ]
+ },
+ {
+  "id": "a5",
+  "theme": "géographie",
+  "niveau": 1,
+  "titre": "La mer monte deux fois par jour",
+  "corps": "Sur presque toutes les côtes, la mer monte et descend deux fois par jour. Ce mouvement s'appelle la marée.\n\nIl est provoqué par la Lune. Notre satellite attire l'eau des océans, et cette attraction crée deux bourrelets d'eau qui se déplacent autour du globe. La Terre tourne sous ces bourrelets : un port passe donc sous une hauteur d'eau haute, puis sous une hauteur d'eau basse.\n\nLe Soleil joue aussi un rôle, plus faible : son attraction est moins de la moitié de celle de la Lune. Quand la Lune, la Terre et le Soleil sont alignés, leurs effets s'additionnent. Les marées sont alors plus fortes : on parle de grandes marées, ou marées de vive-eau. Quand les astres forment un angle droit, les effets se contrarient et les marées sont plus faibles : ce sont les marées de morte-eau.\n\nL'amplitude varie beaucoup d'un lieu à l'autre. Dans certains golfes étroits, l'eau s'engouffre et la différence de hauteur devient spectaculaire. La baie de Fundy, au Canada, connaît ainsi les plus grandes marées du monde, avec plus de quinze mètres d'écart. Ailleurs, en mer Méditerranée, l'écart dépasse rarement quelques dizaines de centimètres.\n\nEntre une pleine mer et la suivante, il s'écoule un peu plus de douze heures. C'est pourquoi les heures des marées avancent chaque jour d'environ cinquante minutes.",
+  "q": [
+   {
+    "q": "Combien de fois par jour la mer monte-t-elle ?",
+    "o": [
+     "Deux fois",
+     "Une fois",
+     "Quatre fois"
+    ],
+    "r": 0,
+    "e": "Le texte indique que la mer monte et descend deux fois par jour."
+   },
+   {
+    "q": "Comment appelle-t-on ce mouvement ?",
+    "o": [
+     "La marée",
+     "La houle",
+     "Le ressac"
+    ],
+    "r": 0,
+    "e": "Le mouvement quotidien de montée et de descente s'appelle la marée."
+   },
+   {
+    "q": "Quel astre attire principalement l'eau des océans ?",
+    "o": [
+     "La Lune",
+     "Le Soleil",
+     "Mars"
+    ],
+    "r": 0,
+    "e": "Le texte attribue l'attraction principale à la Lune."
+   },
+   {
+    "q": "Que crée cette attraction ?",
+    "o": [
+     "Deux bourrelets d'eau",
+     "Un courant unique",
+     "Une vague géante"
+    ],
+    "r": 0,
+    "e": "L'attraction lunaire forme deux bourrelets d'eau qui parcourent le globe."
+   },
+   {
+    "q": "Que fait la Terre sous ces bourrelets ?",
+    "o": [
+     "Elle tourne",
+     "Elle s'arrête",
+     "Elle se rapproche de la Lune"
+    ],
+    "r": 0,
+    "e": "La Terre tourne sous les bourrelets, ce qui fait alterner hauteur haute et basse."
+   },
+   {
+    "q": "Quelle est la force d'attraction du Soleil par rapport à celle de la Lune ?",
+    "o": [
+     "Moins de la moitié",
+     "Le double",
+     "Exactement la même"
+    ],
+    "r": 0,
+    "e": "Le texte précise que l'effet du Soleil est inférieur à la moitié de celui de la Lune."
+   },
+   {
+    "q": "Quand les marées sont-elles plus fortes ?",
+    "o": [
+     "Quand les trois astres sont alignés",
+     "Quand la Lune est cachée",
+     "Quand le Soleil est au plus haut"
+    ],
+    "r": 0,
+    "e": "L'alignement de la Lune, de la Terre et du Soleil additionne leurs effets."
+   },
+   {
+    "q": "Comment appelle-t-on ces marées plus fortes ?",
+    "o": [
+     "Les grandes marées",
+     "Les marées basses",
+     "Les marées d'orage"
+    ],
+    "r": 0,
+    "e": "Le texte nomme grandes marées, ou vives-eaux, les marées renforcées par l'alignement."
+   },
+   {
+    "q": "Que se passe-t-il quand les astres forment un angle droit ?",
+    "o": [
+     "Les marées sont plus faibles",
+     "Les marées disparaissent",
+     "Les marées deviennent irrégulières"
+    ],
+    "r": 0,
+    "e": "Les effets se contrarient alors et produisent des marées de morte-eau."
+   },
+   {
+    "q": "Où trouve-t-on les plus grandes marées du monde ?",
+    "o": [
+     "Dans la baie de Fundy",
+     "En mer Méditerranée",
+     "Dans le golfe de Gascogne"
+    ],
+    "r": 0,
+    "e": "La baie de Fundy, au Canada, connaît les plus grandes marées du monde."
+   },
+   {
+    "q": "Quel écart de hauteur connaît la baie de Fundy ?",
+    "o": [
+     "Plus de quinze mètres",
+     "Environ deux mètres",
+     "Plus de cent mètres"
+    ],
+    "r": 0,
+    "e": "Le texte mentionne un écart supérieur à quinze mètres."
+   },
+   {
+    "q": "Quel écart connaît en général la Méditerranée ?",
+    "o": [
+     "Quelques dizaines de centimètres",
+     "Plus de dix mètres",
+     "Aucun écart"
+    ],
+    "r": 0,
+    "e": "En Méditerranée, l'écart dépasse rarement quelques dizaines de centimètres."
+   },
+   {
+    "q": "Combien de temps s'écoule entre deux pleines mers ?",
+    "o": [
+     "Un peu plus de douze heures",
+     "Environ six heures",
+     "Environ vingt-quatre heures"
+    ],
+    "r": 0,
+    "e": "Le texte donne un peu plus de douze heures entre deux pleines mers."
+   },
+   {
+    "q": "De combien les heures de marée avancent-elles chaque jour ?",
+    "o": [
+     "D'environ cinquante minutes",
+     "D'environ cinq minutes",
+     "D'environ trois heures"
+    ],
+    "r": 0,
+    "e": "Le décalage quotidien est d'environ cinquante minutes."
+   },
+   {
+    "q": "Pourquoi l'amplitude varie-t-elle selon les lieux ?",
+    "o": [
+     "Parce que la forme des côtes modifie la hauteur d'eau",
+     "Parce que la Lune change de distance chaque jour",
+     "Parce que le sel alourdit l'eau"
+    ],
+    "r": 0,
+    "e": "Dans les golfes étroits, l'eau s'engouffre et l'écart augmente fortement."
+   },
+   {
+    "q": "Pourquoi un port n'a-t-il pas pleine mer à la même heure chaque jour ?",
+    "o": [
+     "Parce que les marées avancent d'environ cinquante minutes par jour",
+     "Parce que la Lune change de forme",
+     "Parce que le port se déplace"
+    ],
+    "r": 0,
+    "e": "Le décalage quotidien d'environ cinquante minutes explique ce glissement des horaires."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "La cause et le rythme des marées",
+     "La pêche le long des côtes",
+     "La forme des vagues en pleine mer"
+    ],
+    "r": 0,
+    "e": "Le texte explique l'origine lunaire des marées et leur rythme quotidien."
+   }
+  ]
+ },
+ {
+  "id": "a6",
+  "theme": "nature",
+  "niveau": 1,
+  "titre": "Ce que racontent les cernes des arbres",
+  "corps": "Quand on coupe un tronc, on voit des cercles concentriques. Ce sont les cernes de croissance.\n\nUn arbre produit du bois nouveau sous son écorce, juste à la limite du tronc. Au printemps, quand l'eau et la lumière sont abondantes, il pousse vite : le bois formé est clair et tendre. En été, la croissance ralentit et le bois devient plus sombre et plus dense. Une année complète forme donc deux zones, claire puis foncée, qui se lisent comme un seul cerne.\n\nLes cernes ne se ressemblent pas tous. Une année favorable donne un cerne large ; une année de sécheresse donne un cerne étroit. En comptant les cernes, on connaît l'âge de l'arbre. En comparant leur épaisseur, on reconstitue les anciens climats. Cette méthode s'appelle la dendrochronologie.\n\nLes chercheurs vont plus loin. Ils comparent les suites de cernes de plusieurs arbres d'une même région. Les bonnes et les mauvaises années laissent des motifs semblables, ce qui permet d'aligner les chronologies et de remonter loin dans le temps. Certains pins du grand Ouest américain vivent depuis plus de quatre mille ans : leurs cernes conservent la trace de sécheresses très anciennes.\n\nLa méthode a ses limites. Elle exige des arbres à croissance saisonnière marquée. En forêt tropicale, où la croissance se poursuit toute l'année, les cernes sont souvent peu lisibles. Elle a pourtant permis de dater des charpentes, des instruments de musique et des tableaux anciens.",
+  "q": [
+   {
+    "q": "Que voit-on quand on coupe un tronc ?",
+    "o": [
+     "Des cercles concentriques",
+     "Des lignes parallèles",
+     "Un motif en étoile"
+    ],
+    "r": 0,
+    "e": "La coupe du tronc montre des cercles concentriques, les cernes de croissance."
+   },
+   {
+    "q": "Où l'arbre produit-il son bois nouveau ?",
+    "o": [
+     "Sous son écorce, à la limite du tronc",
+     "Au centre du tronc",
+     "Dans les racines les plus fines"
+    ],
+    "r": 0,
+    "e": "Le bois nouveau se forme sous l'écorce, à la limite du tronc."
+   },
+   {
+    "q": "À quelle saison le bois clair se forme-t-il ?",
+    "o": [
+     "Au printemps",
+     "En automne",
+     "En hiver"
+    ],
+    "r": 0,
+    "e": "Le bois clair et tendre se forme au printemps, quand l'arbre pousse vite."
+   },
+   {
+    "q": "Pourquoi le bois de printemps est-il clair ?",
+    "o": [
+     "Parce que l'arbre pousse vite",
+     "Parce qu'il contient plus d'écorce",
+     "Parce qu'il est gelé"
+    ],
+    "r": 0,
+    "e": "La croissance rapide du printemps produit un bois clair et tendre."
+   },
+   {
+    "q": "Comment est le bois formé en été ?",
+    "o": [
+     "Plus sombre et plus dense",
+     "Plus clair et plus tendre",
+     "Plus léger que l'écorce"
+    ],
+    "r": 0,
+    "e": "En été, la croissance ralentit et le bois devient plus sombre et plus dense."
+   },
+   {
+    "q": "Combien de zones forme une année complète ?",
+    "o": [
+     "Deux",
+     "Une",
+     "Quatre"
+    ],
+    "r": 0,
+    "e": "Une année donne deux zones, claire puis foncée, lues comme un seul cerne."
+   },
+   {
+    "q": "Que donne une année favorable ?",
+    "o": [
+     "Un cerne large",
+     "Un cerne étroit",
+     "Un cerne invisible"
+    ],
+    "r": 0,
+    "e": "Le texte associe les bonnes années à des cernes larges."
+   },
+   {
+    "q": "Que donne une année de sécheresse ?",
+    "o": [
+     "Un cerne étroit",
+     "Un cerne plus clair",
+     "Deux cernes par an"
+    ],
+    "r": 0,
+    "e": "Une année sèche produit un cerne étroit."
+   },
+   {
+    "q": "Que connaît-on en comptant les cernes ?",
+    "o": [
+     "L'âge de l'arbre",
+     "La profondeur des racines",
+     "La hauteur de l'arbre"
+    ],
+    "r": 0,
+    "e": "Chaque année ajoutant un cerne, le comptage donne l'âge de l'arbre."
+   },
+   {
+    "q": "Que reconstitue-t-on en comparant leur épaisseur ?",
+    "o": [
+     "Les anciens climats",
+     "La couleur du sol",
+     "Le nombre de branches"
+    ],
+    "r": 0,
+    "e": "L'épaisseur des cernes renseigne sur les conditions climatiques passées."
+   },
+   {
+    "q": "Comment s'appelle cette méthode ?",
+    "o": [
+     "La dendrochronologie",
+     "La sylviculture",
+     "La palynologie"
+    ],
+    "r": 0,
+    "e": "Le texte nomme dendrochronologie l'étude des cernes de croissance."
+   },
+   {
+    "q": "Combien de temps vivent certains pins du grand Ouest américain ?",
+    "o": [
+     "Plus de quatre mille ans",
+     "Environ cent ans",
+     "Moins de cinquante ans"
+    ],
+    "r": 0,
+    "e": "Le texte cite des pins vivant depuis plus de quatre mille ans."
+   },
+   {
+    "q": "Pourquoi la méthode est-elle peu efficace en forêt tropicale ?",
+    "o": [
+     "Parce que la croissance s'y poursuit toute l'année",
+     "Parce que les arbres y sont trop jeunes",
+     "Parce que le bois y est trop dur"
+    ],
+    "r": 0,
+    "e": "Sans arrêt de croissance saisonnier, les cernes restent peu lisibles."
+   },
+   {
+    "q": "Qu'a-t-on pu dater grâce à cette méthode ?",
+    "o": [
+     "Des charpentes et des instruments anciens",
+     "Des fossiles marins",
+     "Des poteries préhistoriques"
+    ],
+    "r": 0,
+    "e": "Le texte cite la datation de charpentes, d'instruments et de tableaux anciens."
+   },
+   {
+    "q": "Pourquoi peut-on comparer les cernes de plusieurs arbres ?",
+    "o": [
+     "Parce que les mêmes années y laissent des marques semblables",
+     "Parce que tous les arbres ont le même âge",
+     "Parce que leur écorce est identique"
+    ],
+    "r": 0,
+    "e": "Les bonnes et mauvaises années produisent des motifs comparables d'un arbre à l'autre."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Ce que les cernes révèlent sur un arbre et son passé",
+     "Les techniques de sciage du bois",
+     "Les espèces d'arbres des forêts tropicales"
+    ],
+    "r": 0,
+    "e": "Le texte explique comment se forment les cernes et ce qu'ils permettent de savoir."
+   },
+   {
+    "q": "Pourquoi l'auteur décrit-il d'abord la croissance du bois ?",
+    "o": [
+     "Pour expliquer comment naît chaque cerne",
+     "Pour vanter la qualité du bois de charpente",
+     "Pour décrire l'écorce des vieux arbres"
+    ],
+    "r": 0,
+    "e": "Comprendre la croissance printanière et estivale est nécessaire pour lire les cernes."
+   }
+  ]
+ },
+ {
+  "id": "a7",
+  "theme": "animaux",
+  "niveau": 1,
+  "titre": "La danse des abeilles donne la direction",
+  "corps": "Une abeille butineuse qui trouve une belle source de nectar rentre à la ruche. Elle ne peut pas dire où elle est allée avec des mots. Alors elle danse.\n\nLa danse a lieu sur les rayons, dans l'obscurité. Les autres abeilles s'approchent et suivent les mouvements en touchant la danseuse avec leurs antennes.\n\nSi la nourriture est proche, à quelques dizaines de mètres, elle exécute une petite danse en rond. Les autres abeilles comprennent qu'il faut chercher tout près. L'odeur du nectar accrochée à son corps leur donne aussi une piste.\n\nSi la source est plus loin, la danse change : l'abeille parcourt une ligne droite en frétillant de l'abdomen, puis revient en cercle, et recommence. L'angle de cette ligne droite par rapport à la verticale indique la direction du soleil. La durée du frétillement renseigne sur la distance : plus la source est lointaine, plus le passage dure longtemps.\n\nLe savant autrichien Karl von Frisch a décodé ce langage dans les années 1940. Il observait des ruches vitrées et marquait les abeilles pour les suivre. Il a montré que les butineuses recrutées retrouvaient bien le nourrisseur indiqué. Il a reçu un prix Nobel en 1973 pour ces travaux.\n\nLa danse n'est pas parfaite. Les abeilles explorent parfois les alentours avant de trouver la source exacte. Mais le gain de temps reste considérable pour la colonie.",
+  "q": [
+   {
+    "q": "Que fait la butineuse quand elle trouve du nectar ?",
+    "o": [
+     "Elle rentre à la ruche et danse",
+     "Elle reste sur place et attend",
+     "Elle creuse un nouveau trou"
+    ],
+    "r": 0,
+    "e": "La butineuse revient à la ruche et transmet l'information par une danse."
+   },
+   {
+    "q": "Où la danse a-t-elle lieu ?",
+    "o": [
+     "Sur les rayons, dans l'obscurité",
+     "Devant l'entrée de la ruche",
+     "Sur les fleurs butinées"
+    ],
+    "r": 0,
+    "e": "La danse se déroule sur les rayons, à l'intérieur de la ruche."
+   },
+   {
+    "q": "Comment les autres abeilles suivent-elles la danse ?",
+    "o": [
+     "En touchant la danseuse avec leurs antennes",
+     "En écoutant un bourdonnement",
+     "En la suivant à l'extérieur"
+    ],
+    "r": 0,
+    "e": "Les suiveuses perçoivent les mouvements en touchant la danseuse de leurs antennes."
+   },
+   {
+    "q": "Que fait-elle si la nourriture est proche ?",
+    "o": [
+     "Une petite danse en rond",
+     "Une longue ligne droite",
+     "Un vol en hauteur"
+    ],
+    "r": 0,
+    "e": "Pour une source à quelques dizaines de mètres, elle exécute une danse en rond."
+   },
+   {
+    "q": "Que comprennent les autres abeilles ?",
+    "o": [
+     "Qu'il faut chercher tout près",
+     "Qu'il faut changer de ruche",
+     "Qu'il faut attendre la nuit"
+    ],
+    "r": 0,
+    "e": "La danse en rond indique aux autres qu'il faut chercher à proximité."
+   },
+   {
+    "q": "Quel indice complète la danse en rond ?",
+    "o": [
+     "L'odeur du nectar sur le corps",
+     "La couleur des rayons",
+     "Le bruit des ailes"
+    ],
+    "r": 0,
+    "e": "L'odeur du nectar apporte une indication supplémentaire aux suiveuses."
+   },
+   {
+    "q": "Que fait l'abeille si la source est lointaine ?",
+    "o": [
+     "Une ligne droite en frétillant",
+     "Une danse en rond plus rapide",
+     "Un vol stationnaire"
+    ],
+    "r": 0,
+    "e": "Pour une source éloignée, elle parcourt une ligne droite en frétillant de l'abdomen."
+   },
+   {
+    "q": "Que fait-elle après la ligne droite ?",
+    "o": [
+     "Elle revient en cercle",
+     "Elle sort de la ruche",
+     "Elle s'immobilise longtemps"
+    ],
+    "r": 0,
+    "e": "Après la ligne droite, elle revient en cercle puis recommence."
+   },
+   {
+    "q": "Qu'indique l'angle de la ligne par rapport à la verticale ?",
+    "o": [
+     "La direction du soleil",
+     "La quantité de miel",
+     "L'âge de la butineuse"
+    ],
+    "r": 0,
+    "e": "Cet angle donne la direction de la source par rapport au soleil."
+   },
+   {
+    "q": "Qu'indique la durée du frétillement ?",
+    "o": [
+     "La distance",
+     "La couleur des fleurs",
+     "Le nombre d'abeilles"
+    ],
+    "r": 0,
+    "e": "Plus la source est lointaine, plus le frétillement dure longtemps."
+   },
+   {
+    "q": "Qui a décodé ce langage ?",
+    "o": [
+     "Karl von Frisch",
+     "Charles Darwin",
+     "Louis Pasteur"
+    ],
+    "r": 0,
+    "e": "Le savant autrichien Karl von Frisch a décodé ce langage."
+   },
+   {
+    "q": "Comment von Frisch observait-il les abeilles ?",
+    "o": [
+     "Dans des ruches vitrées",
+     "Dans des ruches enfouies",
+     "Sous un microscope"
+    ],
+    "r": 0,
+    "e": "Il utilisait des ruches vitrées et marquait les abeilles pour les suivre."
+   },
+   {
+    "q": "Qu'a montré von Frisch ?",
+    "o": [
+     "Les butineuses retrouvent le nourrisseur indiqué",
+     "Les abeilles dansent au hasard",
+     "Les reines dansent seules"
+    ],
+    "r": 0,
+    "e": "Ses expériences ont montré que les butineuses recrutées retrouvaient la source indiquée."
+   },
+   {
+    "q": "Quand von Frisch a-t-il reçu un prix Nobel ?",
+    "o": [
+     "En 1973",
+     "En 1940",
+     "En 1925"
+    ],
+    "r": 0,
+    "e": "Il a reçu le prix Nobel en 1973 pour ces recherches."
+   },
+   {
+    "q": "Pourquoi les abeilles explorent-elles parfois les alentours ?",
+    "o": [
+     "Parce que la danse ne donne pas une position exacte",
+     "Parce qu'elles ne sentent pas le nectar",
+     "Parce qu'elles préfèrent les fleurs lointaines"
+    ],
+    "r": 0,
+    "e": "La danse indique une direction et une distance approximatives, que les abeilles ajustent en cherchant."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Le langage dansé des abeilles butineuses",
+     "La fabrication du miel dans la ruche",
+     "Les maladies des colonies d'abeilles"
+    ],
+    "r": 0,
+    "e": "Le texte décrit comment les abeilles communiquent la position d'une source de nectar."
+   },
+   {
+    "q": "Pourquoi l'auteur mentionne-t-il le prix Nobel ?",
+    "o": [
+     "Pour souligner l'importance de cette découverte",
+     "Pour dater la naissance de von Frisch",
+     "Pour expliquer le fonctionnement d'une ruche"
+    ],
+    "r": 0,
+    "e": "Le Nobel atteste la valeur scientifique du décodage de la danse."
+   }
+  ]
+ },
+ {
+  "id": "a8",
+  "theme": "cuisine",
+  "niveau": 1,
+  "titre": "Comment le sucre devient caramel",
+  "corps": "Le caramel naît d'une transformation simple : on chauffe du sucre.\n\nÀ sec, dans une casserole, le sucre commence par fondre. Il passe d'un état solide et blanc à un liquide transparent. Si l'on continue à chauffer, vers 160 degrés, ses molécules se brisent et se réorganisent. C'est la caramélisation. Le liquide prend une couleur ambrée et développe des arômes de noisette et de vanille.\n\nLe danger est de dépasser le point voulu. Au-delà d'environ 180 degrés, le sucre brunit trop et devient amer. Il faut donc surveiller la couleur et retirer la casserole à temps. Un caramel trop pâle manque de goût ; un caramel trop foncé gâche tout le plat.\n\nBeaucoup de cuisiniers ajoutent un peu d'eau au début. L'eau permet une montée en température plus régulière et limite les zones trop chaudes. Elle s'évapore ensuite, et le sucre finit seul sa transformation.\n\nIl faut aussi résister à l'envie de remuer. Une cuillère qui racle les bords détache des cristaux de sucre, qui servent de germes et font prendre la masse en grains. Pour éviter cela, on incline simplement la casserole.\n\nCertaines recettes ajoutent du beurre et de la crème à la fin, pour obtenir un caramel mou. D'autres versent le caramel chaud sur une plaque huilée, où il durcit en friandise. Dans tous les cas, la marge entre le bon caramel et le sucre brûlé est étroite.",
+  "q": [
+   {
+    "q": "Que fait-on pour obtenir du caramel ?",
+    "o": [
+     "On chauffe du sucre",
+     "On mélange du sucre et du sel",
+     "On refroidit du sirop"
+    ],
+    "r": 0,
+    "e": "Le caramel provient simplement du sucre chauffé."
+   },
+   {
+    "q": "Que devient le sucre en fondant ?",
+    "o": [
+     "Un liquide transparent",
+     "Une poudre blanche",
+     "Une pâte épaisse et froide"
+    ],
+    "r": 0,
+    "e": "Le sucre passe de l'état solide blanc à un liquide transparent."
+   },
+   {
+    "q": "Vers quelle température la caramélisation commence-t-elle ?",
+    "o": [
+     "Vers 160 degrés",
+     "Vers 60 degrés",
+     "Vers 300 degrés"
+    ],
+    "r": 0,
+    "e": "Le texte situe le début de la caramélisation vers 160 degrés."
+   },
+   {
+    "q": "Que se passe-t-il à cette température ?",
+    "o": [
+     "Les molécules se brisent et se réorganisent",
+     "L'eau se transforme en sel",
+     "Le sucre redevient solide"
+    ],
+    "r": 0,
+    "e": "La caramélisation correspond à une recombination des molécules de sucre."
+   },
+   {
+    "q": "Quelle couleur prend le liquide ?",
+    "o": [
+     "Ambrée",
+     "Bleutée",
+     "Blanche"
+    ],
+    "r": 0,
+    "e": "Le liquide caramélisé prend une couleur ambrée."
+   },
+   {
+    "q": "Quels arômes se développent alors ?",
+    "o": [
+     "Noisette et vanille",
+     "Citron et menthe",
+     "Poivre et cannelle"
+    ],
+    "r": 0,
+    "e": "Le texte cite des arômes de noisette et de vanille."
+   },
+   {
+    "q": "Que se passe-t-il au-delà de 180 degrés ?",
+    "o": [
+     "Le sucre brunit trop et devient amer",
+     "Le sucre redevient blanc",
+     "Le caramel durcit sans changer de goût"
+    ],
+    "r": 0,
+    "e": "Trop chauffé, le sucre noircit et prend un goût amer."
+   },
+   {
+    "q": "Que risque un caramel trop pâle ?",
+    "o": [
+     "De manquer de goût",
+     "De devenir amer",
+     "De ne pas durcir"
+    ],
+    "r": 0,
+    "e": "Le texte oppose le caramel trop pâle, sans goût, au caramel trop foncé."
+   },
+   {
+    "q": "Que font beaucoup de cuisiniers au début ?",
+    "o": [
+     "Ils ajoutent un peu d'eau",
+     "Ils ajoutent de la farine",
+     "Ils couvrent la casserole"
+    ],
+    "r": 0,
+    "e": "Beaucoup ajoutent un peu d'eau au sucre en début de cuisson."
+   },
+   {
+    "q": "À quoi sert cette eau ?",
+    "o": [
+     "À une montée en température plus régulière",
+     "À rendre le caramel salé",
+     "À colorer le sucre"
+    ],
+    "r": 0,
+    "e": "L'eau répartit la chaleur et limite les zones trop chaudes."
+   },
+   {
+    "q": "Pourquoi ne faut-il pas remuer avec une cuillère ?",
+    "o": [
+     "Parce que cela forme des cristaux",
+     "Parce que cela fait brûler le sucre",
+     "Parce que cela fait mousser l'eau"
+    ],
+    "r": 0,
+    "e": "La cuillère détache des cristaux qui font prendre la masse en grains."
+   },
+   {
+    "q": "Que devient l'eau pendant la cuisson ?",
+    "o": [
+     "Elle s'évapore",
+     "Elle se transforme en sucre",
+     "Elle devient acide"
+    ],
+    "r": 0,
+    "e": "L'eau s'évapore et laisse le sucre poursuivre seul sa transformation."
+   },
+   {
+    "q": "Qu'ajoute-t-on parfois à la fin pour un caramel mou ?",
+    "o": [
+     "Du beurre et de la crème",
+     "De l'eau et du sel",
+     "De la farine et du sucre"
+    ],
+    "r": 0,
+    "e": "Le beurre et la crème donnent un caramel mou."
+   },
+   {
+    "q": "Que fait-on du caramel chaud pour obtenir une friandise ?",
+    "o": [
+     "On le verse sur une plaque huilée",
+     "On le met au congélateur",
+     "On le mélange à de l'eau"
+    ],
+    "r": 0,
+    "e": "Versé sur une plaque huilée, le caramel durcit en friandise."
+   },
+   {
+    "q": "Pourquoi l'eau ne reste-t-elle pas dans le caramel final ?",
+    "o": [
+     "Parce qu'elle s'évapore en chauffant",
+     "Parce que le sucre la boit",
+     "Parce qu'elle est filtrée"
+    ],
+    "r": 0,
+    "e": "La chaleur fait disparaître l'eau, laissant un caramel sans liquide ajouté."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "La transformation du sucre en caramel",
+     "La culture de la canne à sucre",
+     "Les desserts au chocolat"
+    ],
+    "r": 0,
+    "e": "Le texte décrit les étapes et les températures de la caramélisation."
+   },
+   {
+    "q": "Pourquoi l'auteur indique-t-il deux températures précises ?",
+    "o": [
+     "Pour montrer la marge étroite entre bon caramel et sucre brûlé",
+     "Pour comparer deux marques de casseroles",
+     "Pour expliquer le fonctionnement d'un four"
+    ],
+    "r": 0,
+    "e": "Les deux seuils délimitent la zone utile de cuisson du caramel."
+   }
+  ]
+ },
+ {
+  "id": "a9",
+  "theme": "sport",
+  "niveau": 1,
+  "titre": "Pourquoi les cyclistes roulent en peloton",
+  "corps": "Dans une course cycliste, les coureurs passent une grande partie du temps groupés. Ce n'est pas seulement pour discuter : c'est une question de physique.\n\nUn cycliste qui roule vite doit fendre l'air. Une partie de son effort sert à repousser cet air. En se plaçant juste derrière un autre coureur, il pénètre dans une zone où l'air est déjà écarté et où la pression est plus faible. La résistance diminue fortement.\n\nLes mesures faites en soufflerie montrent qu'à quarante kilomètres par heure, un coureur bien abrité économise près d'un tiers de son effort. Le deuxième de la file profite déjà de l'essentiel de ce gain ; les suivants en bénéficient moins, mais encore nettement.\n\nLe peloton fonctionne donc comme un abri collectif. Les équipes organisent des relais : chacun roule quelques centaines de mètres en tête, puis s'écarte pour laisser passer un coéquipier. Le coureur qui reste à l'abri garde ses forces pour la fin.\n\nLe placement compte autant que la condition physique. Par vent de côté, les coureurs ne restent pas en file : ils s'alignent en éventail, décalés sur le côté, pour profiter de l'abri sans être poussés hors de la route. Les équipes les plus disciplinées imposent ce schéma à tout un groupe.\n\nRouler en peloton présente aussi des risques. Les chutes sont fréquentes dans les premières positions, où les coureurs se disputent la meilleure place. C'est le prix de cette économie d'énergie.",
+  "q": [
+   {
+    "q": "Pourquoi les cyclistes roulent-ils en groupe ?",
+    "o": [
+     "Pour réduire la résistance de l'air",
+     "Pour discuter de la course",
+     "Pour respecter le règlement"
+    ],
+    "r": 0,
+    "e": "Le regroupement diminue la résistance de l'air, ce qui économise de l'énergie."
+   },
+   {
+    "q": "Que doit faire un cycliste qui roule vite ?",
+    "o": [
+     "Fendre l'air",
+     "Éviter les freins",
+     "Changer de vitesse sans cesse"
+    ],
+    "r": 0,
+    "e": "Le cycliste doit écarter l'air devant lui, ce qui coûte de l'effort."
+   },
+   {
+    "q": "Que devient la pression de l'air derrière un coureur ?",
+    "o": [
+     "Elle devient plus faible",
+     "Elle devient plus forte",
+     "Elle reste identique"
+    ],
+    "r": 0,
+    "e": "Derrière un coureur, l'air est déjà écarté et la pression baisse."
+   },
+   {
+    "q": "Où les mesures ont-elles été réalisées ?",
+    "o": [
+     "En soufflerie",
+     "Sur un vélodrome",
+     "En montagne"
+    ],
+    "r": 0,
+    "e": "Le texte cite des mesures faites en soufflerie."
+   },
+   {
+    "q": "À quelle vitesse ces mesures sont-elles données ?",
+    "o": [
+     "Quarante kilomètres par heure",
+     "Vingt kilomètres par heure",
+     "Soixante-dix kilomètres par heure"
+    ],
+    "r": 0,
+    "e": "Le chiffre d'économie est donné pour quarante kilomètres par heure."
+   },
+   {
+    "q": "Quelle part d'effort un coureur abrité économise-t-il ?",
+    "o": [
+     "Près d'un tiers",
+     "Près de la moitié",
+     "Environ un dixième"
+    ],
+    "r": 0,
+    "e": "Le texte parle d'une économie proche d'un tiers de l'effort."
+   },
+   {
+    "q": "Qui profite de l'essentiel de ce gain ?",
+    "o": [
+     "Le deuxième de la file",
+     "Le dernier du peloton",
+     "Le premier de la course"
+    ],
+    "r": 0,
+    "e": "Le coureur placé juste derrière le premier bénéficie déjà de l'essentiel de l'abri."
+   },
+   {
+    "q": "Comment les équipes organisent-elles les relais ?",
+    "o": [
+     "Chacun roule quelques centaines de mètres en tête",
+     "Chacun roule une heure en tête",
+     "Chacun garde sa place tout le long"
+    ],
+    "r": 0,
+    "e": "Les relais consistent à passer tour à tour en tête sur quelques centaines de mètres."
+   },
+   {
+    "q": "Que fait le coureur après son relais ?",
+    "o": [
+     "Il s'écarte",
+     "Il accélère",
+     "Il s'arrête"
+    ],
+    "r": 0,
+    "e": "Après son passage en tête, le coureur s'écarte pour laisser la place."
+   },
+   {
+    "q": "Comment se placent les coureurs par vent de côté ?",
+    "o": [
+     "En éventail, décalés sur le côté",
+     "En file, roue dans roue",
+     "En cercle autour du leader"
+    ],
+    "r": 0,
+    "e": "Par vent latéral, l'éventail permet de s'abriter sans être poussé hors de la route."
+   },
+   {
+    "q": "Pourquoi le coureur abrité garde-t-il ses forces ?",
+    "o": [
+     "Pour la fin de la course",
+     "Pour les descentes",
+     "Pour le départ"
+    ],
+    "r": 0,
+    "e": "L'énergie économisée sert à être plus fort dans les derniers kilomètres."
+   },
+   {
+    "q": "Où les chutes sont-elles fréquentes ?",
+    "o": [
+     "Dans les premières positions",
+     "À l'arrière du peloton",
+     "Dans les zones de ravitaillement"
+    ],
+    "r": 0,
+    "e": "La lutte pour les meilleures places expose les coureurs de tête aux chutes."
+   },
+   {
+    "q": "Pourquoi un coureur isolé se fatigue-t-il plus vite ?",
+    "o": [
+     "Parce qu'il affronte l'air sans abri",
+     "Parce que son vélo est plus lourd",
+     "Parce qu'il roule plus lentement"
+    ],
+    "r": 0,
+    "e": "Sans coureur devant lui, il supporte seul toute la résistance de l'air."
+   },
+   {
+    "q": "Pourquoi une équipe protège-t-elle souvent son meilleur sprinteur ?",
+    "o": [
+     "Pour qu'il garde son énergie pour l'arrivée",
+     "Pour qu'il évite les contrôles",
+     "Pour qu'il roule moins vite"
+    ],
+    "r": 0,
+    "e": "Abrité jusqu'au final, il peut produire un effort bref et puissant au sprint."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "L'intérêt aérodynamique de rouler en peloton",
+     "L'histoire du Tour de France",
+     "Le réglage des freins de vélo"
+    ],
+    "r": 0,
+    "e": "Le texte explique pourquoi et comment les coureurs s'abritent les uns derrière les autres."
+   },
+   {
+    "q": "Pourquoi l'auteur donne-t-il un chiffre d'économie d'effort ?",
+    "o": [
+     "Pour rendre concrète l'idée d'abri aérodynamique",
+     "Pour comparer deux coureurs célèbres",
+     "Pour décrire une étape de montagne"
+    ],
+    "r": 0,
+    "e": "Le chiffre montre l'ampleur réelle du phénomène physique décrit."
+   },
+   {
+    "q": "Pourquoi le placement compte-t-il autant que la forme physique ?",
+    "o": [
+     "Parce qu'une bonne place économise beaucoup d'énergie",
+     "Parce que le règlement récompense la position",
+     "Parce que les vélos sont identiques"
+    ],
+    "r": 0,
+    "e": "Être bien abrité réduit l'effort, ce qui pèse autant que la condition du moment."
+   }
+  ]
+ },
+ {
+  "id": "a10",
+  "theme": "géographie",
+  "niveau": 1,
+  "titre": "La mer Morte, trop salée pour couler",
+  "corps": "La mer Morte n'est pas vraiment une mer. C'est un lac fermé, situé entre Israël, la Jordanie et les territoires palestiniens. Aucun fleuve n'en sort : l'eau qui y entre s'évapore sous un soleil intense.\n\nEn s'évaporant, l'eau laisse sur place les sels qu'elle contenait. Le lac est donc devenu extrêmement salé, environ huit à dix fois plus que l'océan. Cette concentration empêche presque toute vie : ni poisson, ni algue, d'où son nom. Seuls quelques micro-organismes particuliers y survivent.\n\nLa forte salinité change aussi la flottaison. Le corps humain y flotte sans effort, car l'eau très dense le porte. En revanche, l'eau irrite les yeux et les plaies. Les visiteurs qui s'y baignent sont donc invités à éviter les éclaboussures.\n\nSon rivage se trouve à environ quatre cent trente mètres sous le niveau de la mer. C'est le point le plus bas à la surface du globe. Comme l'évaporation dépasse les apports, le lac baisse d'année en année. Depuis le milieu du XXe siècle, son niveau a perdu plusieurs dizaines de mètres.\n\nLes causes sont multiples. Le Jourdain, qui l'alimente, est largement détourné pour l'irrigation. L'industrie y prélève aussi de l'eau pour extraire des sels, notamment du potassium. Ce recul laisse apparaître des terrains instables, où des effondrements se creusent parfois près des routes.",
+  "q": [
+   {
+    "q": "Qu'est-ce que la mer Morte ?",
+    "o": [
+     "Un lac fermé",
+     "Une mer intérieure reliée à l'océan",
+     "Un golfe peu profond"
+    ],
+    "r": 0,
+    "e": "Le texte précise qu'il s'agit d'un lac fermé, sans écoulement."
+   },
+   {
+    "q": "Où se situe la mer Morte ?",
+    "o": [
+     "Entre Israël, la Jordanie et les territoires palestiniens",
+     "Entre l'Égypte et la Libye",
+     "Entre la Turquie et la Grèce"
+    ],
+    "r": 0,
+    "e": "Le texte la situe entre Israël, la Jordanie et les territoires palestiniens."
+   },
+   {
+    "q": "Pourquoi l'eau disparaît-elle du lac ?",
+    "o": [
+     "Elle s'évapore sous un soleil intense",
+     "Elle s'infiltre dans le sol",
+     "Elle gèle en hiver"
+    ],
+    "r": 0,
+    "e": "L'eau qui entre dans le lac s'évapore sous un soleil intense."
+   },
+   {
+    "q": "Pourquoi le lac est-il devenu si salé ?",
+    "o": [
+     "Les sels restent quand l'eau s'évapore",
+     "Des bateaux y déversent du sel",
+     "Le sel vient des pluies acides"
+    ],
+    "r": 0,
+    "e": "L'évaporation emporte l'eau mais laisse les sels sur place."
+   },
+   {
+    "q": "Combien de fois plus salée que l'océan est-elle ?",
+    "o": [
+     "Huit à dix fois",
+     "Deux fois",
+     "Cent fois"
+    ],
+    "r": 0,
+    "e": "Le texte donne une salinité d'environ huit à dix fois celle de l'océan."
+   },
+   {
+    "q": "Quelles formes de vie y subsistent ?",
+    "o": [
+     "Quelques micro-organismes particuliers",
+     "Des poissons de petite taille",
+     "Des algues vertes abondantes"
+    ],
+    "r": 0,
+    "e": "Presque toute vie est absente, sauf quelques micro-organismes adaptés."
+   },
+   {
+    "q": "Pourquoi le corps humain flotte-t-il sans effort ?",
+    "o": [
+     "Parce que l'eau très dense le porte",
+     "Parce qu'il est plus léger que l'air",
+     "Parce que le sel le pousse vers le haut"
+    ],
+    "r": 0,
+    "e": "La densité élevée de l'eau assure une flottaison presque sans effort."
+   },
+   {
+    "q": "Que provoque l'eau sur les yeux et les plaies ?",
+    "o": [
+     "Une irritation",
+     "Un apaisement",
+     "Un refroidissement"
+    ],
+    "r": 0,
+    "e": "Le texte signale que l'eau irrite les yeux et les plaies."
+   },
+   {
+    "q": "À quelle hauteur se trouve le rivage ?",
+    "o": [
+     "Environ 430 mètres sous le niveau de la mer",
+     "Environ 430 mètres au-dessus",
+     "Au niveau exact de la mer"
+    ],
+    "r": 0,
+    "e": "Le rivage se situe à environ quatre cent trente mètres sous le niveau de la mer."
+   },
+   {
+    "q": "Quel record détient ce lieu ?",
+    "o": [
+     "Le point le plus bas à la surface du globe",
+     "Le lac le plus profond du monde",
+     "La température la plus élevée du globe"
+    ],
+    "r": 0,
+    "e": "Le texte le présente comme le point le plus bas à la surface du globe."
+   },
+   {
+    "q": "De combien le niveau a-t-il baissé depuis le milieu du XXe siècle ?",
+    "o": [
+     "De plusieurs dizaines de mètres",
+     "De quelques centimètres",
+     "De plus de cinq cents mètres"
+    ],
+    "r": 0,
+    "e": "Le texte indique une baisse de plusieurs dizaines de mètres."
+   },
+   {
+    "q": "Quel fleuve alimente le lac ?",
+    "o": [
+     "Le Jourdain",
+     "Le Nil",
+     "L'Euphrate"
+    ],
+    "r": 0,
+    "e": "Le Jourdain est cité comme principal apport d'eau."
+   },
+   {
+    "q": "Pourquoi les apports d'eau ont-ils diminué ?",
+    "o": [
+     "Le fleuve est détourné pour l'irrigation",
+     "Le fleuve a changé de cours",
+     "La pluie a cessé"
+    ],
+    "r": 0,
+    "e": "Le Jourdain est largement détourné pour irriguer les cultures."
+   },
+   {
+    "q": "Quel sel est extrait par l'industrie ?",
+    "o": [
+     "Du potassium",
+     "Du fer",
+     "Du soufre"
+    ],
+    "r": 0,
+    "e": "L'industrie prélève de l'eau pour extraire notamment du potassium."
+   },
+   {
+    "q": "Pourquoi le recul du lac est-il dangereux ?",
+    "o": [
+     "Il laisse des terrains instables où le sol s'effondre",
+     "Il rend l'air irrespirable",
+     "Il attire des animaux sauvages"
+    ],
+    "r": 0,
+    "e": "L'assèchement découvre des terrains qui s'effondrent parfois près des routes."
+   },
+   {
+    "q": "Pourquoi peut-on dire que ce n'est pas une mer ?",
+    "o": [
+     "Parce que c'est un lac sans écoulement vers l'océan",
+     "Parce qu'elle est trop petite",
+     "Parce qu'elle ne contient pas de sel"
+    ],
+    "r": 0,
+    "e": "Une mer communique avec l'océan ; ici, l'eau reste enfermée et s'évapore."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Les particularités d'un lac très salé",
+     "La culture des dattes au Proche-Orient",
+     "La formation des déserts de sable"
+    ],
+    "r": 0,
+    "e": "Le texte décrit la salinité du lac, ses effets et son niveau exceptionnel."
+   }
+  ]
+ },
+ {
+  "id": "a11",
+  "theme": "nature",
+  "niveau": 1,
+  "titre": "Comment les graines voyagent sans pattes",
+  "corps": "Une plante ne peut pas marcher. Pourtant, ses graines s'installent souvent loin du pied mère. Elles voyagent de plusieurs façons.\n\nCertaines graines sont légères et portent une aile ou une touffe de poils. Le vent les emporte : c'est le cas du pissenlit, dont chaque graine ressemble à un petit parachute. L'érable utilise une aile qui la fait tourner comme une hélice. Le tilleul, lui, s'accroche à une feuille mince qui ralentit sa chute et l'écarte du tronc.\n\nL'eau transporte aussi des graines. La noix de coco, avec sa coque épaisse et ses fibres, peut flotter des semaines et traverser des mers avant de s'échouer sur une plage. Les courants de rivière emportent de la même manière les graines des plantes de berge.\n\nLes animaux jouent un rôle tout aussi important. Certains fruits sont mangés, et les graines résistent au passage dans le tube digestif : elles ressortent intactes, parfois à plusieurs kilomètres. D'autres s'accrochent au pelage grâce à des crochets, comme la bardane. En se frottant, l'animal libère ensuite la graine ailleurs.\n\nIl existe enfin des voyageuses explosives. La capsule du géranium sauvage sèche et se tend, puis projette ses graines à quelques mètres quand on la touche.\n\nCes voyages expliquent pourquoi des plantes semblables poussent sur des îles séparées par l'océan. Ils évitent aussi que les jeunes plants étouffent sous leur propre mère, en concurrence pour la même lumière et la même eau.",
+  "q": [
+   {
+    "q": "Une plante peut-elle se déplacer pour semer ses graines ?",
+    "o": [
+     "Non, elle reste sur place",
+     "Oui, en allongeant ses racines",
+     "Oui, en penchant ses tiges"
+    ],
+    "r": 0,
+    "e": "Le texte rappelle qu'une plante ne peut pas marcher : ce sont les graines qui voyagent."
+   },
+   {
+    "q": "Pourquoi les graines s'installent-elles loin du pied mère ?",
+    "o": [
+     "Parce qu'elles sont transportées",
+     "Parce qu'elles rampent",
+     "Parce que le sol les pousse"
+    ],
+    "r": 0,
+    "e": "Le déplacement des graines leur permet de pousser à distance de la plante d'origine."
+   },
+   {
+    "q": "Comment voyagent les graines légères ?",
+    "o": [
+     "Portées par le vent",
+     "Portées par les rivières",
+     "Transportées par les oiseaux"
+    ],
+    "r": 0,
+    "e": "Les graines légères, munies d'une aile ou de poils, sont emportées par le vent."
+   },
+   {
+    "q": "Quelle graine ressemble à un petit parachute ?",
+    "o": [
+     "Celle du pissenlit",
+     "Celle du tilleul",
+     "Celle de la bardane"
+    ],
+    "r": 0,
+    "e": "Le texte compare la graine de pissenlit à un petit parachute."
+   },
+   {
+    "q": "Comment la graine d'érable tourne-t-elle en l'air ?",
+    "o": [
+     "Grâce à une aile qui fait hélice",
+     "Grâce à une touffe de poils",
+     "Grâce à une coque remplie d'air"
+    ],
+    "r": 0,
+    "e": "L'aile de la graine d'érable la fait tourner comme une hélice."
+   },
+   {
+    "q": "Comment le tilleul ralentit-il la chute de sa graine ?",
+    "o": [
+     "Grâce à une feuille mince",
+     "Grâce à des crochets",
+     "Grâce à ses fibres"
+    ],
+    "r": 0,
+    "e": "Une feuille mince freine la chute et écarte la graine du tronc."
+   },
+   {
+    "q": "Qu'est-ce qui transporte la noix de coco ?",
+    "o": [
+     "L'eau des mers",
+     "Le vent des dunes",
+     "Les singes"
+    ],
+    "r": 0,
+    "e": "La noix de coco peut flotter et être portée par la mer."
+   },
+   {
+    "q": "Combien de temps une noix de coco peut-elle flotter ?",
+    "o": [
+     "Des semaines",
+     "Quelques minutes",
+     "Un seul jour"
+    ],
+    "r": 0,
+    "e": "Le texte indique une flottaison de plusieurs semaines."
+   },
+   {
+    "q": "Que devient une graine avalée par un animal ?",
+    "o": [
+     "Elle résiste au passage dans le tube digestif",
+     "Elle est toujours détruite",
+     "Elle germe dans l'estomac"
+    ],
+    "r": 0,
+    "e": "Certaines graines traversent le tube digestif sans être détruites."
+   },
+   {
+    "q": "Comment la bardane s'accroche-t-elle au pelage ?",
+    "o": [
+     "Grâce à des crochets",
+     "Grâce à un liquide collant",
+     "Grâce à ses poils doux"
+    ],
+    "r": 0,
+    "e": "La bardane est citée pour ses crochets qui s'accrochent au pelage."
+   },
+   {
+    "q": "Comment le géranium sauvage disperse-t-il ses graines ?",
+    "o": [
+     "Il les projette en se tendant",
+     "Il les enterre",
+     "Il les colle à ses feuilles"
+    ],
+    "r": 0,
+    "e": "La capsule du géranium sèche, se tend et projette les graines à quelques mètres."
+   },
+   {
+    "q": "Comment la graine se libère-t-elle du pelage ?",
+    "o": [
+     "Quand l'animal se frotte",
+     "Quand il pleut",
+     "Quand elle sèche"
+    ],
+    "r": 0,
+    "e": "En se frottant, l'animal détache la graine et la laisse ailleurs."
+   },
+   {
+    "q": "Pourquoi les graines doivent-elles s'éloigner de la plante mère ?",
+    "o": [
+     "Pour éviter la concurrence pour la lumière et l'eau",
+     "Pour trouver un sol plus chaud",
+     "Pour attirer les insectes"
+    ],
+    "r": 0,
+    "e": "Trop proches, les jeunes plants manqueraient de lumière et d'eau."
+   },
+   {
+    "q": "Que expliquent ces voyages ?",
+    "o": [
+     "La présence de plantes semblables sur des îles séparées",
+     "La couleur des fleurs tropicales",
+     "La taille des arbres les plus anciens"
+    ],
+    "r": 0,
+    "e": "Le transport des graines par la mer explique la présence de plantes proches sur des îles éloignées."
+   },
+   {
+    "q": "Pourquoi une graine lourde et lisse voyage-t-elle mal par le vent ?",
+    "o": [
+     "Parce qu'elle est trop lourde pour être emportée",
+     "Parce qu'elle est trop sombre",
+     "Parce qu'elle pousse trop vite"
+    ],
+    "r": 0,
+    "e": "Le vent ne transporte que des graines légères, souvent munies d'une aile ou de poils."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Les moyens de transport des graines",
+     "La culture des plantes en serre",
+     "La vie des insectes pollinisateurs"
+    ],
+    "r": 0,
+    "e": "Le texte décrit le vent, l'eau, les animaux et la projection comme vecteurs des graines."
+   },
+   {
+    "q": "Pourquoi l'auteur passe-t-il du vent à l'eau puis aux animaux ?",
+    "o": [
+     "Pour présenter les différents modes de dispersion",
+     "Pour classer les plantes par taille",
+     "Pour expliquer la germination"
+    ],
+    "r": 0,
+    "e": "Chaque paragraphe illustre un mode de transport différent."
+   }
+  ]
+ },
+ {
+  "id": "a12",
+  "theme": "animaux",
+  "niveau": 1,
+  "titre": "Le pigeon retrouve sa maison",
+  "corps": "Le pigeon voyageur est capable de revenir à son pigeonnier depuis un lieu qu'il n'a jamais vu. Comment fait-il ?\n\nLes chercheurs ont proposé plusieurs explications. Le pigeon semble sensible au champ magnétique terrestre, qu'il pourrait percevoir grâce à des cellules particulières du bec. Cette information lui donnerait une sorte de boussole. Il utilise aussi le soleil comme repère, en corrigeant sa position avec l'heure de la journée.\n\nLe pigeon ne vole pas en ligne droite parfaite. Il explore d'abord les environs, en décrivant de larges cercles, comme s'il prenait des repères. Puis il s'oriente. Certains oiseaux semblent aussi sentir des odeurs familières, portées par le vent, qui complètent ces informations.\n\nEn vol, le pigeon peut atteindre environ soixante à quatre-vingts kilomètres par heure. Il ne vole pas la nuit et s'arrête pour se reposer et boire.\n\nCette aptitude a été utilisée très tôt. Les Romains s'en servaient pour transmettre des nouvelles militaires. Bien plus tard, pendant le siège de Paris en 1870, des pigeons ont transporté des messages par-dessus les lignes ennemies, parfois sous forme de pellicules photographiques miniatures.\n\nAujourd'hui, les colombophiles organisent encore des concours de vitesse. Un bon pigeon parcourt plusieurs centaines de kilomètres dans la journée. On lâche les oiseaux loin de leur colombier, et le temps de retour de chacun est enregistré.",
+  "q": [
+   {
+    "q": "Que sait faire le pigeon voyageur ?",
+    "o": [
+     "Revenir à son pigeonnier depuis un lieu inconnu",
+     "Trouver de l'eau à grande distance",
+     "Reconnaître les couleurs des drapeaux"
+    ],
+    "r": 0,
+    "e": "Le texte ouvre sur cette capacité : revenir au pigeonnier depuis un lieu jamais vu."
+   },
+   {
+    "q": "Quel repère naturel le pigeon pourrait percevoir ?",
+    "o": [
+     "Le champ magnétique terrestre",
+     "La pression de l'air",
+     "Les ultrasons des insectes"
+    ],
+    "r": 0,
+    "e": "Le pigeon serait sensible au champ magnétique, ce qui lui fournirait une boussole."
+   },
+   {
+    "q": "Où se trouveraient les cellules sensibles au champ magnétique ?",
+    "o": [
+     "Dans le bec",
+     "Dans les ailes",
+     "Dans les pattes"
+    ],
+    "r": 0,
+    "e": "Le texte situe ces cellules particulières dans le bec."
+   },
+   {
+    "q": "Quel autre repère le pigeon utilise-t-il ?",
+    "o": [
+     "Le soleil",
+     "La lune",
+     "Les étoiles"
+    ],
+    "r": 0,
+    "e": "Le soleil sert aussi de repère au pigeon."
+   },
+   {
+    "q": "Comment corrige-t-il sa position avec le soleil ?",
+    "o": [
+     "Avec l'heure de la journée",
+     "Avec la couleur du ciel",
+     "Avec la hauteur des nuages"
+    ],
+    "r": 0,
+    "e": "L'heure de la journée permet d'interpréter correctement la position du soleil."
+   },
+   {
+    "q": "Quel troisième type d'indice certains oiseaux utilisent-ils ?",
+    "o": [
+     "Des odeurs familières portées par le vent",
+     "Le bruit des villes",
+     "La chaleur du sol"
+    ],
+    "r": 0,
+    "e": "Le texte mentionne des odeurs familières qui complètent les autres repères."
+   },
+   {
+    "q": "Comment vole-t-il au début de son trajet ?",
+    "o": [
+     "Il décrit de larges cercles",
+     "Il file tout droit",
+     "Il vole au ras du sol"
+    ],
+    "r": 0,
+    "e": "Le pigeon commence par explorer les environs en décrivant de larges cercles."
+   },
+   {
+    "q": "Quelle vitesse peut-il atteindre en vol ?",
+    "o": [
+     "Environ 60 à 80 km/h",
+     "Environ 10 km/h",
+     "Environ 300 km/h"
+    ],
+    "r": 0,
+    "e": "Le texte donne une vitesse d'environ soixante à quatre-vingts kilomètres par heure."
+   },
+   {
+    "q": "Que fait le pigeon la nuit ?",
+    "o": [
+     "Il s'arrête pour se reposer",
+     "Il accélère",
+     "Il change de direction"
+    ],
+    "r": 0,
+    "e": "Le pigeon ne vole pas la nuit : il s'arrête pour se reposer et boire."
+   },
+   {
+    "q": "Qui utilisait déjà des pigeons pour des nouvelles militaires ?",
+    "o": [
+     "Les Romains",
+     "Les Égyptiens",
+     "Les Vikings"
+    ],
+    "r": 0,
+    "e": "Les Romains s'en servaient pour transmettre des nouvelles militaires."
+   },
+   {
+    "q": "Quand les pigeons ont-ils transporté des messages au-dessus des lignes ennemies à Paris ?",
+    "o": [
+     "En 1870",
+     "En 1950",
+     "En 1750"
+    ],
+    "r": 0,
+    "e": "Le texte cite le siège de Paris en 1870."
+   },
+   {
+    "q": "Sous quelle forme étaient parfois réduits les messages ?",
+    "o": [
+     "Des pellicules photographiques miniatures",
+     "Des bandes magnétiques",
+     "Des signaux sonores"
+    ],
+    "r": 0,
+    "e": "Certains messages étaient réduits en pellicules photographiques miniatures."
+   },
+   {
+    "q": "Qui organise encore des concours de vitesse ?",
+    "o": [
+     "Les colombophiles",
+     "Les vétérinaires",
+     "Les agriculteurs"
+    ],
+    "r": 0,
+    "e": "Le texte cite les colombophiles, éleveurs de pigeons."
+   },
+   {
+    "q": "Quelle distance un bon pigeon parcourt-il dans la journée ?",
+    "o": [
+     "Plusieurs centaines de kilomètres",
+     "Une dizaine de kilomètres",
+     "Plusieurs milliers de kilomètres"
+    ],
+    "r": 0,
+    "e": "Le texte parle de plusieurs centaines de kilomètres en une journée."
+   },
+   {
+    "q": "Pourquoi un pigeon lâché loin de chez lui ne se perd-il pas ?",
+    "o": [
+     "Parce qu'il combine plusieurs repères",
+     "Parce qu'il suit toujours les routes",
+     "Parce qu'il revient en bateau"
+    ],
+    "r": 0,
+    "e": "Le champ magnétique, le soleil et les odeurs lui fournissent des informations complémentaires."
+   },
+   {
+    "q": "Pourquoi le seul champ magnétique ne suffit-il pas à expliquer son orientation ?",
+    "o": [
+     "Parce qu'il utilise aussi le soleil et les odeurs",
+     "Parce qu'il vole uniquement la nuit",
+     "Parce qu'il ne sent rien"
+    ],
+    "r": 0,
+    "e": "Le texte présente plusieurs mécanismes comme complémentaires."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Comment le pigeon s'oriente pour rentrer",
+     "L'élevage des pigeons de ville",
+     "La reproduction des oiseaux migrateurs"
+    ],
+    "r": 0,
+    "e": "Le texte examine les mécanismes qui permettent au pigeon de retrouver son pigeonnier."
+   }
+  ]
+ },
+ {
+  "id": "a13",
+  "theme": "cuisine",
+  "niveau": 1,
+  "titre": "Pourquoi l'oignon fait pleurer",
+  "corps": "Couper un oignon fait pleurer presque tout le monde. La cause n'est pas une odeur, mais une réaction chimique.\n\nL'oignon contient des cellules qui gardent séparés deux composés : des enzymes et des molécules soufrées. Tant que la cellule est intacte, ils ne se rencontrent pas. Ces molécules soufrées expliquent aussi que certaines variétés piquent plus que d'autres.\n\nLe couteau brise les cellules. Les enzymes entrent alors en contact avec les composés soufrés et les transforment. Il se forme un gaz qui s'échappe dans l'air.\n\nCe gaz atteint la surface de l'œil. Au contact des larmes, il produit une très petite quantité d'acide. L'œil réagit en produisant davantage de larmes pour se laver. On pleure donc pour se protéger, et non par émotion.\n\nPlusieurs astuces limitent ce phénomène. Un couteau bien aiguisé abîme moins de cellules. Refroidir l'oignon ralentit la réaction. Le plonger dans l'eau ou le passer sous le robinet avant de le couper dissout une partie des composés. Et travailler près d'une hotte évacue le gaz.\n\nLa cuisson change tout. La chaleur détruit les enzymes et chasse les composés volatils : l'oignon cuit devient doux, parfois sucré. C'est pourquoi un oignon longuement mijoté n'a plus rien d'agressif.\n\nIl reste une conséquence moins connue : les vapeurs peuvent irriter aussi les lentilles de contact. Mieux vaut les retirer avant de commencer.",
+  "q": [
+   {
+    "q": "Quelle est la cause des larmes quand on coupe un oignon ?",
+    "o": [
+     "Une réaction chimique",
+     "Une odeur forte",
+     "La poussière de la peau"
+    ],
+    "r": 0,
+    "e": "Le texte écarte l'odeur et attribue les larmes à une réaction chimique."
+   },
+   {
+    "q": "Que gardent séparés les cellules de l'oignon ?",
+    "o": [
+     "Des enzymes et des molécules soufrées",
+     "De l'eau et de l'huile",
+     "Du sucre et du sel"
+    ],
+    "r": 0,
+    "e": "Les enzymes et les molécules soufrées sont séparées tant que la cellule est intacte."
+   },
+   {
+    "q": "Pourquoi certaines variétés piquent-elles davantage ?",
+    "o": [
+     "Parce qu'elles contiennent plus de composés soufrés",
+     "Parce qu'elles sont plus grosses",
+     "Parce qu'elles poussent au soleil"
+    ],
+    "r": 0,
+    "e": "Le texte relie la force du picotement à la quantité de molécules soufrées."
+   },
+   {
+    "q": "Que se passe-t-il quand on coupe l'oignon ?",
+    "o": [
+     "Les cellules sont brisées",
+     "Les cellules grossissent",
+     "Les cellules gèlent"
+    ],
+    "r": 0,
+    "e": "Le couteau brise les cellules, ce qui met les composés en contact."
+   },
+   {
+    "q": "Que font alors les enzymes ?",
+    "o": [
+     "Elles transforment les composés soufrés",
+     "Elles bloquent les composés soufrés",
+     "Elles créent de nouvelles cellules"
+    ],
+    "r": 0,
+    "e": "Les enzymes transforment les composés soufrés en un gaz irritant."
+   },
+   {
+    "q": "Qu'est-ce qui s'échappe de l'oignon coupé ?",
+    "o": [
+     "Un gaz",
+     "Une poudre",
+     "Un liquide visqueux"
+    ],
+    "r": 0,
+    "e": "La réaction produit un gaz qui se diffuse dans l'air."
+   },
+   {
+    "q": "Que produit le gaz au contact des larmes ?",
+    "o": [
+     "Une très petite quantité d'acide",
+     "Une couche grasse",
+     "Du sucre dissous"
+    ],
+    "r": 0,
+    "e": "Au contact de l'eau des larmes, le gaz forme une trace d'acide."
+   },
+   {
+    "q": "Pourquoi l'œil produit-il davantage de larmes ?",
+    "o": [
+     "Pour se laver de l'acide",
+     "Pour refroidir la cornée",
+     "Pour mieux voir"
+    ],
+    "r": 0,
+    "e": "Les larmes diluent et emportent l'acide qui irrite l'œil."
+   },
+   {
+    "q": "Que fait un couteau bien aiguisé ?",
+    "o": [
+     "Il abîme moins de cellules",
+     "Il chauffe davantage l'oignon",
+     "Il ajoute du sel"
+    ],
+    "r": 0,
+    "e": "Une lame nette écrase moins de cellules et libère donc moins de gaz."
+   },
+   {
+    "q": "Quel effet a le froid sur la réaction ?",
+    "o": [
+     "Il la ralentit",
+     "Il l'accélère",
+     "Il l'annule totalement"
+    ],
+    "r": 0,
+    "e": "Refroidir l'oignon ralentit la réaction chimique responsable des larmes."
+   },
+   {
+    "q": "Que fait le passage sous l'eau avant la découpe ?",
+    "o": [
+     "Il dissout une partie des composés",
+     "Il durcit la chair",
+     "Il retire la peau"
+    ],
+    "r": 0,
+    "e": "L'eau emporte une partie des composés responsables de l'irritation."
+   },
+   {
+    "q": "Que fait une hotte pendant la découpe ?",
+    "o": [
+     "Elle évacue le gaz",
+     "Elle chauffe l'air",
+     "Elle humidifie la pièce"
+    ],
+    "r": 0,
+    "e": "La hotte aspire le gaz avant qu'il n'atteigne les yeux."
+   },
+   {
+    "q": "Que devient l'oignon à la cuisson ?",
+    "o": [
+     "Il devient doux, parfois sucré",
+     "Il devient plus piquant",
+     "Il perd toute sa couleur"
+    ],
+    "r": 0,
+    "e": "La chaleur détruit les enzymes et chasse les composés volatils, d'où une saveur douce."
+   },
+   {
+    "q": "Pourquoi un oignon longuement mijoté n'est-il plus agressif ?",
+    "o": [
+     "Parce que les composés volatils se sont évaporés",
+     "Parce qu'il a absorbé de l'eau",
+     "Parce que son sucre a disparu"
+    ],
+    "r": 0,
+    "e": "La cuisson prolongée élimine les composés irritants et concentre le sucre."
+   },
+   {
+    "q": "Quel objet peut aussi être irrité par les vapeurs ?",
+    "o": [
+     "Les lentilles de contact",
+     "Les couteaux en acier",
+     "Les planches en bois"
+    ],
+    "r": 0,
+    "e": "Le texte signale l'irritation possible des lentilles de contact."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Le mécanisme chimique qui fait pleurer avec l'oignon",
+     "Les variétés d'oignons cultivées en Europe",
+     "Les techniques de conservation des légumes"
+    ],
+    "r": 0,
+    "e": "Le texte explique la réaction qui libère un gaz irritant pour l'œil."
+   },
+   {
+    "q": "Pourquoi l'auteur termine-t-il par des astuces pratiques ?",
+    "o": [
+     "Pour relier l'explication à un usage quotidien",
+     "Pour vendre un ustensile de cuisine",
+     "Pour décrire la récolte des oignons"
+    ],
+    "r": 0,
+    "e": "Les conseils découlent directement de la réaction chimique expliquée avant."
+   }
+  ]
+ },
+ {
+  "id": "a14",
+  "theme": "sport",
+  "niveau": 1,
+  "titre": "Athènes 1896, les Jeux recommencent",
+  "corps": "En 1896, Athènes accueille les premiers Jeux olympiques modernes. L'événement est organisé grâce à l'action de Pierre de Coubertin, qui veut faire revivre une tradition antique. Il avait créé le Comité international olympique deux ans plus tôt.\n\nLes moyens sont modestes. Les épreuves se déroulent dans un stade de marbre reconstruit pour l'occasion, capable d'accueillir des dizaines de milliers de spectateurs. Neuf sports figurent au programme, pour une quarantaine d'épreuves. Quatorze pays envoient des athlètes, soit environ deux cent quarante sportifs. Aucune femme ne participe.\n\nLes disciplines rappellent celles de l'Antiquité : course, lutte, lancer du disque, saut. On y ajoute des sports modernes comme le tennis et le cyclisme. Les vainqueurs reçoivent une médaille d'argent et une branche d'olivier ; il n'y a pas encore de médaille d'or.\n\nLe marathon, couru pour la première fois, reste le moment fort. Il est remporté par un berger grec, Spyrídon Loúis, qui devient un héros national.\n\nLe succès est réel, mais l'organisation reste fragile. Les Jeux suivants, à Paris en 1900, sont dispersés sur plusieurs mois, mêlés à une exposition universelle, et attirent moins de public. Il faudra du temps pour que le rendez-vous devienne régulier et que les femmes y soient admises.",
+  "q": [
+   {
+    "q": "En quelle année ont lieu les premiers Jeux olympiques modernes ?",
+    "o": [
+     "En 1896",
+     "En 1900",
+     "En 1924"
+    ],
+    "r": 0,
+    "e": "Le texte date les premiers Jeux modernes de 1896."
+   },
+   {
+    "q": "Quelle ville les accueille ?",
+    "o": [
+     "Athènes",
+     "Paris",
+     "Rome"
+    ],
+    "r": 0,
+    "e": "Athènes accueille les premiers Jeux modernes."
+   },
+   {
+    "q": "Qui a porté le projet de ces Jeux ?",
+    "o": [
+     "Pierre de Coubertin",
+     "Jules Ferry",
+     "Henri Didon"
+    ],
+    "r": 0,
+    "e": "Le texte attribue l'organisation à l'action de Pierre de Coubertin."
+   },
+   {
+    "q": "Quand Coubertin avait-il créé le Comité international olympique ?",
+    "o": [
+     "Deux ans plus tôt",
+     "Dix ans plus tôt",
+     "La même année"
+    ],
+    "r": 0,
+    "e": "Le comité a été créé deux ans avant les Jeux de 1896."
+   },
+   {
+    "q": "Dans quel type de stade se déroulent les épreuves ?",
+    "o": [
+     "Un stade de marbre reconstruit",
+     "Un stade en bois neuf",
+     "Un cirque romain intact"
+    ],
+    "r": 0,
+    "e": "Les épreuves ont lieu dans un stade de marbre reconstruit pour l'occasion."
+   },
+   {
+    "q": "Combien de sports figurent au programme ?",
+    "o": [
+     "Neuf",
+     "Trois",
+     "Vingt"
+    ],
+    "r": 0,
+    "e": "Le programme compte neuf sports, pour une quarantaine d'épreuves."
+   },
+   {
+    "q": "Combien d'épreuves sont organisées environ ?",
+    "o": [
+     "Une quarantaine",
+     "Une dizaine",
+     "Deux cents"
+    ],
+    "r": 0,
+    "e": "Le texte parle d'une quarantaine d'épreuves."
+   },
+   {
+    "q": "Combien de pays participent ?",
+    "o": [
+     "Quatorze",
+     "Quarante",
+     "Cinq"
+    ],
+    "r": 0,
+    "e": "Quatorze pays envoient des athlètes."
+   },
+   {
+    "q": "Combien d'athlètes participent environ ?",
+    "o": [
+     "Environ 240",
+     "Environ 1 200",
+     "Environ 40"
+    ],
+    "r": 0,
+    "e": "Le texte parle d'environ deux cent quarante sportifs."
+   },
+   {
+    "q": "Les femmes participent-elles ?",
+    "o": [
+     "Non, aucune",
+     "Oui, nombreuses",
+     "Oui, mais dans une seule épreuve"
+    ],
+    "r": 0,
+    "e": "Le texte indique explicitement qu'aucune femme ne participe."
+   },
+   {
+    "q": "Quelles disciplines rappellent l'Antiquité ?",
+    "o": [
+     "Course, lutte, disque et saut",
+     "Tennis, cyclisme et escrime",
+     "Natation, aviron et voile"
+    ],
+    "r": 0,
+    "e": "Le texte cite la course, la lutte, le lancer du disque et le saut."
+   },
+   {
+    "q": "Quels sports modernes sont ajoutés ?",
+    "o": [
+     "Le tennis et le cyclisme",
+     "Le judo et le basket",
+     "Le ski et le hockey"
+    ],
+    "r": 0,
+    "e": "Le tennis et le cyclisme font partie des ajouts modernes."
+   },
+   {
+    "q": "Que reçoivent les vainqueurs ?",
+    "o": [
+     "Une médaille d'argent et une branche d'olivier",
+     "Une médaille d'or et une coupe",
+     "Un diplôme et une pièce d'or"
+    ],
+    "r": 0,
+    "e": "Le texte mentionne une médaille d'argent et une branche d'olivier."
+   },
+   {
+    "q": "Qui remporte le marathon de 1896 ?",
+    "o": [
+     "Un berger grec",
+     "Un coureur français",
+     "Un soldat américain"
+    ],
+    "r": 0,
+    "e": "Le marathon est remporté par le berger grec Spyrídon Loúis."
+   },
+   {
+    "q": "Pourquoi les Jeux de Paris en 1900 attirent-ils moins de public ?",
+    "o": [
+     "Parce qu'ils sont dispersés sur plusieurs mois",
+     "Parce qu'ils se tiennent en hiver",
+     "Parce qu'aucun pays n'y participe"
+    ],
+    "r": 0,
+    "e": "L'étalement des épreuves sur plusieurs mois nuit à la visibilité de l'événement."
+   },
+   {
+    "q": "Pourquoi l'organisation de 1896 est-elle fragile ?",
+    "o": [
+     "Parce que les moyens sont modestes",
+     "Parce que le stade est trop grand",
+     "Parce que les athlètes sont trop nombreux"
+    ],
+    "r": 0,
+    "e": "Le texte souligne la modestie des moyens disponibles."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "La naissance des Jeux olympiques modernes",
+     "Les records des athlètes grecs",
+     "La construction des stades antiques"
+    ],
+    "r": 0,
+    "e": "Le texte raconte l'édition de 1896 et son contexte."
+   }
+  ]
+ },
+ {
+  "id": "a15",
+  "theme": "géographie",
+  "niveau": 1,
+  "titre": "Pourquoi le soleil ne se couche pas au pôle Nord en été",
+  "corps": "Au pôle Nord, le soleil ne se couche pas pendant plusieurs mois d'été. Ce phénomène s'appelle le soleil de minuit.\n\nIl s'explique par l'inclinaison de la Terre. Notre planète tourne sur un axe qui n'est pas vertical par rapport à son orbite autour du Soleil : cet axe est penché d'environ vingt-trois degrés et demi. Cette inclinaison est aussi la cause des saisons.\n\nEn été dans l'hémisphère nord, le pôle Nord est incliné vers le Soleil. Il reste donc éclairé même lorsque la Terre effectue sa rotation quotidienne. Le soleil descend près de l'horizon, puis remonte sans le franchir. La lumière rasante prend alors une teinte orangée qui dure longtemps.\n\nPlus on s'approche du cercle polaire, plus la période de jour continu est longue. À la latitude du cercle, elle dure environ une journée ; au pôle, elle s'étend sur plusieurs mois. En hiver, le phénomène s'inverse : la nuit devient continue, et le soleil ne se lève pas pendant des semaines.\n\nLes régions proches du cercle connaissent aussi des nuits blanches, où le ciel reste clair malgré l'absence du soleil. La lumière, diffusée par l'atmosphère, suffit à lire dehors.\n\nCe rythme particulier bouleverse la vie des plantes et des animaux. En été, la végétation pousse très vite pendant quelques semaines. Certains oiseaux profitent de la lumière continue pour nourrir leurs petits presque sans interruption.",
+  "q": [
+   {
+    "q": "Pendant combien de temps le soleil ne se couche-t-il pas au pôle Nord en été ?",
+    "o": [
+     "Plusieurs mois",
+     "Quelques heures",
+     "Une seule journée"
+    ],
+    "r": 0,
+    "e": "Le texte parle de plusieurs mois sans coucher du soleil."
+   },
+   {
+    "q": "Comment s'appelle ce phénomène ?",
+    "o": [
+     "Le soleil de minuit",
+     "L'aurore boréale",
+     "L'éclipse polaire"
+    ],
+    "r": 0,
+    "e": "Le phénomène porte le nom de soleil de minuit."
+   },
+   {
+    "q": "Qu'est-ce qui explique ce phénomène ?",
+    "o": [
+     "L'inclinaison de la Terre",
+     "La distance au Soleil",
+     "La vitesse de rotation"
+    ],
+    "r": 0,
+    "e": "L'inclinaison de l'axe terrestre est la cause du jour continu."
+   },
+   {
+    "q": "De combien l'axe terrestre est-il penché ?",
+    "o": [
+     "D'environ 23,5 degrés",
+     "D'environ 5 degrés",
+     "D'environ 90 degrés"
+    ],
+    "r": 0,
+    "e": "Le texte donne une inclinaison d'environ vingt-trois degrés et demi."
+   },
+   {
+    "q": "Quelle autre conséquence a cette inclinaison ?",
+    "o": [
+     "Elle est la cause des saisons",
+     "Elle provoque les marées",
+     "Elle ralentit la rotation"
+    ],
+    "r": 0,
+    "e": "L'inclinaison de l'axe produit aussi l'alternance des saisons."
+   },
+   {
+    "q": "Vers quoi le pôle Nord est-il incliné en été ?",
+    "o": [
+     "Vers le Soleil",
+     "Vers la Lune",
+     "Vers l'équateur"
+    ],
+    "r": 0,
+    "e": "En été boréal, le pôle Nord penche vers le Soleil."
+   },
+   {
+    "q": "Que fait le soleil près de l'horizon ?",
+    "o": [
+     "Il descend puis remonte sans le franchir",
+     "Il disparaît puis revient",
+     "Il reste immobile"
+    ],
+    "r": 0,
+    "e": "Le soleil s'approche de l'horizon mais ne le traverse pas."
+   },
+   {
+    "q": "Quelle teinte prend la lumière rasante ?",
+    "o": [
+     "Une teinte orangée",
+     "Une teinte bleutée",
+     "Une teinte verte"
+    ],
+    "r": 0,
+    "e": "Le texte décrit une lumière rasante à la teinte orangée."
+   },
+   {
+    "q": "Où la période de jour continu est-elle la plus longue ?",
+    "o": [
+     "Au pôle",
+     "Au cercle polaire",
+     "À l'équateur"
+    ],
+    "r": 0,
+    "e": "Le pôle connaît plusieurs mois de jour continu, plus que le cercle polaire."
+   },
+   {
+    "q": "Combien de temps dure le jour continu à la latitude du cercle polaire ?",
+    "o": [
+     "Environ une journée",
+     "Environ une semaine",
+     "Environ six mois"
+    ],
+    "r": 0,
+    "e": "Au cercle polaire, le soleil ne se couche pas pendant environ une journée."
+   },
+   {
+    "q": "Que se passe-t-il en hiver ?",
+    "o": [
+     "La nuit devient continue",
+     "Le soleil reste levé",
+     "Les jours s'allongent"
+    ],
+    "r": 0,
+    "e": "Le phénomène s'inverse : l'obscurité dure alors plusieurs semaines."
+   },
+   {
+    "q": "Comment le texte définit-il une nuit blanche ?",
+    "o": [
+     "Un ciel clair malgré l'absence du soleil",
+     "Une nuit sans étoiles",
+     "Une nuit de tempête"
+    ],
+    "r": 0,
+    "e": "La nuit blanche désigne ici un ciel lumineux même sans soleil."
+   },
+   {
+    "q": "Que fait la végétation pendant l'été polaire ?",
+    "o": [
+     "Elle pousse très vite",
+     "Elle reste dormante",
+     "Elle perd ses feuilles"
+    ],
+    "r": 0,
+    "e": "La lumière continue accélère la croissance des plantes sur quelques semaines."
+   },
+   {
+    "q": "Comment certains oiseaux profitent-ils de la lumière continue ?",
+    "o": [
+     "Ils nourrissent leurs petits presque sans interruption",
+     "Ils dorment plus longtemps",
+     "Ils migrent vers le sud"
+    ],
+    "r": 0,
+    "e": "Le jour permanent leur permet de chercher de la nourriture très longtemps."
+   },
+   {
+    "q": "Pourquoi un lieu proche du cercle polaire a-t-il de très longs jours en été ?",
+    "o": [
+     "Parce qu'il reste plus longtemps dans la zone éclairée",
+     "Parce qu'il tourne moins vite",
+     "Parce qu'il est plus proche du Soleil"
+    ],
+    "r": 0,
+    "e": "La proximité du pôle allonge la durée pendant laquelle le lieu demeure éclairé."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Les raisons du jour continu près des pôles",
+     "La vie des animaux polaires",
+     "La mesure de la température en Arctique"
+    ],
+    "r": 0,
+    "e": "Le texte explique le soleil de minuit par l'inclinaison de la Terre."
+   },
+   {
+    "q": "Pourquoi l'auteur donne-t-il l'angle de l'axe terrestre ?",
+    "o": [
+     "Pour expliquer l'origine du phénomène",
+     "Pour décrire la forme de la Terre",
+     "Pour dater les saisons"
+    ],
+    "r": 0,
+    "e": "L'angle d'inclinaison est la cause précise du jour continu."
+   }
+  ]
+ },
+ {
+  "id": "a16",
+  "theme": "nature",
+  "niveau": 2,
+  "titre": "Le labour invisible des vers de terre",
+  "corps": "Charles Darwin a consacré son dernier livre aux vers de terre, publié en 1881. Ce choix surprit ses lecteurs, habitués à le voir traiter des espèces et de l'évolution. Pourtant, il estimait que ces animaux sans yeux transformaient les paysages plus efficacement que beaucoup d'autres.\n\nLe ver de terre avale la terre. Il en extrait les débris végétaux et les micro-organismes dont il se nourrit, puis rejette le reste sous forme de petits tas, appelés turricules. En traversant son tube digestif, la terre se mélange et se charge d'éléments nutritifs facilement assimilables par les plantes.\n\nEn creusant, l'animal ouvre aussi des galeries. Ces tunnels laissent entrer l'air et l'eau, ce qui améliore la structure du sol. Les racines y trouvent un chemin plus facile. Dans un champ, des milliers de vers peuvent ainsi travailler chaque année, sans bruit et sans machine.\n\nLe ver de terre n'a pas de poumons. Il respire par la peau, qui doit rester humide : c'est pourquoi il fuit la lumière et la sécheresse. Il est aussi hermaphrodite, c'est-à-dire qu'il possède à la fois les organes mâles et femelles, mais deux individus doivent s'accoupler pour échanger leurs cellules reproductrices.\n\nDarwin avait mesuré la quantité de terre remontée dans son jardin. Ses calculs, longtemps discutés, se sont révélés proches des estimations modernes. Il observait aussi que les objets laissés en surface finissent enfouis sous les déjections accumulées : ce travail explique pourquoi certains vestiges archéologiques se retrouvent sous plusieurs dizaines de centimètres de terre fine.\n\nUn sol privé de vers se compacte et perd de sa fertilité. Les agriculteurs qui labourent trop profondément ou emploient trop de produits chimiques réduisent souvent leur population. À l'inverse, les pratiques qui laissent les résidus de récolte au sol favorisent leur retour.",
+  "q": [
+   {
+    "q": "À quel sujet Darwin a-t-il consacré son dernier livre ?",
+    "o": [
+     "Aux vers de terre",
+     "Aux orchidées sauvages",
+     "Aux oiseaux des îles"
+    ],
+    "r": 0,
+    "e": "Le texte indique que son dernier livre portait sur les vers de terre."
+   },
+   {
+    "q": "En quelle année ce livre a-t-il été publié ?",
+    "o": [
+     "En 1881",
+     "En 1859",
+     "En 1901"
+    ],
+    "r": 0,
+    "e": "Le livre sur les vers de terre paraît en 1881."
+   },
+   {
+    "q": "Comment ses lecteurs ont-ils réagi à ce choix ?",
+    "o": [
+     "Ils ont été surpris",
+     "Ils ont été indifférents",
+     "Ils ont protesté publiquement"
+    ],
+    "r": 0,
+    "e": "Ce choix surprit des lecteurs habitués à d'autres sujets."
+   },
+   {
+    "q": "Quel effet Darwin attribuait-il aux vers de terre ?",
+    "o": [
+     "Ils transforment les paysages",
+     "Ils détruisent les récoltes",
+     "Ils accélèrent l'érosion"
+    ],
+    "r": 0,
+    "e": "Il estimait qu'ils transformaient les paysages plus efficacement que beaucoup d'autres animaux."
+   },
+   {
+    "q": "Que fait le ver de la terre qu'il avale ?",
+    "o": [
+     "Il en extrait les débris végétaux",
+     "Il la rejette sans la modifier",
+     "Il la transporte en surface intacte"
+    ],
+    "r": 0,
+    "e": "Le ver extrait de la terre les débris végétaux et les micro-organismes dont il se nourrit."
+   },
+   {
+    "q": "Comment s'appellent les petits tas rejetés par le ver ?",
+    "o": [
+     "Des turricules",
+     "Des galeries",
+     "Des nodules"
+    ],
+    "r": 0,
+    "e": "Le texte nomme turricules les petits tas de terre rejetés."
+   },
+   {
+    "q": "Que gagne la terre en traversant le tube digestif ?",
+    "o": [
+     "Elle se charge d'éléments nutritifs",
+     "Elle perd toute sa matière organique",
+     "Elle devient plus acide"
+    ],
+    "r": 0,
+    "e": "La terre se mélange et se charge d'éléments assimilables par les plantes."
+   },
+   {
+    "q": "Que créent les galeries creusées par le ver ?",
+    "o": [
+     "Des passages pour l'air et l'eau",
+     "Des réserves de nourriture",
+     "Des abris pour les racines mortes"
+    ],
+    "r": 0,
+    "e": "Les tunnels laissent entrer l'air et l'eau et améliorent la structure du sol."
+   },
+   {
+    "q": "Par où le ver de terre respire-t-il ?",
+    "o": [
+     "Par la peau",
+     "Par des poumons",
+     "Par la bouche"
+    ],
+    "r": 0,
+    "e": "Dépourvu de poumons, le ver respire par sa peau, qui doit rester humide."
+   },
+   {
+    "q": "Pourquoi le ver fuit-il la lumière et la sécheresse ?",
+    "o": [
+     "Parce que sa peau doit rester humide",
+     "Parce qu'il craint les prédateurs",
+     "Parce qu'il cherche du sucre"
+    ],
+    "r": 0,
+    "e": "La respiration cutanée exige une peau humide, que le soleil dessèche."
+   },
+   {
+    "q": "Que signifie le mot hermaphrodite ?",
+    "o": [
+     "L'animal possède les organes des deux sexes",
+     "L'animal change de sexe chaque année",
+     "L'animal n'a pas de sexe"
+    ],
+    "r": 0,
+    "e": "Le ver possède à la fois les organes mâles et femelles."
+   },
+   {
+    "q": "Que sont devenus les calculs de Darwin ?",
+    "o": [
+     "Ils se sont révélés proches des estimations modernes",
+     "Ils ont été totalement invalidés",
+     "Ils n'ont jamais été vérifiés"
+    ],
+    "r": 0,
+    "e": "Longtemps discutés, ses calculs se sont révélés proches des estimations actuelles."
+   },
+   {
+    "q": "Pourquoi certains vestiges archéologiques sont-ils enfouis ?",
+    "o": [
+     "Parce que les déjections des vers s'accumulent",
+     "Parce que le sol se soulève",
+     "Parce que l'eau les recouvre"
+    ],
+    "r": 0,
+    "e": "L'accumulation de terre fine remontée par les vers enterre peu à peu les objets de surface."
+   },
+   {
+    "q": "Que fait un sol privé de vers de terre ?",
+    "o": [
+     "Il se compacte et perd de sa fertilité",
+     "Il devient plus léger",
+     "Il retient mieux l'eau"
+    ],
+    "r": 0,
+    "e": "Le texte conclut qu'un tel sol se compacte et perd sa fertilité."
+   },
+   {
+    "q": "Quelles pratiques réduisent la population de vers ?",
+    "o": [
+     "Le labour profond et les produits chimiques",
+     "Le dépôt de résidus de récolte",
+     "L'absence d'arrosage"
+    ],
+    "r": 0,
+    "e": "Le labour trop profond et l'usage excessif de produits chimiques nuisent aux vers."
+   },
+   {
+    "q": "Pourquoi les vers de terre rendent-ils service aux cultures ?",
+    "o": [
+     "Parce qu'ils améliorent le sol sans intervention",
+     "Parce qu'ils mangent les insectes nuisibles",
+     "Parce qu'ils arrosent les plantes"
+    ],
+    "r": 0,
+    "e": "Leur travail mélange la terre, aère le sol et libère des éléments nutritifs."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Le rôle des vers de terre dans la fertilité du sol",
+     "La classification des animaux sans yeux",
+     "L'histoire des jardins anglais"
+    ],
+    "r": 0,
+    "e": "Le texte décrit comment les vers transforment et améliorent la terre."
+   }
+  ]
+ },
+ {
+  "id": "a17",
+  "theme": "animaux",
+  "niveau": 2,
+  "titre": "Le chant des baleines à bosse",
+  "corps": "Dans les eaux chaudes où elles se reproduisent, les baleines à bosse mâles chantent. Leur chant ressemble à une suite de gémissements, de cris et de sifflements graves, qui porte loin sous l'eau. Un adulte mesure de douze à seize mètres et pèse une trentaine de tonnes ; ses longues nageoires pectorales lui ont valu son nom.\n\nCes chants ne sont pas aléatoires. Ils se composent de phrases qui reviennent dans un ordre précis, répétées pendant des heures. Un même groupe partage un chant commun, que les individus imitent et modifient peu à peu. Un chant complet dure souvent une dizaine de minutes, puis reprend.\n\nLes chercheurs ont remarqué que le chant évolue au fil des années. De nouveaux motifs apparaissent, se diffusent d'un océan à l'autre, et remplacent les anciens. Ce phénomène ressemble à la mode musicale chez les humains.\n\nPour l'étudier, les scientifiques utilisent des hydrophones, microphones conçus pour écouter sous l'eau. Le son s'y propage beaucoup plus vite et plus loin que dans l'air, ce qui permet de suivre des animaux invisibles à des kilomètres.\n\nLe rôle exact du chant reste discuté. Comme il est surtout produit en période de reproduction, les scientifiques pensent qu'il sert à attirer les femelles ou à marquer la présence d'un mâle. Les baleines à bosse ne chantent pas en mangeant : elles se nourrissent dans des eaux froides, où elles passent l'été, puis migrent vers les tropiques pour se reproduire. Certaines parcourent plusieurs milliers de kilomètres lors de cette migration.\n\nL'espèce a failli disparaître à cause de la chasse commerciale. Protégée par des accords internationaux, elle a en partie reconstitué ses populations, ce qui a permis de reprendre l'étude de ses chants.",
+  "q": [
+   {
+    "q": "Où les baleines à bosse mâles chantent-elles ?",
+    "o": [
+     "Dans les eaux chaudes de reproduction",
+     "Dans les eaux froides de l'Arctique",
+     "Près des côtes habitées"
+    ],
+    "r": 0,
+    "e": "Le chant a lieu dans les eaux chaudes où l'espèce se reproduit."
+   },
+   {
+    "q": "À quoi ressemble leur chant ?",
+    "o": [
+     "À des gémissements et des sifflements graves",
+     "À des claquements rapides",
+     "À un bourdonnement continu"
+    ],
+    "r": 0,
+    "e": "Le texte décrit des gémissements, des cris et des sifflements graves."
+   },
+   {
+    "q": "Le chant porte-t-il loin sous l'eau ?",
+    "o": [
+     "Oui, il porte loin",
+     "Non, il reste local",
+     "Seulement en surface"
+    ],
+    "r": 0,
+    "e": "Le texte précise que la voix porte loin sous l'eau."
+   },
+   {
+    "q": "Comment les chants sont-ils organisés ?",
+    "o": [
+     "En phrases qui reviennent dans un ordre précis",
+     "En sons totalement improvisés",
+     "En un seul cri répété"
+    ],
+    "r": 0,
+    "e": "Les chants se composent de phrases ordonnées, répétées longtemps."
+   },
+   {
+    "q": "Combien de temps dure souvent un chant complet ?",
+    "o": [
+     "Une dizaine de minutes",
+     "Quelques secondes",
+     "Plusieurs jours"
+    ],
+    "r": 0,
+    "e": "Un chant complet dure souvent une dizaine de minutes avant de reprendre."
+   },
+   {
+    "q": "Qui partage un chant commun ?",
+    "o": [
+     "Un même groupe de baleines",
+     "Toutes les espèces de cétacés",
+     "Les mâles de tous les océans"
+    ],
+    "r": 0,
+    "e": "Un même groupe partage un chant commun que les individus imitent."
+   },
+   {
+    "q": "Que font les individus du chant commun ?",
+    "o": [
+     "Ils l'imitent et le modifient peu à peu",
+     "Ils le conservent sans jamais y toucher",
+     "Ils l'oublient chaque année"
+    ],
+    "r": 0,
+    "e": "Les individus imitent le chant du groupe et le modifient progressivement."
+   },
+   {
+    "q": "Que remarquent les chercheurs au fil des années ?",
+    "o": [
+     "Le chant évolue",
+     "Le chant disparaît",
+     "Le chant devient plus court"
+    ],
+    "r": 0,
+    "e": "De nouveaux motifs apparaissent et remplacent les anciens."
+   },
+   {
+    "q": "Comment les nouveaux motifs se diffusent-ils ?",
+    "o": [
+     "D'un océan à l'autre",
+     "D'une seule baie à l'autre",
+     "Uniquement par l'écriture"
+    ],
+    "r": 0,
+    "e": "Le texte indique une diffusion d'un océan à l'autre."
+   },
+   {
+    "q": "À quoi ce phénomène ressemble-t-il ?",
+    "o": [
+     "À la mode musicale chez les humains",
+     "À la migration des oiseaux",
+     "À la construction des récifs"
+    ],
+    "r": 0,
+    "e": "L'auteur compare l'évolution des chants aux modes musicales humaines."
+   },
+   {
+    "q": "Quel appareil sert à écouter les chants sous l'eau ?",
+    "o": [
+     "Un hydrophone",
+     "Un radar",
+     "Un sonar à ultrasons"
+    ],
+    "r": 0,
+    "e": "Les chercheurs utilisent des hydrophones, microphones immergés."
+   },
+   {
+    "q": "Pourquoi le son est-il facile à suivre sous l'eau ?",
+    "o": [
+     "Parce qu'il s'y propage vite et loin",
+     "Parce qu'il y devient plus grave",
+     "Parce qu'il y est réfléchi par les fonds"
+    ],
+    "r": 0,
+    "e": "Le son voyage plus vite et plus loin dans l'eau que dans l'air."
+   },
+   {
+    "q": "Quand le chant est-il surtout produit ?",
+    "o": [
+     "En période de reproduction",
+     "En période de mue",
+     "Pendant la migration"
+    ],
+    "r": 0,
+    "e": "Le chant est surtout produit pendant la reproduction, ce qui oriente les hypothèses."
+   },
+   {
+    "q": "Où les baleines à bosse se nourrissent-elles ?",
+    "o": [
+     "Dans des eaux froides",
+     "Dans des lagons tropicaux",
+     "Dans les estuaires"
+    ],
+    "r": 0,
+    "e": "Le texte situe l'alimentation dans des eaux froides."
+   },
+   {
+    "q": "Quelle distance certaines baleines parcourent-elles en migrant ?",
+    "o": [
+     "Plusieurs milliers de kilomètres",
+     "Une centaine de mètres",
+     "Quelques kilomètres"
+    ],
+    "r": 0,
+    "e": "Le texte mentionne des migrations de plusieurs milliers de kilomètres."
+   },
+   {
+    "q": "Pourquoi l'espèce a-t-elle failli disparaître ?",
+    "o": [
+     "À cause de la chasse commerciale",
+     "À cause du réchauffement",
+     "À cause des tempêtes"
+    ],
+    "r": 0,
+    "e": "La chasse commerciale a conduit l'espèce au bord de la disparition."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Les chants des baleines à bosse et leur évolution",
+     "La migration des poissons tropicaux",
+     "La chasse des baleines au XIXe siècle"
+    ],
+    "r": 0,
+    "e": "Le texte décrit la forme, l'évolution et la fonction probable des chants."
+   }
+  ]
+ },
+ {
+  "id": "a18",
+  "theme": "cuisine",
+  "niveau": 2,
+  "titre": "Le sel, une barrière contre le pourrissement",
+  "corps": "Avant les réfrigérateurs, conserver la viande et le poisson était un problème vital. Le sel a longtemps été la solution la plus efficace, et il l'est encore dans de nombreuses régions.\n\nLe principe repose sur l'eau. Les microbes qui font pourrir les aliments ont besoin d'eau pour se développer. Quand on sale fortement un aliment, le sel attire l'eau hors de leurs cellules. Privés d'eau, ils cessent de se multiplier. Ce phénomène s'appelle l'osmose.\n\nDeux méthodes courantes existent. Le salage à sec consiste à frotter la pièce de viande avec du sel, puis à la laisser reposer dans un récipient. Le saumurage plonge l'aliment dans une eau très salée. La saumure doit être assez concentrée : trop diluée, elle laisserait les microbes se développer. Dans les deux cas, le sel doit pénétrer jusqu'au cœur, ce qui prend des jours ou des semaines selon l'épaisseur.\n\nLe sel modifie aussi le goût et la texture. La morue salée, par exemple, devient ferme et se garde des mois. Avant cuisson, il faut la dessaler dans plusieurs bains d'eau froide, en changeant l'eau régulièrement.\n\nDans la charcuterie, le sel est souvent associé à des nitrites, qui fixent la couleur rose et freinent certaines bactéries. Ces additifs font l'objet de recommandations strictes, car un excès présente des risques.\n\nTrop de sel pose néanmoins un problème de santé : l'organisation mondiale de la santé recommande de ne pas dépasser cinq grammes par jour. Les techniques modernes, comme le froid ou la mise sous vide, permettent de conserver sans excès de sel. Mais le salage reste utilisé pour des produits traditionnels, comme le jambon ou certains fromages.",
+  "q": [
+   {
+    "q": "Quel problème posait la conservation avant les réfrigérateurs ?",
+    "o": [
+     "Un problème vital",
+     "Un simple problème de goût",
+     "Une question de transport"
+    ],
+    "r": 0,
+    "e": "Le texte qualifie la conservation de problème vital avant le froid artificiel."
+   },
+   {
+    "q": "Quelle a longtemps été la solution la plus efficace ?",
+    "o": [
+     "Le sel",
+     "Le séchage au feu",
+     "L'enfouissement"
+    ],
+    "r": 0,
+    "e": "Le sel est présenté comme la solution la plus efficace, encore utilisée."
+   },
+   {
+    "q": "De quoi les microbes ont-ils besoin pour se développer ?",
+    "o": [
+     "D'eau",
+     "De lumière",
+     "De sucre"
+    ],
+    "r": 0,
+    "e": "Les microbes responsables du pourrissement ont besoin d'eau."
+   },
+   {
+    "q": "Que fait le sel sur l'eau des cellules microbiennes ?",
+    "o": [
+     "Il l'attire hors des cellules",
+     "Il la gèle sur place",
+     "Il la rend potable"
+    ],
+    "r": 0,
+    "e": "Le sel attire l'eau hors des cellules, ce qui les prive d'humidité."
+   },
+   {
+    "q": "Comment s'appelle ce phénomène ?",
+    "o": [
+     "L'osmose",
+     "La fermentation",
+     "La coagulation"
+    ],
+    "r": 0,
+    "e": "Le déplacement de l'eau à travers les parois s'appelle l'osmose."
+   },
+   {
+    "q": "Que font les microbes privés d'eau ?",
+    "o": [
+     "Ils cessent de se multiplier",
+     "Ils se multiplient plus vite",
+     "Ils deviennent inoffensifs mais actifs"
+    ],
+    "r": 0,
+    "e": "Sans eau, les microbes ne peuvent plus se développer."
+   },
+   {
+    "q": "En quoi consiste le salage à sec ?",
+    "o": [
+     "Frotter la viande de sel puis la laisser reposer",
+     "La plonger dans une saumure",
+     "La fumer au-dessus du sel"
+    ],
+    "r": 0,
+    "e": "Le salage à sec se fait en frottant la pièce de sel et en la laissant reposer."
+   },
+   {
+    "q": "Qu'est-ce que le saumurage ?",
+    "o": [
+     "Plonger l'aliment dans une eau très salée",
+     "Sécher l'aliment à l'air",
+     "Cuire l'aliment dans du sel"
+    ],
+    "r": 0,
+    "e": "Le saumurage consiste à immerger l'aliment dans une eau très salée."
+   },
+   {
+    "q": "Combien de temps le sel met-il à pénétrer jusqu'au cœur ?",
+    "o": [
+     "Des jours ou des semaines",
+     "Quelques secondes",
+     "Quelques heures"
+    ],
+    "r": 0,
+    "e": "La pénétration complète demande des jours ou des semaines selon l'épaisseur."
+   },
+   {
+    "q": "Quel exemple d'aliment salé le texte donne-t-il ?",
+    "o": [
+     "La morue",
+     "Le pain",
+     "Les pommes"
+    ],
+    "r": 0,
+    "e": "La morue salée sert d'exemple de conservation par le sel."
+   },
+   {
+    "q": "Comment devient la morue salée ?",
+    "o": [
+     "Ferme et conservation longue",
+     "Molle et fragile",
+     "Plus tendre qu'au départ"
+    ],
+    "r": 0,
+    "e": "Le sel raffermit le poisson et permet de le garder des mois."
+   },
+   {
+    "q": "Comment procède-t-on pour la dessaler ?",
+    "o": [
+     "Dans plusieurs bains d'eau froide",
+     "Dans un seul bain très chaud",
+     "En la faisant bouillir"
+    ],
+    "r": 0,
+    "e": "Le dessalage se fait dans plusieurs bains d'eau froide renouvelés."
+   },
+   {
+    "q": "À quoi servent les nitrites dans la charcuterie ?",
+    "o": [
+     "Ils fixent la couleur et freinent des bactéries",
+     "Ils rendent la viande plus tendre",
+     "Ils remplacent le sel"
+    ],
+    "r": 0,
+    "e": "Les nitrites fixent la couleur rose et limitent certaines bactéries."
+   },
+   {
+    "q": "Quelle quantité de sel l'OMS recommande-t-elle de ne pas dépasser ?",
+    "o": [
+     "Cinq grammes par jour",
+     "Cinquante grammes par jour",
+     "Un gramme par semaine"
+    ],
+    "r": 0,
+    "e": "L'organisation mondiale de la santé conseille de rester sous cinq grammes par jour."
+   },
+   {
+    "q": "Quelles techniques modernes sont citées ?",
+    "o": [
+     "Le froid et la mise sous vide",
+     "Le séchage solaire et le fumage",
+     "L'ajout d'épices et d'huile"
+    ],
+    "r": 0,
+    "e": "Le texte cite le froid et la mise sous vide comme alternatives."
+   },
+   {
+    "q": "Quels produits traditionnels restent salés ?",
+    "o": [
+     "Le jambon et certains fromages",
+     "Le lait et les œufs",
+     "Les fruits secs"
+    ],
+    "r": 0,
+    "e": "Le jambon et certains fromages sont donnés en exemple."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Le principe de la conservation des aliments par le sel",
+     "L'histoire de la pêche à la morue",
+     "Les règles de l'assaisonnement moderne"
+    ],
+    "r": 0,
+    "e": "Le texte explique comment le sel empêche le développement des microbes."
+   },
+   {
+    "q": "Pourquoi l'auteur termine-t-il par les conseils de santé ?",
+    "o": [
+     "Pour rappeler les limites d'une technique efficace",
+     "Pour déconseiller tout produit salé",
+     "Pour décrire une tradition régionale"
+    ],
+    "r": 0,
+    "e": "L'efficacité du sel ne dispense pas de limiter sa consommation."
+   }
+  ]
+ },
+ {
+  "id": "a19",
+  "theme": "sport",
+  "niveau": 2,
+  "titre": "Cent mètres : la course commence avant le coup de feu",
+  "corps": "Sur un cent mètres, la course se joue parfois dans les premiers centièmes de seconde. Le départ est donc une épreuve à part entière.\n\nLes coureurs s'installent sur des starting-blocks, des cales réglées pour placer le corps en position penchée. Les deux pieds prennent appui sur des surfaces différentes : le pied fort à l'avant, l'autre à l'arrière. Les blocs se règlent selon la taille et la puissance du coureur ; un réglage trop serré l'empêche de déployer sa foulée. Cette posture permet de pousser fort sur les jambes dès le signal. Au coup de feu, les muscles produisent un effort bref et intense, et le coureur doit rester penché pendant les premiers mètres pour ne pas se redresser trop tôt.\n\nLe règlement tient compte du temps de réaction humain. Personne ne peut réagir instantanément : un signal doit voyager jusqu'au cerveau, puis jusqu'aux muscles. Les mesures ont montré qu'un athlète ne peut pas partir en moins de cent millièmes de seconde. Un départ plus rapide est donc considéré comme un mouvement anticipé, et compté comme faux départ. Depuis 2010, un seul faux départ suffit à disqualifier le coureur.\n\nLes capteurs placés dans les blocs enregistrent la pression exercée par chaque pied. Ils détectent ainsi le moment exact du premier appui. Cette technologie a rendu les jugements plus fiables, mais elle a aussi surpris le public lors de plusieurs championnats.\n\nLe départ n'explique pas tout. Le record du monde du cent mètres, établi en 2009, est de 9 secondes et 58 centièmes. Sur une course si courte, la moindre hésitation coûte une place.",
+  "q": [
+   {
+    "q": "Où se joue parfois une course de cent mètres ?",
+    "o": [
+     "Dans les premiers centièmes de seconde",
+     "Dans les derniers mètres",
+     "Dans les virages"
+    ],
+    "r": 0,
+    "e": "Le texte situe l'enjeu dès les premiers centièmes de seconde."
+   },
+   {
+    "q": "Sur quoi les coureurs s'installent-ils au départ ?",
+    "o": [
+     "Des starting-blocks",
+     "Des tapis roulants",
+     "Des plots en mousse"
+    ],
+    "r": 0,
+    "e": "Les coureurs prennent appui sur des starting-blocks."
+   },
+   {
+    "q": "Comment les deux pieds sont-ils placés ?",
+    "o": [
+     "Le pied fort à l'avant, l'autre à l'arrière",
+     "Les deux pieds sur la même cale",
+     "Le pied fort à l'arrière"
+    ],
+    "r": 0,
+    "e": "Le pied fort se place à l'avant, l'autre à l'arrière."
+   },
+   {
+    "q": "Que permet cette posture penchée ?",
+    "o": [
+     "De pousser fort sur les jambes dès le signal",
+     "De respirer plus lentement",
+     "D'éviter les faux départs"
+    ],
+    "r": 0,
+    "e": "La position inclinée favorise une poussée puissante au signal."
+   },
+   {
+    "q": "Que doit faire le coureur pendant les premiers mètres ?",
+    "o": [
+     "Rester penché",
+     "Se redresser vite",
+     "Regarder le ciel"
+    ],
+    "r": 0,
+    "e": "Il doit rester penché pour ne pas se redresser trop tôt."
+   },
+   {
+    "q": "Pourquoi le règlement tient-il compte du temps de réaction ?",
+    "o": [
+     "Parce que personne ne peut réagir instantanément",
+     "Parce que le public se plaint",
+     "Parce que les capteurs sont lents"
+    ],
+    "r": 0,
+    "e": "Le corps humain a un délai incompressible entre le signal et le mouvement."
+   },
+   {
+    "q": "Par où passe le signal avant d'atteindre les muscles ?",
+    "o": [
+     "Par le cerveau",
+     "Par la colonne vertébrale seule",
+     "Par les poumons"
+    ],
+    "r": 0,
+    "e": "Le signal doit parvenir au cerveau, puis être transmis aux muscles."
+   },
+   {
+    "q": "En moins de combien de temps un athlète ne peut-il pas partir ?",
+    "o": [
+     "Cent millièmes de seconde",
+     "Un dixième de seconde",
+     "Un millième de seconde"
+    ],
+    "r": 0,
+    "e": "Les mesures indiquent une limite de cent millièmes de seconde."
+   },
+   {
+    "q": "Que compte-t-on si le départ est plus rapide que cette limite ?",
+    "o": [
+     "Un faux départ",
+     "Un record du monde",
+     "Une égalité"
+    ],
+    "r": 0,
+    "e": "Un départ plus rapide est jugé anticipé et compté comme faux départ."
+   },
+   {
+    "q": "Que se passe-t-il depuis 2010 en cas de faux départ ?",
+    "o": [
+     "Le coureur est disqualifié",
+     "Le coureur repart une seconde fois",
+     "Le coureur perd une place"
+    ],
+    "r": 0,
+    "e": "Depuis 2010, un seul faux départ entraîne la disqualification."
+   },
+   {
+    "q": "Où sont placés les capteurs ?",
+    "o": [
+     "Dans les blocs de départ",
+     "Sur le torse des coureurs",
+     "Dans la piste"
+    ],
+    "r": 0,
+    "e": "Les capteurs sont logés dans les blocs de départ."
+   },
+   {
+    "q": "Que mesurent ces capteurs ?",
+    "o": [
+     "La pression exercée par chaque pied",
+     "La vitesse du vent",
+     "La température de la piste"
+    ],
+    "r": 0,
+    "e": "Ils enregistrent la pression des pieds pour dater le premier appui."
+   },
+   {
+    "q": "Quel est le record du monde du cent mètres ?",
+    "o": [
+     "9 secondes et 58 centièmes",
+     "9 secondes et 85 centièmes",
+     "10 secondes et 2 centièmes"
+    ],
+    "r": 0,
+    "e": "Le record établi en 2009 est de 9 secondes et 58 centièmes."
+   },
+   {
+    "q": "Pourquoi le temps de réaction ne peut-il pas être nul ?",
+    "o": [
+     "Parce que le signal doit parcourir le corps",
+     "Parce que les muscles sont froids",
+     "Parce que le règlement l'interdit"
+    ],
+    "r": 0,
+    "e": "Le trajet du signal jusqu'au cerveau puis aux muscles prend un temps incompressible."
+   },
+   {
+    "q": "Pourquoi un coureur qui part trop tôt est-il sanctionné ?",
+    "o": [
+     "Parce qu'il a anticipé le signal",
+     "Parce qu'il a gêné son voisin",
+     "Parce qu'il a oublié ses blocs"
+    ],
+    "r": 0,
+    "e": "Un temps de réaction trop court ne peut correspondre à une réaction réelle au coup de feu."
+   },
+   {
+    "q": "Pourquoi une hésitation au départ est-elle si coûteuse ?",
+    "o": [
+     "Parce que la course est très courte",
+     "Parce que le règlement l'interdit",
+     "Parce que la piste est glissante"
+    ],
+    "r": 0,
+    "e": "Sur cent mètres, quelques centièmes perdus ne se rattrapent presque jamais."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Les contraintes techniques du départ d'un sprint",
+     "La préparation physique des sprinteurs",
+     "L'histoire des records du cent mètres"
+    ],
+    "r": 0,
+    "e": "Le texte détaille la position, le temps de réaction et la détection des faux départs."
+   }
+  ]
+ },
+ {
+  "id": "a20",
+  "theme": "géographie",
+  "niveau": 2,
+  "titre": "Comment naît un atoll",
+  "corps": "Un atoll est un anneau de corail qui entoure un lagon. Sa formation a été expliquée au XIXe siècle par Charles Darwin, à partir d'observations réalisées pendant son voyage autour du monde.\n\nDarwin distingue trois formes de récifs. Le récif frangeant borde directement la côte. Le récif-barrière s'en écarte et laisse un chenal d'eau entre lui et la terre. L'atoll est la dernière étape : la terre a disparu, seul demeure l'anneau corallien.\n\nÀ l'origine, un volcan perce la surface de l'océan. Des coraux s'installent sur ses flancs, dans les eaux chaudes et peu profondes. Le corail est un animal qui construit un squelette calcaire et vit en colonies. Il ne peut descendre très profond, car il a besoin de lumière.\n\nAvec le temps, le volcan s'éteint et s'enfonce lentement sous son propre poids. Les coraux continuent de pousser vers la lumière, donc vers le haut. Le récif se maintient près de la surface tandis que le socle volcanique descend. Un lagon se forme au centre, là où le volcan a disparu. Un atoll peut mesurer quelques kilomètres de diamètre, et son lagon abrite une eau calme, protégée des vagues par le récif.\n\nCe processus demande des millions d'années. Il n'est possible que dans des mers chaudes, car les coraux supportent mal les eaux froides. Les Maldives, dans l'océan Indien, offrent un exemple de long chapelet d'atolls bâtis de cette manière.\n\nAujourd'hui, le réchauffement des océans menace ces constructions : un épisode de forte chaleur peut blanchir le corail et le tuer. Les cyclones, eux, peuvent briser les branches les plus fragiles, mais le récif repousse ensuite lentement.",
+  "q": [
+   {
+    "q": "Qu'est-ce qu'un atoll ?",
+    "o": [
+     "Un anneau de corail autour d'un lagon",
+     "Une île volcanique isolée",
+     "Un banc de sable mouvant"
+    ],
+    "r": 0,
+    "e": "L'atoll est défini comme un anneau de corail entourant un lagon."
+   },
+   {
+    "q": "Qui a expliqué sa formation ?",
+    "o": [
+     "Charles Darwin",
+     "Louis Agassiz",
+     "James Cook"
+    ],
+    "r": 0,
+    "e": "Le texte attribue l'explication à Charles Darwin."
+   },
+   {
+    "q": "Combien de formes de récifs Darwin distingue-t-il ?",
+    "o": [
+     "Trois",
+     "Deux",
+     "Cinq"
+    ],
+    "r": 0,
+    "e": "Il distingue le récif frangeant, le récif-barrière et l'atoll."
+   },
+   {
+    "q": "Comment se définit un récif frangeant ?",
+    "o": [
+     "Il borde directement la côte",
+     "Il entoure un lagon",
+     "Il flotte en pleine mer"
+    ],
+    "r": 0,
+    "e": "Le récif frangeant touche la côte, sans chenal intermédiaire."
+   },
+   {
+    "q": "Qu'est-ce qui sépare un récif-barrière de la côte ?",
+    "o": [
+     "Un chenal d'eau",
+     "Une plage de sable",
+     "Une barrière de roche"
+    ],
+    "r": 0,
+    "e": "Le récif-barrière est séparé de la terre par un chenal."
+   },
+   {
+    "q": "Quelle est la dernière étape de cette évolution ?",
+    "o": [
+     "L'atoll",
+     "Le récif frangeant",
+     "Le volcan actif"
+    ],
+    "r": 0,
+    "e": "L'atoll correspond au stade où la terre a disparu et où seul l'anneau demeure."
+   },
+   {
+    "q": "Qu'est-ce qui perce la surface à l'origine ?",
+    "o": [
+     "Un volcan",
+     "Un récif corallien",
+     "Un glacier"
+    ],
+    "r": 0,
+    "e": "Un volcan perce d'abord la surface de l'océan."
+   },
+   {
+    "q": "Où s'installent les coraux ?",
+    "o": [
+     "Sur les flancs du volcan",
+     "Au sommet du cratère",
+     "Sur le fond abyssal"
+    ],
+    "r": 0,
+    "e": "Les coraux colonisent les flancs du volcan, en eaux peu profondes."
+   },
+   {
+    "q": "Pourquoi les coraux ne descendent-ils pas très profond ?",
+    "o": [
+     "Parce qu'ils ont besoin de lumière",
+     "Parce que l'eau y est trop salée",
+     "Parce que la roche y est trop dure"
+    ],
+    "r": 0,
+    "e": "Le corail a besoin de lumière et reste donc près de la surface."
+   },
+   {
+    "q": "Que fait le volcan avec le temps ?",
+    "o": [
+     "Il s'éteint et s'enfonce",
+     "Il grandit à nouveau",
+     "Il se remplit d'eau douce"
+    ],
+    "r": 0,
+    "e": "Le volcan s'éteint puis s'enfonce lentement sous son poids."
+   },
+   {
+    "q": "Pourquoi les coraux poussent-ils vers le haut ?",
+    "o": [
+     "Pour rester près de la lumière",
+     "Pour fuir le sel",
+     "Pour suivre les courants"
+    ],
+    "r": 0,
+    "e": "Les coraux recherchent la lumière et se maintiennent donc près de la surface."
+   },
+   {
+    "q": "Où se forme le lagon ?",
+    "o": [
+     "Au centre, là où le volcan a disparu",
+     "Sur le versant exposé au vent",
+     "À l'extérieur du récif"
+    ],
+    "r": 0,
+    "e": "Le lagon occupe le centre, à la place de l'ancien volcan."
+   },
+   {
+    "q": "Combien de temps ce processus demande-t-il ?",
+    "o": [
+     "Des millions d'années",
+     "Quelques siècles",
+     "Une centaine d'années"
+    ],
+    "r": 0,
+    "e": "Le texte évoque des millions d'années."
+   },
+   {
+    "q": "Quel archipel est cité comme exemple d'atolls ?",
+    "o": [
+     "Les Maldives",
+     "Les Açores",
+     "Les Galápagos"
+    ],
+    "r": 0,
+    "e": "Le texte cite les Maldives, dans l'océan Indien."
+   },
+   {
+    "q": "Pourquoi un atoll ne se forme-t-il pas en mer froide ?",
+    "o": [
+     "Parce que les coraux supportent mal le froid",
+     "Parce que l'eau froide est trop salée",
+     "Parce que les volcans n'y existent pas"
+    ],
+    "r": 0,
+    "e": "Les coraux ont besoin d'eaux chaudes pour construire leur récif."
+   },
+   {
+    "q": "Que provoque un épisode de forte chaleur sur le corail ?",
+    "o": [
+     "Il peut le blanchir et le tuer",
+     "Il accélère sa croissance",
+     "Il le rend plus résistant"
+    ],
+    "r": 0,
+    "e": "Le réchauffement peut provoquer un blanchissement mortel du corail."
+   },
+   {
+    "q": "Quel effet peuvent avoir les cyclones sur un récif ?",
+    "o": [
+     "Ils brisent les branches les plus fragiles",
+     "Ils le font disparaître en un jour",
+     "Ils le rendent plus dur"
+    ],
+    "r": 0,
+    "e": "Les cyclones cassent les parties fragiles, que le récif reconstruit ensuite lentement."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "La formation des atolls coralliens",
+     "La vie des récifs de Méditerranée",
+     "Les voyages de Darwin en Amérique"
+    ],
+    "r": 0,
+    "e": "Le texte explique comment un volcan entouré de corail devient un atoll."
+   }
+  ]
+ },
+ {
+  "id": "a21",
+  "theme": "nature",
+  "niveau": 2,
+  "titre": "La forêt qui fabrique une partie de sa pluie",
+  "corps": "Un arbre transpire. Ses racines pompent l'eau du sol, et cette eau remonte jusqu'aux feuilles. Là, de minuscules ouvertures, les stomates, la laissent s'échapper sous forme de vapeur. Une grande forêt rejette ainsi dans l'air des quantités d'eau considérables.\n\nEn Amazonie, ce phénomène prend une ampleur particulière. La forêt est immense, chaude et humide, et la végétation y est dense. L'eau évaporée s'élève, se condense en altitude et forme des nuages. Une partie de cette vapeur retombe ensuite en pluie sur la forêt elle-même, plus loin vers l'intérieur du continent.\n\nLes alizés apportent de l'humidité depuis l'Atlantique ; la forêt la renvoie plus loin vers l'intérieur, comme une pompe. Les chercheurs parlent de rivières volantes pour décrire ces masses d'humidité qui circulent au-dessus du bassin. Dans les années 1970, des scientifiques brésiliens ont analysé la composition de l'eau de pluie pour en retracer l'origine. Leurs travaux ont montré qu'une part importante des précipitations venait de l'évaporation de la forêt, et non seulement de l'océan Atlantique.\n\nCe circuit a une conséquence pratique. Quand une zone est déboisée, l'eau n'est plus renvoyée vers l'atmosphère. Le sol nu chauffe davantage, l'air est plus sec, et les pluies peuvent diminuer dans les régions voisines. Les climatologues redoutent un seuil au-delà duquel une partie de la forêt ne pourrait plus entretenir son propre régime de pluies.\n\nLa forêt rend aussi d'autres services. Elle retient les sols, limite l'érosion et stocke du carbone dans ses troncs. Mais son rôle dans le cycle de l'eau suffit à en faire bien plus qu'un simple ensemble d'arbres : un système qui fabrique en partie son propre climat.",
+  "q": [
+   {
+    "q": "Que font les racines de l'arbre ?",
+    "o": [
+     "Elles pompent l'eau du sol",
+     "Elles captent la lumière",
+     "Elles rejettent de la vapeur"
+    ],
+    "r": 0,
+    "e": "Les racines prélèvent l'eau du sol, qui remonte ensuite jusqu'aux feuilles."
+   },
+   {
+    "q": "Par quelle ouverture l'eau s'échappe-t-elle des feuilles ?",
+    "o": [
+     "Par les stomates",
+     "Par les racines",
+     "Par l'écorce"
+    ],
+    "r": 0,
+    "e": "Les stomates sont les minuscules ouvertures qui laissent partir la vapeur d'eau."
+   },
+   {
+    "q": "Sous quelle forme l'eau quitte-t-elle la feuille ?",
+    "o": [
+     "En vapeur",
+     "En liquide",
+     "En glace"
+    ],
+    "r": 0,
+    "e": "L'eau s'échappe des feuilles sous forme de vapeur."
+   },
+   {
+    "q": "Que forment les nuages au-dessus de la forêt ?",
+    "o": [
+     "De la pluie",
+     "Du brouillard sec",
+     "Des vents violents"
+    ],
+    "r": 0,
+    "e": "La vapeur se condense et retombe en pluie sur la forêt."
+   },
+   {
+    "q": "Où la vapeur se condense-t-elle ?",
+    "o": [
+     "En altitude",
+     "Au niveau du sol",
+     "Sous terre"
+    ],
+    "r": 0,
+    "e": "L'eau évaporée s'élève et se condense en altitude."
+   },
+   {
+    "q": "Comment les chercheurs nomment-ils ces masses d'humidité ?",
+    "o": [
+     "Des rivières volantes",
+     "Des nuages secs",
+     "Des mers intérieures"
+    ],
+    "r": 0,
+    "e": "L'expression rivières volantes désigne ces flux d'humidité au-dessus du bassin."
+   },
+   {
+    "q": "Quand les scientifiques brésiliens ont-ils analysé l'eau de pluie ?",
+    "o": [
+     "Dans les années 1970",
+     "Dans les années 1920",
+     "Dans les années 2000"
+    ],
+    "r": 0,
+    "e": "Leurs analyses de la composition de l'eau de pluie datent des années 1970."
+   },
+   {
+    "q": "Qu'ont montré ces travaux ?",
+    "o": [
+     "Une part importante des pluies vient de la forêt",
+     "Toute la pluie vient de l'océan",
+     "La forêt ne rejette presque pas d'eau"
+    ],
+    "r": 0,
+    "e": "Les précipitations proviennent en partie de l'évaporation de la forêt elle-même."
+   },
+   {
+    "q": "Que se passe-t-il quand une zone est déboisée ?",
+    "o": [
+     "L'eau n'est plus renvoyée vers l'atmosphère",
+     "La pluie augmente aussitôt",
+     "Le sol se refroidit"
+    ],
+    "r": 0,
+    "e": "Sans arbres, l'eau n'est plus renvoyée dans l'air par transpiration."
+   },
+   {
+    "q": "Que fait le sol nu ?",
+    "o": [
+     "Il chauffe davantage",
+     "Il retient plus d'eau",
+     "Il produit plus de vapeur"
+    ],
+    "r": 0,
+    "e": "Le sol dénudé chauffe davantage et l'air devient plus sec."
+   },
+   {
+    "q": "Que redoutent les climatologues ?",
+    "o": [
+     "Un seuil au-delà duquel la forêt ne peut plus entretenir ses pluies",
+     "Une hausse du niveau de l'océan Atlantique",
+     "Un refroidissement général du bassin"
+    ],
+    "r": 0,
+    "e": "Au-delà d'un certain seuil, le recyclage de l'eau ne suffirait plus."
+   },
+   {
+    "q": "Quels autres services rend la forêt ?",
+    "o": [
+     "Elle retient les sols et stocke du carbone",
+     "Elle produit de l'engrais",
+     "Elle refroidit les océans"
+    ],
+    "r": 0,
+    "e": "La forêt limite l'érosion et stocke du carbone dans ses troncs."
+   },
+   {
+    "q": "Pourquoi la pluie peut-elle diminuer loin des zones déboisées ?",
+    "o": [
+     "Parce que l'humidité vient en partie des arbres voisins",
+     "Parce que le vent change de direction",
+     "Parce que l'océan s'éloigne"
+    ],
+    "r": 0,
+    "e": "L'eau évaporée plus loin alimente des pluies qui tombent à distance."
+   },
+   {
+    "q": "Pourquoi une forêt produit-elle plus de vapeur qu'un champ ?",
+    "o": [
+     "Parce qu'elle transpire beaucoup plus",
+     "Parce que son sol est plus sec",
+     "Parce qu'elle attire les nuages"
+    ],
+    "r": 0,
+    "e": "La densité des arbres multiplie la surface qui rejette de l'eau dans l'air."
+   },
+   {
+    "q": "Pourquoi la forêt est-elle plus qu'un ensemble d'arbres ?",
+    "o": [
+     "Parce qu'elle fabrique en partie son climat",
+     "Parce qu'elle abrite des villes",
+     "Parce qu'elle ne brûle jamais"
+    ],
+    "r": 0,
+    "e": "Le texte la présente comme un système qui entretient son propre régime de pluies."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Le rôle de la forêt amazonienne dans le cycle de l'eau",
+     "La culture du soja en Amazonie",
+     "La formation des ouragans atlantiques"
+    ],
+    "r": 0,
+    "e": "Le texte explique comment la forêt alimente une partie de ses propres pluies."
+   },
+   {
+    "q": "Pourquoi l'auteur décrit-il d'abord la transpiration d'un arbre ?",
+    "o": [
+     "Pour partir du mécanisme avant d'élargir à la forêt",
+     "Pour expliquer la croissance du bois",
+     "Pour décrire les racines en détail"
+    ],
+    "r": 0,
+    "e": "Le passage du particulier au général rend le phénomène compréhensible."
+   }
+  ]
+ },
+ {
+  "id": "a22",
+  "theme": "animaux",
+  "niveau": 2,
+  "titre": "Le poulpe, une intelligence sans squelette",
+  "corps": "Le poulpe n'a pas de squelette. Son corps mou lui permet de se glisser dans des fentes étroites, ce qui le rend difficile à capturer. Mais son originalité tient surtout à son système nerveux et à sa peau.\n\nIl possède trois cœurs. Deux envoient le sang vers les branchies, où il s'oxygène ; le troisième alimente le reste du corps. Son sang est bleu, car l'oxygène y est transporté par une molécule à base de cuivre, l'hémocyanine, et non par l'hémoglobine des vertébrés.\n\nSes huit bras portent des centaines de ventouses. Chacune peut sentir et goûter ce qu'elle touche : le poulpe explore ainsi son environnement sans voir. Les bras contiennent aussi une grande partie de ses neurones, ce qui leur permet de réagir en partie seuls.\n\nLa peau change de couleur et de texture. Des cellules appelées chromatophores contiennent des pigments que l'animal étire ou contracte. En quelques secondes, il peut imiter une roche, du sable ou une algue. Certains poulpes produisent aussi des motifs très rapides, peut-être pour communiquer.\n\nIl se nourrit surtout de crabes, de coquillages et de petits poissons, qu'il saisit avec ses bras et découpe avec un bec corné. Son œil, très développé, repère le moindre mouvement. Menacé, il dispose de deux armes. Il peut projeter un nuage d'encre qui brouille la vue du prédateur, et se propulser en expulsant l'eau d'une cavité de son corps.\n\nLe poulpe vit peu. Beaucoup d'espèces meurent après la reproduction : la femelle cesse de se nourrir pendant qu'elle garde ses œufs, puis meurt quand ils éclosent. La mère ne voit donc jamais ses petits grandir.",
+  "q": [
+   {
+    "q": "De quoi le poulpe est-il dépourvu ?",
+    "o": [
+     "De squelette",
+     "De bras",
+     "De branchies"
+    ],
+    "r": 0,
+    "e": "Le texte ouvre sur l'absence de squelette, qui rend le corps souple."
+   },
+   {
+    "q": "Combien de cœurs possède-t-il ?",
+    "o": [
+     "Trois",
+     "Un",
+     "Huit"
+    ],
+    "r": 0,
+    "e": "Le poulpe possède trois cœurs aux rôles différents."
+   },
+   {
+    "q": "À quoi servent les deux premiers cœurs ?",
+    "o": [
+     "À envoyer le sang vers les branchies",
+     "À alimenter les bras",
+     "À digérer la nourriture"
+    ],
+    "r": 0,
+    "e": "Deux cœurs envoient le sang aux branchies pour l'oxygéner."
+   },
+   {
+    "q": "À quoi sert le troisième cœur ?",
+    "o": [
+     "À alimenter le reste du corps",
+     "À chasser l'encre",
+     "À chauffer la peau"
+    ],
+    "r": 0,
+    "e": "Le troisième cœur pousse le sang oxygéné vers le reste du corps."
+   },
+   {
+    "q": "Pourquoi son sang est-il bleu ?",
+    "o": [
+     "Parce qu'il contient de l'hémocyanine à base de cuivre",
+     "Parce qu'il contient de l'hémoglobine",
+     "Parce qu'il est froid"
+    ],
+    "r": 0,
+    "e": "L'hémocyanine, molécule à base de cuivre, donne au sang sa couleur bleue."
+   },
+   {
+    "q": "Combien de bras porte-t-il ?",
+    "o": [
+     "Huit",
+     "Six",
+     "Dix"
+    ],
+    "r": 0,
+    "e": "Le poulpe possède huit bras couverts de ventouses."
+   },
+   {
+    "q": "Que peuvent faire les ventouses ?",
+    "o": [
+     "Sentir et goûter ce qu'elles touchent",
+     "Produire de la lumière",
+     "Fabriquer de l'encre"
+    ],
+    "r": 0,
+    "e": "Chaque ventouse peut sentir et goûter, ce qui permet d'explorer sans voir."
+   },
+   {
+    "q": "Où se trouve une grande partie de ses neurones ?",
+    "o": [
+     "Dans les bras",
+     "Dans la tête",
+     "Dans les branchies"
+    ],
+    "r": 0,
+    "e": "Les bras contiennent une grande partie des neurones de l'animal."
+   },
+   {
+    "q": "Comment change-t-il de couleur ?",
+    "o": [
+     "En étirant ou contractant des chromatophores",
+     "En changeant la température de sa peau",
+     "En sécrétant un pigment externe"
+    ],
+    "r": 0,
+    "e": "Les chromatophores contiennent des pigments que l'animal étire ou contracte."
+   },
+   {
+    "q": "En combien de temps peut-il imiter une roche ?",
+    "o": [
+     "En quelques secondes",
+     "En une heure",
+     "En une journée"
+    ],
+    "r": 0,
+    "e": "Le changement de couleur et de texture se fait en quelques secondes."
+   },
+   {
+    "q": "Comment se propulse-t-il dans l'eau ?",
+    "o": [
+     "En expulsant l'eau d'une cavité",
+     "En battant ses bras comme des ailes",
+     "En gonflant son corps"
+    ],
+    "r": 0,
+    "e": "Il avance en chassant l'eau d'une cavité de son corps."
+   },
+   {
+    "q": "Que projette-t-il pour brouiller la vue d'un prédateur ?",
+    "o": [
+     "Un nuage d'encre",
+     "Un jet de sable",
+     "Une masse de mucus"
+    ],
+    "r": 0,
+    "e": "L'encre forme un nuage qui masque sa fuite."
+   },
+   {
+    "q": "Que fait la femelle pendant qu'elle garde ses œufs ?",
+    "o": [
+     "Elle cesse de se nourrir",
+     "Elle chasse plus souvent",
+     "Elle change de couleur"
+    ],
+    "r": 0,
+    "e": "La femelle cesse de se nourrir pendant la garde des œufs."
+   },
+   {
+    "q": "Pourquoi peut-il se cacher dans des fentes étroites ?",
+    "o": [
+     "Parce qu'il n'a pas de squelette",
+     "Parce qu'il est très petit",
+     "Parce qu'il creuse la roche"
+    ],
+    "r": 0,
+    "e": "L'absence d'os lui permet de déformer son corps pour se glisser partout."
+   },
+   {
+    "q": "Pourquoi ses bras peuvent-ils réagir en partie seuls ?",
+    "o": [
+     "Parce qu'ils contiennent beaucoup de neurones",
+     "Parce qu'ils sont très musclés",
+     "Parce qu'ils flottent dans l'eau"
+    ],
+    "r": 0,
+    "e": "La concentration de neurones dans les bras permet des réactions locales."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "Les particularités biologiques du poulpe",
+     "La pêche industrielle des céphalopodes",
+     "Les animaux des grands fonds marins"
+    ],
+    "r": 0,
+    "e": "Le texte décrit les organes, la peau et le mode de vie du poulpe."
+   },
+   {
+    "q": "Pourquoi l'auteur insiste-t-il sur le système nerveux ?",
+    "o": [
+     "Pour expliquer comment un animal mou se débrouille sans squelette",
+     "Pour comparer le poulpe aux poissons",
+     "Pour décrire sa reproduction"
+    ],
+    "r": 0,
+    "e": "Le système nerveux, réparti dans les bras, compense l'absence de structure osseuse."
+   }
+  ]
+ },
+ {
+  "id": "a23",
+  "theme": "cuisine",
+  "niveau": 2,
+  "titre": "Du cacao amer au chocolat en tablette",
+  "corps": "Le chocolat vient des graines d'un arbre, le cacaoyer, originaire d'Amérique centrale et du Sud. Ses fruits, des cabosses, contiennent des graines entourées de pulpe.\n\nLes peuples de Mésoamérique utilisaient ces graines bien avant l'arrivée des Européens. Les Aztèques préparaient une boisson amère, mélangée à de l'eau, du piment et des épices, et la battaient pour la faire mousser. Les graines servaient aussi de monnaie d'échange.\n\nAu XVIe siècle, les Espagnols rapportent le cacao en Europe. Le goût change : on y ajoute du sucre, de la cannelle ou de la vanille, et la boisson devient un luxe réservé aux plus riches. Le cacao reste longtemps une boisson, jamais un aliment solide.\n\nLe passage à la tablette est plus tardif. En 1828, un Hollandais met au point une presse qui sépare le beurre de cacao de la poudre. Cette invention ouvre la voie au chocolat solide. En 1875, un Suisse a l'idée d'ajouter du lait concentré : le chocolat au lait est né.\n\nAvant tout cela, les fèves doivent être torréfiées. Ce chauffage développe les arômes et distingue un cacao fruité d'un cacao trop grillé. Reste une étape essentielle, le conchage. La pâte est longuement malaxée à chaud, ce qui élimine l'acidité et rend la texture plus lisse. Un chocolat fin se distingue souvent par cette durée de travail.\n\nAujourd'hui, la culture du cacao fait vivre des millions de petits producteurs, surtout en Afrique de l'Ouest. Les prix varient fortement, et les maladies des arbres menacent certaines récoltes. Les pays producteurs exportent surtout des fèves brutes, tandis que la transformation et les marges se concentrent ailleurs.",
+  "q": [
+   {
+    "q": "D'où vient le chocolat ?",
+    "o": [
+     "Des graines d'un arbre",
+     "Des racines d'une plante",
+     "Du lait de vache"
+    ],
+    "r": 0,
+    "e": "Le chocolat provient des graines du cacaoyer."
+   },
+   {
+    "q": "D'où le cacaoyer est-il originaire ?",
+    "o": [
+     "D'Amérique centrale et du Sud",
+     "D'Afrique de l'Ouest",
+     "D'Asie du Sud-Est"
+    ],
+    "r": 0,
+    "e": "Le cacaoyer est originaire d'Amérique centrale et du Sud."
+   },
+   {
+    "q": "Comment s'appellent ses fruits ?",
+    "o": [
+     "Des cabosses",
+     "Des gousses",
+     "Des baies"
+    ],
+    "r": 0,
+    "e": "Le texte nomme cabosses les fruits du cacaoyer."
+   },
+   {
+    "q": "Que préparaient les Aztèques avec les graines ?",
+    "o": [
+     "Une boisson amère",
+     "Une pâte sucrée",
+     "Un pain complet"
+    ],
+    "r": 0,
+    "e": "Les Aztèques préparaient une boisson amère à base de cacao."
+   },
+   {
+    "q": "Avec quoi mélangeaient-ils cette boisson ?",
+    "o": [
+     "De l'eau, du piment et des épices",
+     "Du lait et du miel",
+     "Du vin et du sel"
+    ],
+    "r": 0,
+    "e": "La boisson mêlait eau, piment et épices, et était battue pour mousser."
+   },
+   {
+    "q": "À quoi servaient aussi les graines ?",
+    "o": [
+     "De monnaie d'échange",
+     "De médicament",
+     "De colorant"
+    ],
+    "r": 0,
+    "e": "Les graines servaient également de monnaie d'échange."
+   },
+   {
+    "q": "Quand le cacao arrive-t-il en Europe ?",
+    "o": [
+     "Au XVIe siècle",
+     "Au XIIe siècle",
+     "Au XIXe siècle"
+    ],
+    "r": 0,
+    "e": "Les Espagnols rapportent le cacao en Europe au XVIe siècle."
+   },
+   {
+    "q": "Qui rapporte le cacao en Europe ?",
+    "o": [
+     "Les Espagnols",
+     "Les Portugais",
+     "Les Hollandais"
+    ],
+    "r": 0,
+    "e": "Le texte attribue ce transport aux Espagnols."
+   },
+   {
+    "q": "Qu'ajoute-t-on à la boisson en Europe ?",
+    "o": [
+     "Du sucre et des épices",
+     "Du piment et du sel",
+     "De la farine"
+    ],
+    "r": 0,
+    "e": "Sucre, cannelle ou vanille transforment le goût de la boisson."
+   },
+   {
+    "q": "Qu'invente-t-on en 1828 ?",
+    "o": [
+     "Une presse qui sépare le beurre de cacao",
+     "Une machine à torréfier",
+     "Un moule à tablettes"
+    ],
+    "r": 0,
+    "e": "La presse de 1828 sépare le beurre de cacao de la poudre."
+   },
+   {
+    "q": "Qui a l'idée d'ajouter du lait concentré ?",
+    "o": [
+     "Un Suisse, en 1875",
+     "Un Hollandais, en 1828",
+     "Un Espagnol, en 1520"
+    ],
+    "r": 0,
+    "e": "Un chocolatier suisse ajoute du lait concentré en 1875."
+   },
+   {
+    "q": "À quoi sert le conchage ?",
+    "o": [
+     "À éliminer l'acidité et lisser la texture",
+     "À durcir le chocolat",
+     "À colorer la pâte"
+    ],
+    "r": 0,
+    "e": "Le malaxage à chaud retire l'acidité et affine la texture."
+   },
+   {
+    "q": "Où vit la majorité des petits producteurs de cacao ?",
+    "o": [
+     "En Afrique de l'Ouest",
+     "En Europe du Nord",
+     "Au Moyen-Orient"
+    ],
+    "r": 0,
+    "e": "Le texte situe la plupart des petits producteurs en Afrique de l'Ouest."
+   },
+   {
+    "q": "Pourquoi le chocolat est-il resté un luxe en Europe ?",
+    "o": [
+     "Parce que le cacao et le sucre coûtaient cher",
+     "Parce qu'il était interdit",
+     "Parce qu'il fallait le boire chaud"
+    ],
+    "r": 0,
+    "e": "Les ingrédients importés et le sucre en faisaient un produit coûteux."
+   },
+   {
+    "q": "Pourquoi la presse de 1828 a-t-elle ouvert la voie à la tablette ?",
+    "o": [
+     "Parce qu'elle a permis d'obtenir une pâte solide",
+     "Parce qu'elle a sucré le cacao",
+     "Parce qu'elle a supprimé l'amertume"
+    ],
+    "r": 0,
+    "e": "En séparant beurre et poudre, elle rend possible une pâte travaillable en tablette."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "L'histoire du cacao et du chocolat",
+     "Les recettes de gâteaux au chocolat",
+     "La culture du sucre de canne"
+    ],
+    "r": 0,
+    "e": "Le texte suit le cacao de la Mésoamérique jusqu'à la tablette moderne."
+   },
+   {
+    "q": "Pourquoi l'auteur mentionne-t-il les pays producteurs à la fin ?",
+    "o": [
+     "Pour montrer que la culture reste économiquement fragile",
+     "Pour expliquer le goût du chocolat",
+     "Pour décrire les forêts tropicales"
+    ],
+    "r": 0,
+    "e": "La fin du texte souligne la dépendance des producteurs aux prix et aux maladies."
+   }
+  ]
+ },
+ {
+  "id": "a24",
+  "theme": "sport",
+  "niveau": 2,
+  "titre": "Les vingt-quatre secondes qui ont réveillé le basket",
+  "corps": "En 1954, le basket professionnel américain change de visage. Les matchs sont lents : une équipe qui mène peut garder le ballon sans tirer pendant plusieurs minutes. Le public s'ennuie.\n\nLe basket avait été inventé en 1891 par James Naismith, mais rien ne limitait alors la durée d'une possession. Un dirigeant de club, Danny Biasone, propose alors une règle simple : une équipe doit tirer au panier dans les vingt-quatre secondes qui suivent la prise de possession du ballon. Passé ce délai, la balle va à l'adversaire.\n\nL'idée n'est pas née du hasard. Biasone avait compté, sur plusieurs matchs, le nombre de tirs tentés et le temps de jeu effectif. Il en avait déduit qu'une équipe pouvait raisonnablement tenter un tir toutes les vingt-quatre secondes.\n\nLa NBA adopte la règle dès la saison suivante. Le jeu s'accélère aussitôt : les scores montent, les spectateurs reviennent. D'autres championnats finiront par adopter des règles voisines, avec des durées parfois différentes.\n\nAujourd'hui, le chronomètre des vingt-quatre secondes est visible au-dessus de chaque panier. Il se déclenche dès qu'une équipe récupère le ballon. Certaines situations le remettent à zéro, par exemple après une faute ou un tir qui touche le cercle.\n\nLes entraîneurs ont dû réapprendre à gérer les fins de match, où chaque seconde compte. Cette contrainte a transformé les tactiques. Elle favorise les joueurs rapides, les passes courtes et les tirs pris tôt. Elle oblige aussi les équipes à travailler leur défense, car chaque possession adverse est limitée dans le temps. Un sport qui pouvait se figer est devenu une suite d'actions brèves.",
+  "q": [
+   {
+    "q": "En quelle année la règle des vingt-quatre secondes apparaît-elle ?",
+    "o": [
+     "En 1954",
+     "En 1934",
+     "En 1984"
+    ],
+    "r": 0,
+    "e": "La règle est introduite en 1954."
+   },
+   {
+    "q": "Pourquoi les matchs étaient-ils lents ?",
+    "o": [
+     "Une équipe pouvait garder le ballon sans tirer",
+     "Les joueurs étaient trop fatigués",
+     "Le terrain était trop grand"
+    ],
+    "r": 0,
+    "e": "Sans limite de temps, l'équipe en tête pouvait conserver le ballon."
+   },
+   {
+    "q": "Qui propose la règle ?",
+    "o": [
+     "Danny Biasone",
+     "James Naismith",
+     "Bill Russell"
+    ],
+    "r": 0,
+    "e": "Danny Biasone, dirigeant de club, propose cette limite de temps."
+   },
+   {
+    "q": "Combien de secondes une équipe a-t-elle pour tirer ?",
+    "o": [
+     "Vingt-quatre",
+     "Douze",
+     "Trente"
+    ],
+    "r": 0,
+    "e": "La possession est limitée à vingt-quatre secondes."
+   },
+   {
+    "q": "Que se passe-t-il si le délai est dépassé ?",
+    "o": [
+     "La balle va à l'adversaire",
+     "L'équipe perd un joueur",
+     "Le panier compte double"
+    ],
+    "r": 0,
+    "e": "Passé le délai, la possession revient à l'adversaire."
+   },
+   {
+    "q": "Sur quoi Biasone s'est-il appuyé ?",
+    "o": [
+     "Des comptages sur plusieurs matchs",
+     "Une règle venue d'Europe",
+     "Un vote des joueurs"
+    ],
+    "r": 0,
+    "e": "Il avait compté les tirs et le temps de jeu effectif de plusieurs matchs."
+   },
+   {
+    "q": "Quand la NBA adopte-t-elle la règle ?",
+    "o": [
+     "Dès la saison suivante",
+     "Dix ans plus tard",
+     "Après les Jeux olympiques"
+    ],
+    "r": 0,
+    "e": "La NBA l'adopte dès la saison qui suit."
+   },
+   {
+    "q": "Quel effet immédiat la règle a-t-elle eu ?",
+    "o": [
+     "Les scores ont monté",
+     "Les matchs se sont allongés",
+     "Le nombre de fautes a doublé"
+    ],
+    "r": 0,
+    "e": "Le jeu s'est accéléré et les scores ont augmenté."
+   },
+   {
+    "q": "Où voit-on le chronomètre des vingt-quatre secondes ?",
+    "o": [
+     "Au-dessus de chaque panier",
+     "Au centre du terrain",
+     "Sur le maillot des joueurs"
+    ],
+    "r": 0,
+    "e": "Le chronomètre est affiché au-dessus de chaque panier."
+   },
+   {
+    "q": "Quand le chronomètre se déclenche-t-il ?",
+    "o": [
+     "Dès qu'une équipe récupère le ballon",
+     "À chaque passe",
+     "À chaque faute"
+    ],
+    "r": 0,
+    "e": "Il démarre à la prise de possession."
+   },
+   {
+    "q": "Quand est-il remis à zéro ?",
+    "o": [
+     "Après une faute ou un tir qui touche le cercle",
+     "Après chaque panier marqué",
+     "À la mi-temps seulement"
+    ],
+    "r": 0,
+    "e": "Une faute ou un tir touchant le cercle remet le compte à zéro."
+   },
+   {
+    "q": "Quels joueurs la règle favorise-t-elle ?",
+    "o": [
+     "Les joueurs rapides",
+     "Les joueurs très grands",
+     "Les joueurs défensifs"
+    ],
+    "r": 0,
+    "e": "Le jeu rapide et les passes courtes avantagent la vitesse."
+   },
+   {
+    "q": "Pourquoi les équipes doivent-elles soigner leur défense ?",
+    "o": [
+     "Parce que chaque possession adverse est limitée dans le temps",
+     "Parce que les fautes sont interdites",
+     "Parce que le terrain est plus petit"
+    ],
+    "r": 0,
+    "e": "La limite de temps rend chaque possession décisive et oblige à défendre vite."
+   },
+   {
+    "q": "Pourquoi le public est-il revenu ?",
+    "o": [
+     "Parce que le jeu est devenu plus rapide",
+     "Parce que les places étaient gratuites",
+     "Parce que les matchs duraient plus longtemps"
+    ],
+    "r": 0,
+    "e": "L'accélération du jeu a rendu les rencontres plus attrayantes."
+   },
+   {
+    "q": "Pourquoi d'autres championnats ont-ils imité cette règle ?",
+    "o": [
+     "Parce qu'elle rend le jeu plus attrayant",
+     "Parce qu'elle allonge les matchs",
+     "Parce qu'elle supprime les fautes"
+    ],
+    "r": 0,
+    "e": "Le succès du jeu rapide a poussé d'autres ligues à adopter des règles voisines."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "L'invention d'une règle qui a accéléré le basket",
+     "La carrière d'un joueur célèbre",
+     "L'histoire des Jeux olympiques"
+    ],
+    "r": 0,
+    "e": "Le texte raconte l'origine et les effets de la règle des vingt-quatre secondes."
+   },
+   {
+    "q": "Pourquoi l'auteur raconte-t-il les comptages de Biasone ?",
+    "o": [
+     "Pour montrer que la règle reposait sur une observation",
+     "Pour critiquer les statistiques sportives",
+     "Pour décrire un match précis"
+    ],
+    "r": 0,
+    "e": "Les comptages expliquent comment le seuil de vingt-quatre secondes a été choisi."
+   }
+  ]
+ },
+ {
+  "id": "a25",
+  "theme": "géographie",
+  "niveau": 2,
+  "titre": "Les Alpes, cicatrice d'une collision",
+  "corps": "Les Alpes ne sont pas seulement un décor. Ce sont les traces d'une collision entre deux masses continentales.\n\nIl y a environ trente à quarante millions d'années, la plaque africaine, poussée vers le nord, entre en contact avec la plaque eurasienne. Entre elles se trouvait un bras de mer, la Téthys, où s'étaient déposés des sédiments. Ces dépôts, comprimés, plissés et soulevés, forment aujourd'hui les roches des Alpes.\n\nLa chaîne s'étend sur plusieurs pays, de la France à l'Autriche, et sa largeur atteint environ deux cents kilomètres. Le phénomène se poursuit. La poussée continue, et les sommets s'élèvent encore de quelques millimètres par an. Mais l'érosion travaille aussi vite. Le gel fissure la roche, l'eau la dissout, les glaciers l'arrachent. Sans cette usure, les montagnes seraient bien plus hautes.\n\nLe mont Blanc, point culminant de la chaîne, atteint environ quatre mille huit cent huit mètres. Sa hauteur est mesurée régulièrement, car la neige et la glace du sommet varient d'une année à l'autre.\n\nLa structure de la chaîne garde la mémoire de la collision. Les couches rocheuses sont souvent renversées, plissées en zigzag, et certaines roches venues d'anciens fonds marins se retrouvent à plusieurs milliers de mètres d'altitude. On y trouve même des fossiles marins.\n\nLes vallées, elles, ont été creusées par les glaciers, qui ont laissé des lacs et des moraines. Les Alpes ne sont pas un cas isolé. L'Himalaya, les Andes ou les Rocheuses doivent leur relief à des collisions ou à des enfoncements de plaques comparables. Chaque chaîne raconte, à sa manière, le déplacement lent des continents.",
+  "q": [
+   {
+    "q": "Que sont les Alpes selon le texte ?",
+    "o": [
+     "Les traces d'une collision",
+     "Le reste d'un ancien volcan",
+     "Un plateau soulevé par le vent"
+    ],
+    "r": 0,
+    "e": "Le texte présente les Alpes comme la trace d'une collision continentale."
+   },
+   {
+    "q": "Quand la collision a-t-elle commencé ?",
+    "o": [
+     "Il y a trente à quarante millions d'années",
+     "Il y a trois mille ans",
+     "Il y a cinq cents millions d'années"
+    ],
+    "r": 0,
+    "e": "Le texte situe le début de la collision il y a trente à quarante millions d'années."
+   },
+   {
+    "q": "Quelle plaque pousse vers le nord ?",
+    "o": [
+     "La plaque africaine",
+     "La plaque eurasienne",
+     "La plaque pacifique"
+    ],
+    "r": 0,
+    "e": "La plaque africaine progresse vers le nord et rencontre l'Eurasie."
+   },
+   {
+    "q": "Qu'y avait-il entre les deux plaques ?",
+    "o": [
+     "Un bras de mer, la Téthys",
+     "Une chaîne de volcans",
+     "Un désert de sable"
+    ],
+    "r": 0,
+    "e": "Un bras de mer appelé Téthys séparait les deux masses."
+   },
+   {
+    "q": "Que sont devenus les sédiments de cette mer ?",
+    "o": [
+     "Les roches des Alpes",
+     "Les glaciers actuels",
+     "Les lacs de plaine"
+    ],
+    "r": 0,
+    "e": "Les dépôts comprimés et soulevés constituent aujourd'hui les roches alpines."
+   },
+   {
+    "q": "Les sommets s'élèvent-ils encore ?",
+    "o": [
+     "Oui, de quelques millimètres par an",
+     "Non, ils descendent",
+     "Oui, de plusieurs mètres par an"
+    ],
+    "r": 0,
+    "e": "La poussée continue soulève encore les sommets de quelques millimètres par an."
+   },
+   {
+    "q": "Qu'est-ce qui limite la hauteur des montagnes ?",
+    "o": [
+     "L'érosion",
+     "Le froid",
+     "Le manque de roches"
+    ],
+    "r": 0,
+    "e": "L'érosion use la roche aussi vite que la poussée ne la soulève."
+   },
+   {
+    "q": "Comment le gel agit-il sur la roche ?",
+    "o": [
+     "Il la fissure",
+     "Il la colore",
+     "Il la rend plus lourde"
+    ],
+    "r": 0,
+    "e": "Le gel fissure la roche, ce qui contribue à son usure."
+   },
+   {
+    "q": "Quel est le point culminant de la chaîne ?",
+    "o": [
+     "Le mont Blanc",
+     "Le mont Rose",
+     "Le Cervin"
+    ],
+    "r": 0,
+    "e": "Le mont Blanc est le point culminant des Alpes."
+   },
+   {
+    "q": "Quelle altitude atteint le mont Blanc ?",
+    "o": [
+     "Environ 4 808 mètres",
+     "Environ 3 800 mètres",
+     "Environ 5 800 mètres"
+    ],
+    "r": 0,
+    "e": "Le texte donne environ quatre mille huit cent huit mètres."
+   },
+   {
+    "q": "Pourquoi sa hauteur est-elle remesurée régulièrement ?",
+    "o": [
+     "Parce que la neige et la glace du sommet varient",
+     "Parce que la roche change de couleur",
+     "Parce que la montagne se déplace vers le sud"
+    ],
+    "r": 0,
+    "e": "L'épaisseur de neige et de glace au sommet change d'une année à l'autre."
+   },
+   {
+    "q": "Que trouve-t-on dans certaines roches alpines ?",
+    "o": [
+     "Des fossiles marins",
+     "Des ossements de dinosaures",
+     "Des outils préhistoriques"
+    ],
+    "r": 0,
+    "e": "Le texte signale la présence de fossiles marins dans les roches alpines."
+   },
+   {
+    "q": "Quelles autres chaînes sont citées ?",
+    "o": [
+     "L'Himalaya, les Andes et les Rocheuses",
+     "Les Vosges et le Jura",
+     "L'Oural et les Carpates"
+    ],
+    "r": 0,
+    "e": "Le texte cite l'Himalaya, les Andes et les Rocheuses comme cas comparables."
+   },
+   {
+    "q": "Pourquoi trouve-t-on des fossiles marins en altitude ?",
+    "o": [
+     "Parce que ces roches viennent d'anciens fonds marins soulevés",
+     "Parce que des oiseaux les y ont apportés",
+     "Parce que la mer montait jusque-là autrefois"
+    ],
+    "r": 0,
+    "e": "Les sédiments marins ont été soulevés par la collision jusqu'à plusieurs milliers de mètres."
+   },
+   {
+    "q": "Pourquoi les montagnes ne grandissent-elles pas sans fin ?",
+    "o": [
+     "Parce que l'érosion compense la poussée",
+     "Parce que les plaques s'arrêtent",
+     "Parce que la roche devient trop lourde pour tenir"
+    ],
+    "r": 0,
+    "e": "Le soulèvement et l'usure finissent par s'équilibrer."
+   },
+   {
+    "q": "Quel est le sujet de ce texte ?",
+    "o": [
+     "La formation des Alpes par une collision de plaques",
+     "Les stations de ski des Alpes",
+     "Le climat des vallées alpines"
+    ],
+    "r": 0,
+    "e": "Le texte explique l'origine de la chaîne et son évolution actuelle."
+   },
+   {
+    "q": "Pourquoi l'auteur décrit-il les roches plissées ?",
+    "o": [
+     "Pour montrer la trace matérielle de la collision",
+     "Pour décrire la beauté des paysages",
+     "Pour expliquer la fonte des glaciers"
+    ],
+    "r": 0,
+    "e": "Les plis et les roches renversées sont la preuve directe de la compression."
+   }
+  ]
+ }
+]

@@ -1,0 +1,2847 @@
+<!doctype html>
+<html lang="fr" data-theme="ink">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Lecture éclair — parcours progressif de lecture rapide</title>
+<style>
+[hidden]{display:none !important}
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#141210; --bg-2:#100e0c; --surface:#1a1714; --surface-2:#211d18; --surface-3:#282219;
+  --line:#322b23; --line-2:#453b30;
+  --ink:#f2ece1; --muted:#a79b8b; --dim:#8d8171;
+  --accent:#d9f45f; --accent-ink:#15130e; --accent-soft:rgba(217,244,95,.12);
+  --warn:#e6854f; --ok:#8adaa9;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+  --sans:ui-sans-serif,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono','JetBrains Mono','Cascadia Mono',Menlo,Consolas,monospace;
+  --tscale:1;
+}
+[data-theme="paper"]{
+  --bg:#f3eee2; --bg-2:#ece5d5; --surface:#fbf8f0; --surface-2:#efe8d9; --surface-3:#e7dfcc;
+  --line:#d8cdb7; --line-2:#c3b59a;
+  --ink:#1f1b15; --muted:#5f5749; --dim:#6e6656;
+  --accent:#2c6650; --accent-ink:#f7f3e8; --accent-soft:rgba(44,102,80,.10);
+  --warn:#a4482c; --ok:#2c6650;
+}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-family:var(--serif);font-weight:500;letter-spacing:-.012em;line-height:1.15}
+p{margin:0}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+input,textarea{font:inherit;color:inherit}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);display:block}
+.hint{color:var(--muted);font-size:13.5px}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}
+.rail{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:26px;padding:24px 20px;
+  background:var(--bg-2);border-right:1px solid var(--line)}
+.brand{display:flex;gap:11px;align-items:center}
+.brand-mark{width:34px;height:34px;border:1px solid var(--line-2);display:grid;place-items:center;
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--accent)}
+.brand-name{font-family:var(--serif);font-size:16px;line-height:1.1}
+.brand-sub{font-size:9.5px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid transparent;border-radius:2px;
+  font-size:13.5px;color:var(--muted);min-height:40px}
+.nav-item:hover{background:var(--surface);color:var(--ink)}
+.nav-item.is-active{background:var(--surface-2);border-color:var(--line);color:var(--ink)}
+.nav-item.is-active .nav-i{color:var(--accent)}
+.nav-i{font-size:9.5px;letter-spacing:.1em;color:var(--dim)}
+.rail-foot{margin-top:auto;display:flex;flex-direction:column;gap:14px}
+.dial{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:9px}
+.dial-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dial-num{font-size:22px;letter-spacing:-.02em;color:var(--ink)}
+.dial-row.small{font-size:10.5px;color:var(--dim);font-family:var(--mono);letter-spacing:.04em}
+input[type=range]{width:100%;accent-color:var(--accent);height:22px}
+.rail-toggles{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);padding:5px 9px;font-size:11px;color:var(--muted);border-radius:2px;
+  font-family:var(--mono);letter-spacing:.04em;min-height:28px}
+.chip:hover{border-color:var(--line-2);color:var(--ink)}
+.chip.is-on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+main{padding:30px 36px 90px;max-width:1320px;width:100%}
+
+/* ---------- shared pieces ---------- */
+.statusbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-bottom:26px}
+.sb{background:var(--surface);padding:12px 14px}
+.sb b{font-family:var(--mono);font-size:20px;font-weight:400;letter-spacing:-.02em;display:block;margin-top:3px}
+.sb small{color:var(--muted);font-size:11.5px}
+.panel{border:1px solid var(--line);background:var(--surface);padding:18px}
+.panel-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px}
+.panel-h h2{font-size:17px}
+.grid-main{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:22px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--line-2);
+  font-size:13.5px;border-radius:2px;min-height:42px;transition:background .12s,border-color .12s,color .12s}
+.btn:hover{background:var(--surface-2);border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:500}
+.btn.primary:hover{filter:brightness(1.07);background:var(--accent)}
+.btn.ghost{color:var(--muted);border-color:transparent;padding:8px 10px;min-height:36px}
+.btn.ghost:hover{color:var(--ink);background:var(--surface-2)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row-btn{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;width:100%;
+  padding:13px 4px;border-bottom:1px solid var(--line)}
+.row-btn:last-child{border-bottom:0}
+.row-btn:hover{background:var(--surface-2)}
+.row-num{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.08em;padding-top:4px}
+.row-body b{font-weight:500;font-size:14px;display:block}
+.row-body span{color:var(--muted);font-size:12.5px;display:block;margin-top:2px;max-width:60ch}
+.row-meta{font-family:var(--mono);font-size:10px;color:var(--dim);text-align:right;white-space:nowrap}
+.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--line-2);padding:1px 5px;color:var(--dim);margin-left:6px;border-radius:2px}
+.tag.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,transparent)}
+.tag.now{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+
+/* ---------- parcours ---------- */
+.etape-card{border:1px solid var(--line-2);background:linear-gradient(0deg,var(--surface-2),var(--surface));padding:22px}
+.etape-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}
+.etape-title{font-size:clamp(22px,3vw,30px);margin-top:4px}
+.etape-but{color:var(--muted);font-size:13.5px;max-width:52ch;margin-top:6px}
+.etape-cible{text-align:right;flex:none}
+.etape-cible b{font-family:var(--mono);font-size:26px;font-weight:400;display:block;line-height:1}
+.blocks{display:flex;flex-direction:column;border-top:1px solid var(--line);margin:16px 0}
+.block-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0;
+  border-bottom:1px solid var(--line);font-size:13.5px}
+.block-row .bi{font-family:var(--mono);font-size:10px;color:var(--accent);width:16px}
+.block-row .bt{color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.04em}
+.crit{border:1px solid var(--line);padding:12px 14px;background:var(--bg-2);margin-bottom:16px}
+.crit li{display:flex;gap:9px;align-items:flex-start;font-size:13px;padding:3px 0;color:var(--muted)}
+.crit li .mk{font-family:var(--mono);font-size:11px;color:var(--dim);width:12px;flex:none;padding-top:2px}
+.crit li.ok{color:var(--ink)}
+.crit li.ok .mk{color:var(--accent)}
+.crit li .val{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--dim);white-space:nowrap;padding-left:8px}
+.ladder{display:flex;flex-direction:column}
+.ladder-row{display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center;padding:9px 2px;
+  border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.ladder-row:last-child{border-bottom:0}
+.ladder-row .ln{font-family:var(--mono);font-size:10px;width:18px;color:var(--dim)}
+.ladder-row .ls{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.ladder-row.done{color:var(--ink)}
+.ladder-row.done .ln{color:var(--ok)}
+.ladder-row.now{color:var(--ink);background:var(--accent-soft);box-shadow:inset 2px 0 0 var(--accent);padding-left:8px}
+.ladder-row.now .ln{color:var(--accent)}
+.ladder-row.locked{opacity:.5}
+
+/* ---------- chart / table ---------- */
+.chart-wrap{border:1px solid var(--line);background:var(--bg-2);padding:10px 8px 4px}
+.chart-legend{display:flex;gap:14px;font-family:var(--mono);font-size:9.5px;color:var(--dim);
+  letter-spacing:.06em;padding:6px 8px 2px;text-transform:uppercase}
+.chart-legend i{display:inline-block;width:14px;height:2px;margin-right:5px;vertical-align:middle}
+table.sess{width:100%;border-collapse:collapse;font-size:12.5px}
+table.sess th{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+  text-align:right;padding:7px 8px;border-bottom:1px solid var(--line-2);font-weight:400}
+table.sess th:first-child,table.sess td:first-child{text-align:left}
+table.sess td{padding:8px;border-bottom:1px solid var(--line);text-align:right;color:var(--muted)}
+table.sess td.n{font-family:var(--mono);color:var(--ink)}
+table.sess tr:hover td{background:var(--surface-2)}
+.empty{border:1px dashed var(--line-2);padding:26px;text-align:center;color:var(--dim);font-size:13px}
+.mini-stats{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.mini-stats div{padding:10px 0 10px 0;border-bottom:1px solid var(--line)}
+.mini-stats div:nth-child(odd){padding-right:12px}
+.mini-stats b{font-family:var(--mono);font-size:17px;font-weight:400;display:block}
+.mini-stats small{color:var(--dim);font-size:11px}
+
+/* ---------- stage ---------- */
+.stage{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;flex-direction:column}
+.stage-bar{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 20px;
+  border-bottom:1px solid var(--line);flex:none}
+.stage-title{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.stage-host{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:26px 22px;overflow:auto;min-height:0}
+.stage-host.top{align-items:stretch;justify-content:flex-start}
+.block{width:100%;max-width:760px;margin:0 auto}
+.block-head{text-align:center;margin-bottom:22px}
+.block-head h2{font-size:clamp(19px,2.4vw,25px);margin:6px 0 6px}
+.block-head p{color:var(--muted);font-size:13px;max-width:52ch;margin:0 auto}
+.block-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:22px;
+  border-top:1px solid var(--line);padding-top:12px}
+
+.countdown{font-family:var(--mono);font-size:clamp(60px,14vw,130px);color:var(--accent);line-height:1;
+  font-variant-numeric:tabular-nums}
+.cd-label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
+
+.rsvp-zone{display:flex;align-items:center;justify-content:center;height:clamp(180px,34vh,300px);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;position:relative}
+.rsvp-zone::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line)}
+.rsvp-word{position:relative;display:inline-block;white-space:nowrap;font-family:var(--serif);
+  font-size:clamp(2.4rem,7vw,4.6rem);line-height:1;will-change:transform}
+.rsvp-word .o{color:var(--accent)}
+.rsvp-word .l,.rsvp-word .r{color:var(--ink)}
+.read-progress{height:2px;background:var(--line);width:100%;max-width:760px;margin:0 auto 0;overflow:hidden}
+.read-progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .09s linear}
+.read-foot{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding-top:10px;max-width:760px;margin:0 auto}
+
+.pacer-wrap{max-height:58vh;overflow:hidden;position:relative;border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);padding:16px 0}
+.read-text{font-family:var(--serif);font-size:calc(19px * var(--tscale));line-height:1.72;
+  color:var(--muted);max-width:64ch;margin:0 auto}
+.read-text .pw{transition:color .06s linear,background .06s linear}
+.read-text .pw.on{color:var(--accent-ink);background:var(--accent);border-radius:1px;padding:1px 2px;margin:0 -2px}
+.read-text.static{color:var(--ink)}
+.read-text .mark{background:var(--accent-soft);box-shadow:inset 0 -2px 0 var(--accent)}
+
+/* quiz */
+.quiz{width:100%;max-width:720px}
+.quiz-q{font-size:clamp(18px,2.3vw,23px);margin:10px 0 20px;line-height:1.35}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;padding:13px 14px;border:1px solid var(--line);
+  background:var(--surface);font-size:14px;border-radius:2px;min-height:48px;transition:border-color .1s,background .1s}
+.opt:hover{border-color:var(--line-2);background:var(--surface-2)}
+.opt .ok-k{font-family:var(--mono);font-size:10px;color:var(--dim);padding-top:3px}
+.opt.good{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,transparent)}
+.opt.bad{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 12%,transparent)}
+.opt.dim{opacity:.45}
+.quiz-fb{margin-top:16px;border-left:2px solid var(--accent);padding:8px 0 8px 14px;font-size:13px;color:var(--muted)}
+.quiz-fb b{color:var(--ink);font-weight:500}
+
+/* schulte */
+.schulte{display:grid;gap:6px;width:min(100%,440px);margin:0 auto}
+.schulte button{aspect-ratio:1;border:1px solid var(--line);background:var(--surface);font-family:var(--mono);
+  font-size:clamp(13px,2.4vw,19px);color:var(--ink);display:grid;place-items:center;border-radius:2px;
+  transition:background .08s,color .08s,border-color .08s}
+.schulte button:hover{border-color:var(--line-2)}
+.schulte button.done{color:var(--dim);border-color:transparent;background:transparent}
+.schulte.novice button.done{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 55%,transparent);background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.schulte button.okflash{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 34%,transparent)}
+.schulte button.miss{border-color:var(--warn);color:var(--warn);background:color-mix(in srgb,var(--warn) 18%,transparent)}
+.schulte-meta .err{color:var(--dim)}
+.schulte-meta .err:not(:empty){font-variant-numeric:tabular-nums}
+.schulte button.next-hint{color:var(--accent);border-color:var(--accent)}
+.schulte-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
+  letter-spacing:.08em;color:var(--dim);margin-top:14px;text-transform:uppercase}
+
+/* empan */
+.empan-stage{display:grid;place-items:center;min-height:clamp(160px,26vh,240px);border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);text-align:center;padding:12px}
+.empan-phrase{font-family:var(--serif);font-size:calc(clamp(1.5rem,3.6vw,2.5rem) * var(--tscale));line-height:1.3}
+.empan-phrase.blank{color:transparent}
+.empan-phrase.reveal{color:var(--ink)}
+.empan-opts{display:flex;flex-direction:column;gap:8px;margin-top:22px}
+.empan-opts .opt{font-family:var(--serif);font-size:calc(16px * var(--tscale))}
+.empan-score{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+
+/* métronome */
+.metro{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin-top:4px}
+.metro-top{display:flex;align-items:center;gap:14px;font-size:10px;color:var(--dim);letter-spacing:.09em;text-transform:uppercase}
+.metro-beat{width:12px;height:12px;border:1px solid var(--accent);display:inline-block;transition:background .05s}
+.metro-beat.on{background:var(--accent)}
+.metro-top span:nth-child(2){margin-left:auto}
+.metro-read{min-height:clamp(120px,22vh,180px);display:flex;align-items:center;justify-content:center;padding:8px 0}
+.metro-word{font-family:var(--serif);font-size:calc(clamp(1.6rem,4vw,2.9rem) * var(--tscale));line-height:1.15;letter-spacing:-.01em;text-align:center;white-space:nowrap}
+/* un groupe de mots se lit d'une fixation : il ne se coupe jamais sur deux lignes */
+.rsvp-word,.metro-word,.supp-word,.empan-phrase,.guide-text .grp{white-space:nowrap}
+.grp{display:inline-block}
+.supp{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin-top:4px}
+.supp-top{display:flex;align-items:center;gap:14px;font-size:10px;color:var(--dim);letter-spacing:.09em;text-transform:uppercase}
+#suppTa{font-family:var(--mono);font-size:13px;color:var(--dim);letter-spacing:.14em;display:inline-block;min-width:2.4em;transition:color .05s,transform .05s}
+#suppTa.on{color:var(--accent);transform:scale(1.22)}
+.supp-top #suppCount{margin-left:auto}
+.supp-read{min-height:clamp(120px,22vh,180px);display:flex;align-items:center;justify-content:center;padding:8px 0}
+.supp-word{font-family:var(--serif);font-size:calc(clamp(1.7rem,4.4vw,3.1rem) * var(--tscale));line-height:1.15}
+.ortho-stage{display:grid;place-items:center;min-height:clamp(120px,20vh,170px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:10px 0}
+.ortho-word{font-family:var(--serif);font-size:calc(clamp(2rem,5vw,3.2rem) * var(--tscale));letter-spacing:-.01em;transition:color .12s}
+.ortho-word.good{color:var(--ok)}
+.ortho-word.bad{color:var(--warn)}
+
+/* pause des yeux */
+.eyebreak{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;padding:24px;
+  background:color-mix(in srgb,var(--bg) 96%,transparent);backdrop-filter:blur(6px)}
+.eb-card{max-width:520px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.eb-card h2{font-family:var(--serif);font-size:clamp(1.5rem,3.4vw,2.2rem);margin:0;letter-spacing:-.01em}
+.eb-card p{margin:0;color:var(--dim);font-size:14px;line-height:1.55;max-width:44ch}
+.eb-time{display:flex;align-items:baseline;gap:8px;margin:4px 0 2px}
+.eb-time b{font-family:var(--mono);font-size:clamp(2.4rem,7vw,3.6rem);font-weight:400;color:var(--accent)}
+.eb-time small{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.eb-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.pause-card{border:1px solid var(--line);padding:14px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.pause-card .pc-t{flex:1;min-width:200px}
+.pause-card b{font-size:13px;font-weight:400;display:block}
+.pause-card small{color:var(--dim);font-size:11.5px}
+
+/* indicateur visuel */
+.guide-wrap{position:relative;max-height:52vh;overflow:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0 24px;margin-top:4px}
+.guide-text .pw{color:var(--dim);transition:color .08s linear}
+.guide-text .pw.seen{color:var(--muted)}
+.guide-text .pw.fix{color:var(--ink);background:var(--accent-soft);box-shadow:inset 0 -2px 0 var(--accent)}
+.guide-bar{position:absolute;width:2px;background:var(--accent);opacity:0;pointer-events:none}
+.guide-dot{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translate(-50%,0);pointer-events:none;transition:left .07s linear,top .07s linear}
+
+/* métronome à deux ancres : l'œil saute de gauche à droite */
+.ma{position:relative;height:clamp(230px,38vh,330px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:4px;display:flex;align-items:center;justify-content:space-between;padding:0 4%}
+.ma::before{content:"";position:absolute;left:26%;right:26%;top:50%;height:1px;background:var(--line);opacity:.7}
+.ma-slot{position:relative;width:44%;display:flex;flex-direction:column;align-items:center;gap:12px;z-index:1}
+.ma-dot{width:8px;height:8px;border-radius:50%;border:1px solid var(--line);background:var(--bg);transition:background .12s,box-shadow .12s,border-color .12s}
+.ma-slot.on .ma-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 16%,transparent)}
+.ma-word{font-family:var(--serif);font-size:calc(clamp(1.15rem,2.5vw,1.8rem) * var(--tscale));line-height:1.2;white-space:nowrap;opacity:0;transition:opacity .1s linear;text-align:center}
+.ma-slot.on .ma-word{opacity:1}
+
+/* lecture guidée : le curseur balaie, le texte lu s'efface */
+.pacer-wrap{position:relative;max-height:52vh;overflow:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;margin-top:4px}
+.pacer-bar{position:absolute;width:2px;background:var(--accent);opacity:.85;pointer-events:none;transition:left .12s linear,top .12s linear,height .12s linear}
+.read-text .pw.gone{opacity:0}
+
+/* empan vertical */
+.ev-stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:clamp(240px,42vh,380px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:4px}
+.ev-col{display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--serif);font-size:calc(clamp(1.05rem,2.2vw,1.55rem) * var(--tscale));line-height:1.25}
+.ev-col .ev-w{white-space:nowrap;opacity:0;transition:opacity .05s linear}
+.ev-stage.show .ev-w{opacity:1}
+.ev-arrow{position:absolute;top:50%;transform:translateY(-50%);color:var(--accent);font-size:15px;opacity:0;transition:opacity .05s linear}
+.ev-stage.show .ev-arrow{opacity:.9}
+.ev-arrow.l{left:calc(50% - 120px)}
+.ev-arrow.r{right:calc(50% - 120px)}
+
+/* saccades */
+.sacc{position:relative;height:clamp(240px,40vh,340px);border:1px solid var(--line);background:var(--bg-2);overflow:hidden;margin-top:4px}
+.sacc-anchor{position:absolute;width:9px;height:9px;border:1px solid var(--line-2);border-radius:50%;transform:translate(-50%,-50%)}
+.sacc-letter{position:absolute;transform:translate(-50%,-50%);font-family:var(--serif);font-size:clamp(2rem,5vw,3.2rem);color:var(--accent);opacity:0;transition:opacity .05s linear}
+.sacc-letter.on{opacity:1}
+.exo-fam{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:14px 4px 2px}
+.exo-fam:first-child{padding-top:0}
+
+/* semaine / historique journalier */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;padding:8px 2px 4px}
+.wday{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.wk{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.wbar{height:58px;width:100%;background:var(--bg-2);border:1px solid var(--line);display:flex;align-items:flex-end}
+.wbar i{display:block;width:100%;background:var(--line-2)}
+.wday.has .wbar i{background:var(--accent);opacity:.85}
+.wday.today .wbar{border-color:var(--accent)}
+.wval{font-family:var(--mono);font-size:10.5px;color:var(--muted);min-height:14px}
+.daytable td.n{white-space:nowrap}
+.delta-up{color:var(--ok)}
+.delta-down{color:var(--warn)}
+
+/* progression de jeu : niveau, XP, mission */
+.xp{display:flex;align-items:center;gap:8px;margin-top:10px}
+.xp-bar{flex:1;height:4px;background:var(--bg-2);border:1px solid var(--line);position:relative;overflow:hidden}
+.xp-bar i{position:absolute;inset:0;right:auto;background:var(--accent);transition:width .3s}
+.xp-num{font-family:var(--mono);font-size:10px;color:var(--muted);white-space:nowrap}
+.mission{border:1px solid var(--line);background:var(--bg-2);padding:14px;display:flex;flex-direction:column;gap:10px}
+.mission.done{border-color:var(--accent)}
+.mission-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.mission-t{display:flex;flex-direction:column;gap:2px}
+.mission-t b{font-size:14px}
+.mission-t span{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+.m-task{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid var(--line)}
+.m-task:first-of-type{border-top:0}
+.m-task .tick{width:14px;height:14px;border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:var(--accent);flex:none}
+.m-task.ok .tick{border-color:var(--accent);background:var(--accent-soft)}
+.m-task.ok span.lbl{color:var(--dim);text-decoration:line-through}
+.m-task .lbl{flex:1;font-size:12.5px}
+.combo{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.08em}
+
+/* exercice périphérie */
+.periph{position:relative;height:clamp(260px,42vh,360px);border:1px solid var(--line);background:var(--bg-2);overflow:hidden}
+.periph-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;color:var(--muted);font-family:var(--mono);font-size:16px;line-height:18px;text-align:center}
+.periph-target{position:absolute;transform:translate(-50%,-50%);font-family:var(--serif);font-size:clamp(1.2rem,2.6vw,1.7rem);color:var(--accent);opacity:0}
+.periph-target.on{opacity:1}
+.periph-mask{position:absolute;inset:0;background:var(--bg);opacity:0;transition:opacity .02s}
+.periph-mask.on{opacity:1}
+
+/* free read / recall */
+.freeread{width:100%;max-width:720px;margin:0 auto}
+.freeread-scroll{max-height:54vh;overflow:auto;padding-right:10px;border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);padding-top:16px;padding-bottom:16px}
+.freeread-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:16px}
+.clock{font-family:var(--mono);font-size:22px;letter-spacing:-.02em}
+textarea.recall{width:100%;min-height:150px;background:var(--surface);border:1px solid var(--line-2);
+  padding:12px 14px;border-radius:2px;font-family:var(--serif);font-size:15px;line-height:1.6;resize:vertical}
+textarea.recall:focus{border-color:var(--accent);outline:none}
+
+/* result */
+.result{width:100%;max-width:720px;margin:0 auto}
+.result h2{font-size:clamp(24px,3.4vw,34px);margin:6px 0 18px}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-bottom:18px}
+.result-grid div{background:var(--surface);padding:12px 14px}
+.result-grid b{font-family:var(--mono);font-size:24px;font-weight:400;display:block;line-height:1.1}
+.result-grid .hi{background:var(--surface-3)}
+.result-grid .hi b{color:var(--accent)}
+.result-grid small{color:var(--dim);font-size:11px}
+.verdict{border:1px solid var(--line);background:var(--bg-2);padding:14px 16px;font-size:13.5px;
+  color:var(--muted);margin-bottom:18px}
+.verdict strong{color:var(--ink);font-weight:500}
+.result-actions{display:flex;flex-wrap:wrap;gap:8px}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
+  padding:9px 16px;font-size:12.5px;z-index:90;border-radius:2px;font-family:var(--mono);letter-spacing:.02em}
+
+/* guide */
+.prose{max-width:66ch;display:flex;flex-direction:column;gap:16px}
+.prose h2{font-size:20px;margin-top:14px}
+.prose h3{font-size:15px;font-family:var(--sans);font-weight:600;margin-top:6px}
+.prose p,.prose li{color:var(--muted);font-size:14px;line-height:1.65}
+.prose ul{display:flex;flex-direction:column;gap:7px;padding-left:0}
+.prose li{padding-left:16px;position:relative}
+.prose li::before{content:"—";position:absolute;left:0;color:var(--dim)}
+.prose code{font-family:var(--mono);font-size:12.5px;background:var(--surface-2);padding:1px 5px;border-radius:2px;color:var(--ink)}
+.prose .note{border-left:2px solid var(--accent);padding:2px 0 2px 14px;color:var(--muted)}
+
+@media (max-width:980px){
+  .app{grid-template-columns:1fr}
+  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);flex-direction:row;
+    flex-wrap:wrap;align-items:center;gap:14px;padding:12px 16px}
+  .brand-sub{display:none}
+  .nav{flex-direction:row;overflow:auto;flex:1;min-width:0}
+  .nav-item{white-space:nowrap;padding:8px 10px;min-height:36px}
+  .rail-foot{margin:0;flex-direction:row;align-items:center;gap:10px;border:0;padding:0}
+  .dial{display:none}
+  main{padding:20px 16px 70px}
+  .grid-main{grid-template-columns:1fr}
+  .statusbar{grid-template-columns:1fr 1fr}
+  .stage-host{padding:18px 14px}
+  .read-text{font-size:calc(17px * var(--tscale))}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important}
+}
+</style>
+<script src="textes.js"></script>
+</head>
+<body>
+<div class="app">
+  <aside class="rail">
+    <div class="brand">
+      <div class="brand-mark">LE</div>
+      <div>
+        <div class="brand-name">Lecture éclair</div>
+        <div class="brand-sub">parcours progressif</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav">
+      <button class="nav-item is-active" data-view="dash"><span class="nav-i mono">01</span>Parcours</button>
+      <button class="nav-item" data-view="progress"><span class="nav-i mono">02</span>Mesures</button>
+      <button class="nav-item" data-view="guide"><span class="nav-i mono">03</span>Méthode</button>
+    </nav>
+    <div class="rail-foot">
+      <div class="dial">
+        <div class="dial-row"><span class="eyebrow">Vitesse cible</span><span class="mono dial-num" id="railWpm">180</span></div>
+        <input id="railRange" type="range" min="120" max="1000" step="10" aria-label="Vitesse cible en mots par minute">
+        <div class="dial-row small"><span id="railEtape">Étape 1</span><span id="railComp"></span></div>
+      </div>
+      <div class="rail-toggles">
+        <button class="chip" id="themeBtn" title="Basculer encre / papier">INVERSER</button>
+        <button class="chip" id="sizeBtn" title="Taille du texte de lecture">TEXTE</button>
+        <button class="chip" id="orpBtn" title="Point d'ancrage optimal">ORP</button>
+      </div>
+    </div>
+  </aside>
+  <main>
+    <section id="view-dash"></section>
+    <section id="view-progress" hidden></section>
+    <section id="view-guide" hidden></section>
+  </main>
+</div>
+
+<div class="stage" id="stage" hidden>
+  <div class="stage-bar">
+    <button class="btn ghost" id="stageExit">✕ Quitter</button>
+    <div class="stage-title" id="stageTitle"></div>
+    <div class="stage-title mono" id="stageMeta"></div>
+  </div>
+  <div class="stage-host" id="stageHost"></div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* =========================================================
+   0. CONTENU
+   ========================================================= */
+const TEXTE_SECOURS = [
+  {
+    id:'draisienne', titre:'La machine à courir', niveau:1,
+    corps:`En 1817, un Allemand nommé Karl Drais présente une machine étonnante : deux roues alignées, un cadre en bois, et aucune pédale. Pour avancer, il faut pousser le sol avec ses pieds, comme on marche. Le public appelle l'engin « draisienne », ou parfois « machine à courir ». Les Parisiens s'en amusent un été, puis l'oublient. Il faut attendre les années 1860 pour que des pédales apparaissent, fixées directement sur la roue avant. Le cycliste tourne alors les jambes en même temps que la roue : c'est épuisant, mais on va plus vite qu'à pied. Le grand-bi, avec sa roue avant démesurée, devient la star des années 1870. Puis la chaîne change tout : elle permet de placer les deux roues à la même taille et de transmettre l'effort sans secousses.`,
+    q:[
+      {q:"Qui présente la machine en 1817 ?", o:["Karl Drais","John Kemp Starley","Louis Braille"], r:0, e:"Le texte l'attribue à Karl Drais, un Allemand."},
+      {q:"Comment avançait-on sur une draisienne ?", o:["En pédalant sur la roue avant","En poussant le sol avec les pieds","En tirant sur des cordes"], r:1, e:"Aucune pédale : la poussée vient du sol."},
+      {q:"Combien de temps les Parisiens s'en amusent-ils ?", o:["Un été","Dix ans","Un hiver"], r:0, e:"Le texte dit : « un été, puis l'oublient »."},
+      {q:"Quel élément technique rend les deux roues égales possibles ?", o:["La chaîne","Le cadre en bois","Le grand-bi"], r:0, e:"La chaîne transmet l'effort sans imposer une grande roue motrice."}
+    ]
+  },
+  {
+    id:'braille', titre:'Six points', niveau:1,
+    corps:`Louis Braille perd la vue à trois ans, après un accident dans l'atelier de son père. À dix ans, il entre à l'Institut des jeunes aveugles de Paris, où les livres sont énormes : des lettres en relief, lourdes, lentes à parcourir des doigts. Un officier lui fait découvrir un code militaire fait de points en relief, pensé pour lire la nuit sans lumière. Louis en retient l'idée et la simplifie. À quinze ans, il met au point son système : six points disposés en rectangle, comme les cases d'un domino. Avec six points, on peut former soixante-trois signes, assez pour l'alphabet, les chiffres, la ponctuation et même la musique. Le code est publié en 1829. Les élèves l'adoptent tout de suite ; l'administration, elle, mettra des décennies à l'accepter.`,
+    q:[
+      {q:"À quel âge Louis Braille met-il au point son système ?", o:["Trois ans","Dix ans","Quinze ans"], r:2, e:"Il a quinze ans lorsqu'il fixe les six points."},
+      {q:"Combien de points composent une cellule braille ?", o:["Six","Neuf","Douze"], r:0, e:"Six points, disposés en rectangle."},
+      {q:"Quel code inspire Louis Braille ?", o:["Un code militaire lu la nuit","Un alphabet grec","Un système de musique"], r:0, e:"Un code militaire en points, lisible sans lumière."},
+      {q:"Qui adopte le code immédiatement ?", o:["L'administration","Les élèves","L'armée"], r:1, e:"Les élèves l'adoptent ; l'administration traîne des décennies."}
+    ]
+  },
+  {
+    id:'pieuvre', titre:'Trois cœurs', niveau:2,
+    corps:`Une pieuvre n'a pas un cœur, mais trois. Deux envoient le sang vers les branchies, où il s'oxygène ; le troisième alimente le reste du corps. Son sang est bleu, non par poésie mais par chimie : là où le nôtre utilise du fer, le sien utilise du cuivre, ce qui fonctionne mieux dans une eau froide et pauvre en oxygène. Autre étrangeté : les neurones de la pieuvre ne sont pas tous dans sa tête. Deux tiers environ logent dans ses bras, qui peuvent donc décider localement d'explorer une fissure sans attendre l'ordre du cerveau central. Pour changer de couleur, elle ne teint pas sa peau : elle étire ou contracte de minuscules sacs de pigment, les chromatophores, comme on ouvre et ferme des volets. Le résultat est presque immédiat.`,
+    q:[
+      {q:"À quoi servent les deux cœurs branchiaux ?", o:["Alimenter les bras","Envoyer le sang vers les branchies","Chauffer le corps"], r:1, e:"Ils poussent le sang vers les branchies pour l'oxygéner."},
+      {q:"Pourquoi le sang d'une pieuvre est-il bleu ?", o:["À cause du cuivre","À cause du froid","À cause des pigments de la peau"], r:0, e:"Le cuivre remplace le fer : le sang devient bleu."},
+      {q:"Où se trouvent la majorité des neurones ?", o:["Dans la tête","Dans les bras","Dans les branchies"], r:1, e:"Environ deux tiers sont dans les bras."},
+      {q:"Comment la pieuvre change-t-elle de couleur ?", o:["En teignant sa peau","En étirant des sacs de pigment","En produisant de la lumière"], r:1, e:"Les chromatophores s'ouvrent et se ferment comme des volets."}
+    ]
+  },
+  {
+    id:'metre', titre:'La longueur d\'un méridien', niveau:2,
+    corps:`Le mètre n'est pas né d'un caprice. À la fin du XVIIIe siècle, chaque province française avait ses unités : ici une aune, là une toise, ailleurs un pied qui ne mesurait pas le pied du voisin. Un marchand ne pouvait pas comparer deux prix sans table de conversion. En 1791, l'Académie des sciences propose une unité tirée de la nature elle-même : la dix-millionième partie de la distance entre le pôle Nord et l'équateur. Deux astronomes partent alors mesurer un arc de méridien entre Dunkerque et Barcelone — un travail de sept ans, sous la Révolution, avec des instruments fragiles et des routes incertaines. Le mètre-étalon en platine est déposé en 1799. En 1983, on change de référence : le mètre devient la distance parcourue par la lumière en un temps donné. On ne mesure plus un objet, on mesure une vitesse.`,
+    q:[
+      {q:"Quel problème le mètre devait-il résoudre ?", o:["Le manque d'instruments","La multiplicité des unités locales","Le coût du transport"], r:1, e:"Chaque province avait ses propres unités."},
+      {q:"Sur quoi repose la première définition ?", o:["Le trajet de la lumière","Un arc du méridien terrestre","Le poids d'un litre d'eau"], r:1, e:"La dix-millionième partie du quart du méridien."},
+      {q:"Quand le mètre-étalon est-il déposé ?", o:["1791","1799","1983"], r:1, e:"Le platine est déposé en 1799."},
+      {q:"Quelle est la référence depuis 1983 ?", o:["La lumière","Le platine","Le méridien"], r:0, e:"Le mètre se définit par la distance parcourue par la lumière."}
+    ]
+  },
+  {
+    id:'sommeil', titre:'La nuit trie', niveau:3,
+    corps:`Apprendre ne s'arrête pas quand on ferme le livre. Pendant le sommeil, le cerveau rejoue une partie de ce qu'il vient de vivre, à une vitesse accélérée, dans les mêmes régions qui se sont activées le jour. Ce phénomène, observé d'abord chez l'animal, a été retrouvé chez l'humain : les zones mobilisées par une tâche se rallument la nuit. Les nuits de sommeil profond semblent favoriser la consolidation des faits ; le sommeil paradoxal, celui des rêves, interviendrait plutôt dans les apprentissages moteurs et les liens entre idées. Les expériences le montrent de façon brutale : un groupe qui apprend une liste puis dort normalement la restitue mieux, le lendemain, qu'un groupe équivalent privé de sommeil. Ce n'est pas seulement une question de fatigue : la privation empêche le tri. Le cerveau ne garde pas tout, il sélectionne, et cette sélection demande du temps — du temps sans vigilance.`,
+    q:[
+      {q:"Que fait le cerveau pendant le sommeil ?", o:["Il efface les souvenirs","Il rejoue une partie de ce qu'il a vécu","Il arrête toute activité"], r:1, e:"Il rejoue, à vitesse accélérée, l'activité du jour."},
+      {q:"Quel sommeil favoriserait les faits ?", o:["Le sommeil profond","Le sommeil paradoxal","La sieste courte"], r:0, e:"Le profond pour les faits, le paradoxal pour le moteur et les liens."},
+      {q:"Que fait le cerveau quand il « rejoue » la journée ?", o:["Il trie et sélectionne","Il efface tout","Il recommence l'apprentissage en entier"], r:0, e:"Il ne garde pas tout : il sélectionne."},
+      {q:"Pourquoi la privation de sommeil nuit-elle ?", o:["Elle fatigue les muscles","Elle empêche le tri des informations","Elle réduit l'attention du soir"], r:1, e:"Ce n'est pas qu'une question de fatigue."}
+    ]
+  },
+  {
+    id:'gutenberg', titre:"L'encre et le métal", niveau:3,
+    corps:`Avant Gutenberg, un livre est un objet de plusieurs mois de travail : un copiste recopie à la main, page après page, et une bible peut occuper un atelier entier pendant un an. L'idée de Gutenberg, à Mayence vers 1450, n'est pas l'imprimerie — les Chinois imprègnent du papier depuis des siècles — mais la combinaison de trois savoir-faire : des caractères mobiles en métal, une presse à vis empruntée aux vignerons, et une encre grasse qui adhère au métal. Chaque lettre est fondue séparément, puis rangée dans un casier : on compose, on imprime, on démonte, on recompose. Le premier grand ouvrage, la Bible dite à quarante-deux lignes, demande encore des années. Mais le coût d'un exemplaire supplémentaire s'effondre : une fois les pages composées, imprimer cent copies ne coûte presque rien de plus que d'en imprimer une. C'est cette arithmétique-là qui change la suite.`,
+    q:[
+      {q:"Quelle innovation est attribuée à Gutenberg ?", o:["L'invention du papier","La combinaison de caractères mobiles, presse et encre","La traduction de la Bible"], r:1, e:"Trois savoir-faire combinés, pas une invention isolée."},
+      {q:"D'où vient la presse à vis ?", o:["Des vignerons","Des Chinois","Des copistes"], r:0, e:"Elle est empruntée aux vignerons."},
+      {q:"Quel effet économique est décisif ?", o:["Chaque copie coûte plus cher","Le coût par copie supplémentaire s'effondre","Le papier devient rare"], r:1, e:"C'est cette arithmétique qui change la suite."},
+      {q:"Quel est le premier grand ouvrage cité ?", o:["La Bible à 42 lignes","Un atlas","Un dictionnaire"], r:0, e:"La Bible dite à quarante-deux lignes."}
+    ]
+  },
+  {
+    id:'feuille', titre:"L'atelier des feuilles", niveau:4,
+    corps:`Une feuille est un atelier chimique alimenté par la lumière. Dans ses cellules, des organites appelés chloroplastes contiennent de la chlorophylle, le pigment qui absorbe surtout le bleu et le rouge — et réfléchit le vert, ce qui explique la couleur que nous voyons. La plante capte le dioxyde de carbone par de petits pores, les stomates, et puise l'eau par ses racines. Avec l'énergie lumineuse, elle assemble ces briques en sucres, et rejette de l'oxygène. Ce dernier détail mérite qu'on s'y arrête : l'oxygène que nous respirons est un déchet de cette réaction. La plante ne le produit pas pour nous. Autre point souvent oublié : la photosynthèse ne fonctionne pas en continu. La nuit, la feuille respire comme nous, consomme de l'oxygène et libère du dioxyde de carbone ; mais le jour, le bilan penche très largement dans l'autre sens. À l'échelle de la planète, ce déséquilibre quotidien a façonné l'atmosphère.`,
+    q:[
+      {q:"Pourquoi une feuille paraît-elle verte ?", o:["Elle absorbe le vert","Elle réfléchit le vert","Elle produit du vert"], r:1, e:"La chlorophylle réfléchit le vert qu'elle absorbe peu."},
+      {q:"Par où entre le dioxyde de carbone ?", o:["Les racines","Les stomates","La chlorophylle"], r:1, e:"Les stomates sont de petits pores."},
+      {q:"Que représente l'oxygène produit ?", o:["Un aliment","Un déchet de la réaction","Un pigment"], r:1, e:"C'est un déchet — la plante ne le produit pas pour nous."},
+      {q:"Que fait la feuille la nuit ?", o:["Elle arrête toute réaction","Elle respire et consomme de l'oxygène","Elle stocke la lumière"], r:1, e:"La nuit, elle respire comme nous."}
+    ]
+  },
+  {
+    id:'ciel', titre:'Pourquoi le ciel', niveau:4,
+    corps:`Le ciel est bleu parce que l'air n'est pas vide. Les molécules de l'atmosphère diffusent la lumière du soleil dans toutes les directions, mais pas également selon la longueur d'onde : les courtes, celles du bleu et du violet, sont déviées beaucoup plus fortement que les grandes, celles du rouge. C'est la diffusion de Rayleigh. Notre œil étant plus sensible au bleu qu'au violet, et le soleil émettant davantage de bleu, le résultat penche vers le bleu. Ce phénomène explique aussi le soir : quand le soleil est bas, sa lumière traverse une épaisseur d'atmosphère bien plus grande. Les courtes longueurs d'onde ont été diffusées ailleurs en chemin ; il ne reste presque que les grandes. Le ciel devient rouge — et la lumière qui nous arrive est littéralement celle qui a le moins été déviée. Vu de la Lune, où il n'y a pas d'atmosphère, le ciel est noir même en plein jour.`,
+    q:[
+      {q:"Quel nom porte ce type de diffusion ?", o:["Diffusion de Rayleigh","Effet Doppler","Diffusion totale"], r:0, e:"La diffusion de Rayleigh dépend de la longueur d'onde."},
+      {q:"Quelles longueurs d'onde sont le plus déviées ?", o:["Les courtes","Les longues","Toutes autant"], r:0, e:"Bleu et violet, les courtes, sont les plus déviées."},
+      {q:"Pourquoi le ciel rougit-il le soir ?", o:["Le soleil change de couleur","La lumière traverse plus d'atmosphère","Les nuages filtrent le bleu"], r:1, e:"Le trajet est plus long, les courtes longueurs d'onde ont été diffusées."},
+      {q:"Pourquoi le ciel lunaire est-il noir ?", o:["Il n'y a pas d'atmosphère","Le soleil est plus faible","La Lune tourne vite"], r:0, e:"Sans atmosphère, pas de diffusion."}
+    ]
+  },
+  {
+    id:'multitache', titre:'Le prix du changement', niveau:5,
+    corps:`Le multitâche est une expression trompeuse : le cerveau ne fait pas deux choses à la fois quand les deux demandent de l'attention, il alterne. Chaque alternance a un prix, appelé coût de commutation. Ce prix est mesurable : dans une expérience classique, les participants trient des cartes selon une règle qui change par intermittence. Quand la règle est stable, les réponses sont rapides ; quand elle alterne, elles ralentissent nettement, même si la tâche reste simple. Ce qui se perd, ce n'est pas seulement du temps, c'est de la profondeur : on garde en mémoire une représentation incomplète de ce qu'on faisait avant d'être interrompu. Une notification ne coûte pas les quelques secondes de sa lecture, mais la reconstruction mentale qui suit. Certains travaux suggèrent qu'il faut plusieurs minutes pour retrouver le niveau d'engagement antérieur ; d'autres contestent l'ampleur du chiffre. Le mécanisme, lui, est solide : l'attention est un filtre étroit, pas un projecteur large.`,
+    q:[
+      {q:"Que signifie « coût de commutation » ?", o:["Le prix d'un ordinateur","Le ralentissement dû à l'alternance entre tâches","La fatigue visuelle"], r:1, e:"Chaque alternance a un prix mesurable."},
+      {q:"Qu'est-ce qui se perd en plus du temps ?", o:["De la mémoire vive","Une représentation incomplète de la tâche précédente","La motivation"], r:1, e:"La profondeur, pas seulement les secondes."},
+      {q:"Quel point est présenté comme contesté ?", o:["L'existence du mécanisme","L'ampleur du temps de reprise","La définition de l'attention"], r:1, e:"L'ampleur du chiffre est discutée, pas le mécanisme."},
+      {q:"Comment le texte définit-il l'attention ?", o:["Un projecteur large","Un filtre étroit","Un réservoir limité"], r:1, e:"« Un filtre étroit, pas un projecteur large »."}
+    ]
+  },
+  {
+    id:'horloge', titre:"L'horloge interne", niveau:5,
+    corps:`Nous ne mesurons pas le temps seulement avec des horloges : nous le portons. Dans le cerveau, une petite structure de l'hypothalamus, le noyau suprachiasmatique, tient le rôle de chef d'orchestre. Ses cellules produisent des protéines dont l'accumulation puis la dégradation suivent un cycle de près de vingt-quatre heures. Ce rythme, dit circadien, commande la température du corps, la pression artérielle, la sécrétion de mélatonine et la vigilance. Il n'est pas exactement calé sur la journée solaire : sans indication extérieure, un humain isolé dérive, ses journées s'allongent de quelques minutes. La lumière du matin, captée par des cellules de la rétine qui ne servent pas à voir, remet le système à l'heure chaque jour. D'où l'effet des écrans tardifs : une lumière riche en bleu, perçue le soir, retarde le signal de la nuit et décale l'ensemble. Le décalage n'est pas une impression, il se lit dans la courbe de température et dans l'heure d'endormissement.`,
+    q:[
+      {q:"Quelle structure joue le rôle d'horloge ?", o:["L'hypophyse","Le noyau suprachiasmatique","La rétine"], r:1, e:"Une petite structure de l'hypothalamus."},
+      {q:"Pourquoi le rythme dérive-t-il sans lumière ?", o:["Il n'est pas exactement de 24 heures","Il s'arrête","Il dépend de la température"], r:0, e:"Ses journées s'allongent de quelques minutes."},
+      {q:"Quelles cellules règlent l'horloge le matin ?", o:["Des cellules de la rétine qui ne servent pas à voir","Les cônes uniquement","Les cellules de la peau"], r:0, e:"La lumière du matin, captée par des cellules non visuelles."},
+      {q:"Pourquoi les écrans tardifs décalent-ils ?", o:["Ils éclairent trop","Leur lumière bleue retarde le signal de la nuit","Ils chauffent le visage"], r:1, e:"La lumière bleue perçue le soir retarde le signal."}
+    ]
+  }
+];
+
+const EMPAN = [
+  {w:["la","neige","couvre","les","toits","du","village"], s:[{i:1,a:["pluie","brume"]},{i:6,a:["hameau","port"]}]},
+  {w:["le","train","entre","en","gare","sans","bruit"], s:[{i:1,a:["bus","tram"]},{i:6,a:["retard","effort"]}]},
+  {w:["elle","range","les","livres","sur","l'étagère"], s:[{i:3,a:["cahiers","verres"]},{i:5,a:["armoire","table"]}]},
+  {w:["les","enfants","courent","vers","le","bassin"], s:[{i:1,a:["chiens","jardins"]},{i:5,a:["grille","kiosque"]}]},
+  {w:["un","vent","froid","descend","de","la","montagne"], s:[{i:2,a:["sec","léger"]},{i:6,a:["colline","forêt"]}]},
+  {w:["le","marché","ouvre","tôt","le","samedi"], s:[{i:1,a:["café","musée"]},{i:5,a:["dimanche","lundi"]}]},
+  {w:["la","lampe","éclaire","le","coin","du","bureau"], s:[{i:1,a:["bougie","lune"]},{i:6,a:["salon","couloir"]}]},
+  {w:["il","pose","la","lettre","près","de","la","fenêtre"], s:[{i:3,a:["tasse","clé"]},{i:7,a:["porte","cheminée"]}]},
+  {w:["le","chat","dort","sur","la","chaise"], s:[{i:1,a:["chien","livre"]},{i:5,a:["table","caisse"]}]},
+  {w:["des","oiseaux","traversent","le","ciel","gris"], s:[{i:1,a:["nuages","avions"]},{i:5,a:["bas","pâle"]}]},
+  {w:["la","cuisine","sent","le","pain","chaud"], s:[{i:4,a:["gâteau","café"]},{i:5,a:["frais","brûlé"]}]},
+  {w:["le","facteur","monte","l'escalier","quatre","à","quatre"], s:[{i:1,a:["voisin","garçon"]},{i:3,a:["couloir","perron"]}]},
+  {w:["une","horloge","sonne","dans","le","couloir","vide"], s:[{i:1,a:["cloche","radio"]},{i:6,a:["long","froid"]}]},
+  {w:["les","feuilles","tombent","sur","le","banc","mouillé"], s:[{i:1,a:["gouttes","graines"]},{i:6,a:["vert","cassé"]}]},
+  {w:["le","phare","balaie","la","mer","noire"], s:[{i:1,a:["projecteur","navire"]},{i:5,a:["calme","haute"]}]},
+  {w:["elle","écrit","son","nom","au","dos","du","carnet"], s:[{i:3,a:["âge","projet"]},{i:7,a:["billet","dossier"]}]}
+];
+
+/* Le parcours : 9 étapes, chacune avec sa cible, ses exercices, son critère de passage. */
+/* La bibliothèque vit dans textes.js (window.BIBLIO). Sans elle, l'app tourne
+   sur les textes de secours ci-dessus. */
+const TEXTS = (typeof BIBLIO!=='undefined' && Array.isArray(BIBLIO) && BIBLIO.length>=10)
+  ? BIBLIO.filter(t=>t&&t.corps&&Array.isArray(t.q)&&t.q.length)
+  : TEXTE_SECOURS;
+const BIBLIO_SRC = (TEXTS===TEXTE_SECOURS) ? 'secours' : 'textes.js';
+
+const ETAPES = [
+  {
+    id:1, nom:'Champ visuel', cible:180, niveau:1,
+    but:"Élargir la zone de prise d'information : repérer sans balayer la grille, chiffres puis lettres.",
+    blocks:[{k:'schulte',size:4},{k:'lettres',size:4,mode:'alpha'}],
+    crit:l=>{
+      const st=bestRecent(l,'schulte'), le=bestRecent(l,'lettres');
+      return {items:[
+        {label:"Grille de chiffres 4×4 en moins de 26 s", ok:st!=null&&st<=26, val:st!=null?st.toFixed(1)+' s':'—'},
+        {label:"Grille de lettres A → P en moins de 28 s", ok:le!=null&&le<=28, val:le!=null?le.toFixed(1)+' s':'—'}
+      ]};
+    }
+  },
+  {
+    id:2, nom:'Fixations guidées', cible:200, niveau:1,
+    but:"Poser le regard sur des points précis et le déplacer en saccades régulières, sans dériver.",
+    blocks:[{k:'saccades',rounds:3},{k:'guide',group:3}],
+    crit:l=>{
+      const sa=maxRecent(l,'saccades'), g=countRuns(l,{comp:.75,wpm:200});
+      return {items:[
+        {label:"Saccades : au moins 2 séquences justes sur 3", ok:sa!=null&&sa>=2, val:sa!=null?sa+'/3':'—'},
+        {label:"Un texte suivi à l'indicateur visuel, 3/4 compris", ok:g>=1, val:Math.min(g,1)+'/1'}
+      ]};
+    }
+  },
+  {
+    id:3, nom:'Rythme au métronome', cible:200, niveau:2,
+    but:"Caler les yeux sur un battement régulier, en sautant d'un point à l'autre de l'écran : la saccade se cale sur le temps au lieu de flotter.",
+    blocks:[{k:'metronome'}],
+    crit:l=>{
+      const r=countRuns(l,{comp:.75,wpm:200});
+      return {items:[
+        {label:"Une lecture au métronome à 200 mots/min, 3/4 compris", ok:r>=1, val:r+'/1'}
+      ]};
+    }
+  },
+  {
+    id:4, nom:'Flux continu', cible:220, niveau:2,
+    but:"Lire un texte continu derrière un curseur, sans revenir en arrière. Le curseur impose un flux ; il ne mesure pas les retours oculaires.",
+    blocks:[{k:'pacer'}],
+    crit:l=>{
+      const r=countRuns(l,{comp:.75,wpm:220});
+      return {items:[
+        {label:"Une lecture guidée à 220 mots/min avec 3/4 de compréhension", ok:r>=1, val:r+'/1'}
+      ]};
+    }
+  },
+  {
+    id:5, nom:'Empan large', cible:250, niveau:3,
+    but:"Prendre deux ou trois mots d'un seul regard, sans perdre le fil. C'est la prise de groupes qui rend la vocalisation inutile.",
+    blocks:[{k:'empan',n:8},{k:'rsvp',chunk:2}],
+    crit:l=>{
+      const sp=maxRecent(l,'empanBestSpan'), r=countRuns(l,{comp:.75,wpm:250});
+      return {items:[
+        {label:"Empan stable à 5 mots", ok:(sp!=null?sp:S.span)>=5, val:'empan '+(sp!=null?sp:S.span)+' mots'},
+        {label:"Flash en groupes de 2 mots à 250, avec 3/4 de compréhension", ok:r>=1, val:r+'/1'}
+      ]};
+    }
+  },
+  {
+    id:6, nom:'Voix intérieure', cible:250, niveau:3,
+    but:"Faire taire la bouche et l'oreille : lire en occupant volontairement la voix intérieure. Si la compréhension tient, la lecture est passée par les yeux. L'écart avec le contrôle est affiché à titre indicatif — il ne bloque pas l'étape.",
+    blocks:[{k:'suppression',wpm:250},{k:'ortho',n:20}],
+    crit:l=>{
+      const s=countRuns(l,{comp:.75,wpm:250});
+      const o=maxRecent(l,'orthoScore'), m=bestRecent(l,'orthoMedian');
+      return {items:[
+        {label:"Lecture sous boucle à 250 mots/min, 3/4 compris", ok:s>=1, val:Math.min(s,1)+'/1'},
+        {label:"Lettres muettes : 15 mots justes sur 20", ok:o!=null&&o>=15, val:(o||0)+'/20'},
+        {label:"… avec une médiane sous 1,1 s par mot", ok:m!=null&&m<=1100, val:m!=null?m+' ms':'—'}
+      ]};
+    }
+  },
+  {
+    id:7, nom:'Comprendre sous vitesse', cible:280, niveau:4,
+    but:"Tenir la vitesse sans lâcher le sens : c'est ici que se joue la vraie lecture rapide.",
+    blocks:[{k:'pacer'}],
+    crit:l=>{
+      const r=countRuns(l,{comp:.75,wpm:280});
+      return {items:[
+        {label:"Deux lectures guidées à 280 mots/min avec 3/4 de compréhension", ok:r>=2, val:Math.min(r,2)+'/2'}
+      ]};
+    }
+  },
+  {
+    id:8, nom:'Vitesse soutenue', cible:320, niveau:5,
+    but:"Enchaîner deux textes denses au même rythme, sans dégrader la saisie.",
+    blocks:[{k:'rsvp',chunk:2}],
+    crit:l=>{
+      const r=countRuns(l,{comp:.75,wpm:320});
+      return {items:[
+        {label:"Deux Flash à 320 mots/min avec 3/4 de compréhension", ok:r>=2, val:Math.min(r,2)+'/2'}
+      ]};
+    }
+  },
+  {
+    id:9, nom:'Lecture réelle', cible:340, niveau:5,
+    but:"Lire sans consigne de vitesse, puis restituer : c'est la seule mesure qui vaut transfert.",
+    blocks:[{k:'rappel'}],
+    crit:l=>{
+      const s=maxRecent(l,'recall');
+      const w=maxRecent(l,'recallWords');
+      return {items:[
+        {label:"Rappel libre : couverture des idées clés ≥ 50 %", ok:s!=null&&s>=.5, val:s!=null?Math.round(s*100)+' %':'—'},
+        {label:"Rappel réellement rédigé (25 mots minimum)", ok:w!=null&&w>=25, val:(w||0)+' mots'}
+      ]};
+    }
+  }
+];
+
+const EXOS = [
+  {id:'rsvp', fam:'Lecture', nom:'Flash RSVP', desc:"Les mots défilent un par un, ancrés sur un point fixe. À cette cadence, l'articulation interne ne peut plus suivre : c'est la vitesse qui empêche de « dire » les mots.", meta:'1–2 min'},
+  {id:'pacer', fam:'Lecture', nom:'Lecture guidée', desc:"Un curseur vertical balaie la ligne à vitesse constante et le texte lu disparaît complètement derrière lui. Aucun point de fixation, aucun retour, aucune relecture possible : c'est le flux seul.", meta:'2–3 min'},
+  {id:'metronome', fam:'Lecture', nom:'Lecture au métronome', desc:"Deux points de fixation, à gauche et à droite : les groupes de mots s'allument alternativement à l'un puis à l'autre, au rythme du battement. L'œil doit sauter franchement, sans dériver au milieu.", meta:'2 min'},
+  {id:'guide', fam:'Lecture', nom:'Indicateur visuel', desc:"Un point de fixation apparaît sous chaque groupe de trois mots. On fixe le point, le groupe se lit d'un coup, puis on saute au suivant.", meta:'2–3 min'},
+  {id:'rappel', fam:'Lecture', nom:'Lecture + rappel', desc:"Tu lis à ton rythme, puis tu écris ce que tu retiens. Score de couverture des idées clés.", meta:'3 min'},
+  {id:'examen', fam:'Lecture', nom:'Lecture + QCM complet', desc:"Un texte lu à ton rythme, puis toutes ses questions d'un coup — 15 à 20 selon le texte. C'est le test de compréhension complet, sans chronomètre.", meta:'5–7 min'},
+  {id:'schulte', fam:'Vision', nom:'Grille de chiffres', desc:"Nombres à cliquer dans l'ordre, le plus vite possible. Élargit le champ périphérique.", meta:'30 s'},
+  {id:'lettres', fam:'Vision', nom:'Grille de lettres', desc:"Même principe avec des lettres à retrouver dans l'ordre alphabétique — les formes se ressemblent, l'anticipation est plus difficile.", meta:'40 s'},
+  {id:'saccades', fam:'Vision', nom:'Saccades guidées', desc:"Des lettres apparaissent brièvement sur des ancres fixes. Tu dois restituer la séquence : on mesure la précision du saut et de la fixation.", meta:'1 min'},
+  {id:'peripherie', fam:'Vision', nom:'Vision périphérique', desc:"Fixation centrale imposée, une lettre flashée sur le côté puis masquée. Mesure ce que tu identifies hors du centre du regard, pas ce que tu devines.", meta:'1 min'},
+  {id:'empan', fam:'Vision', nom:'Empan visuel', desc:"Une phrase apparaît une fraction de seconde. Tu choisis celle que tu as vue : on mesure la largeur de ton regard.", meta:'1–2 min'},
+  {id:'empanV', fam:'Vision', nom:'Empan vertical', desc:"Une colonne de 4 à 7 mots, deux flèches au centre : on fixe le milieu et on lit la colonne d'un seul regard, du haut vers le bas.", meta:'1–2 min'},
+  {id:'suppression', fam:'Voix', nom:'Bouche fermée', desc:"Deux textes à la même cadence : d'abord un contrôle lu normalement, puis le même exercice en répétant mentalement « ta-ta-ta ». La boucle occupe la voix intérieure ; l'écart de compréhension entre les deux dit à quel point tu dépends d'elle.", meta:'3 min'},
+  {id:'ortho', fam:'Voix', nom:'Lettres muettes', desc:"Un mot s'affiche 1,5 s : a-t-il une lettre muette ? Au clavier (O / N ou 1 / 2), impossible de répondre en l'entendant, il faut voir l'orthographe. Mesure l'accès direct à la forme écrite.", meta:'1 min'}
+];
+
+const LEVELS = [
+  {wpm:0, nom:'Découverte'},{wpm:200, nom:'Apprenti'},{wpm:250, nom:'Lecteur'},
+  {wpm:300, nom:'Rapide'},{wpm:360, nom:'Véloce'},{wpm:430, nom:'Éclair'},{wpm:520, nom:'Vision'},
+  {wpm:650, nom:'Fusée'},{wpm:800, nom:'Hyper'},{wpm:1000, nom:'Limite'}
+];
+const WPM_MAX=1000;
+// mots par affichage : suit le palier de vitesse (1 → 8), la préférence de l'utilisateur ne peut que monter
+function chunkForLevel(){
+  const i=levelIdx();
+  return i>=9?8 : i>=8?6 : i>=7?5 : i>=6?4 : i>=5?3 : i>=3?2 : 1;
+}
+
+/* =========================================================
+   1. OUTILS
+   ========================================================= */
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const words = t => t.trim().split(/\s+/).filter(Boolean);
+const wc = t => words(t).length;
+// tokens de lecture : une ponctuation isolée ( « , : — » ) ne compte pas comme un mot
+const readTokens = t => {
+  const out=[];
+  for(const w of words(t)){
+    if(/[0-9A-Za-zÀ-ÿ]/.test(w)) out.push(w);
+    else if(out.length) out[out.length-1]+=' '+w;
+    else out.push(w);
+  }
+  return out;
+};
+const rnd = (a,b)=>a+Math.random()*(b-a);
+const mmss = ms => { const s=Math.round(ms/1000); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); };
+const dayKey = d => { const x=new Date(d||Date.now()); return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'); };
+const minOf = (l,field)=>{ const v=l.map(x=>x[field]).filter(x=>typeof x==='number'&&!isNaN(x)); return v.length?Math.min(...v):null; };
+const maxOf = (l,field)=>{ const v=l.map(x=>x[field]).filter(x=>typeof x==='number'&&!isNaN(x)); return v.length?Math.max(...v):null; };
+// « récent » : les critères ne doivent pas être validés par un vieux record
+const bestRecent = (l,field,n=2)=>{ const v=l.slice(-n).map(x=>x[field]).filter(x=>typeof x==='number'&&!isNaN(x)); return v.length?Math.min(...v):null; };
+const maxRecent  = (l,field,n=2)=>{ const v=l.slice(-n).map(x=>x[field]).filter(x=>typeof x==='number'&&!isNaN(x)); return v.length?Math.max(...v):null; };
+const countRuns = (l,{comp,wpm},tail=3)=>l.slice(-tail).filter(x=>(x.comp!=null&&x.comp>=comp)&&(x.wpm!=null&&x.wpm>=wpm)).length;
+
+/* =========================================================
+   2. ÉTAT
+   ========================================================= */
+const KEY='lectureEclair.v1';
+const PARCOURS_V=4;
+const DEFAULTS={wpm:180,chunk:1,orp:true,theme:'ink',size:1,span:4,history:[],logs:{},onboarded:false,
+  streak:{last:null,count:0},schulteBest:{},lastText:null,click:true,parcoursV:PARCOURS_V,
+  xp:0,combo:0,textUse:{},periphDur:220,mission:null,week:null,etapeFloor:null,voix:null,voixN:0,
+  spanV:4,
+  eyeMs:0,eyeAuto:true,eyeBreaks:null,eyeIdx:0,eyeSnooze:0};
+let S=load();
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    const p=raw?JSON.parse(raw):{};
+    p.parcoursV=p.parcoursV||1;
+    const fresh=p.parcoursV!==PARCOURS_V;
+    const st=Object.assign({},DEFAULTS,p,{
+      streak:Object.assign({},DEFAULTS.streak,p.streak||{}),
+      schulteBest:Object.assign({},DEFAULTS.schulteBest,p.schulteBest||{}),
+      logs:fresh?{}:Object.assign({},p.logs||{}),
+      history:Array.isArray(p.history)?p.history:[],
+      textUse:Object.assign({},p.textUse||{})
+    });
+    st.parcoursV=PARCOURS_V;
+    return st;
+  }catch(e){ return JSON.parse(JSON.stringify(DEFAULTS)); }
+}
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+
+const levelIdx = (w=S.wpm)=>{ let i=0; LEVELS.forEach((l,k)=>{ if(w>=l.wpm) i=k; }); return i; };
+// débutant = moins de 300 mots/min : grilles 4×4, retour vert permanent, pauses des yeux plus fréquentes
+const estDebutant = ()=>levelIdx()<3;
+const etapeLogs = id => S.logs[id]||[];
+function etapeValidated(e){ const l=etapeLogs(e.id); if(!l.length) return false; return !!e.crit(l).items.every(i=>i.ok); }
+function currentEtapeIdx(){ for(let i=0;i<ETAPES.length;i++){ if(!etapeValidated(ETAPES[i])) return i; } return ETAPES.length-1; }
+function parcoursDone(){ return ETAPES.every(e=>etapeValidated(e)); }
+
+/* =========================================================
+   3. STAGE / SÉQUENCEUR
+   ========================================================= */
+let runToken=0, cleanups=[], paused=false;
+const stageEl=$('#stage'), host=$('#stageHost');
+
+function begin(title,meta){
+  if(!stageEl.hidden) return null; // une séance est déjà en cours : on ignore le doublon
+  runToken++; cleanups=[]; paused=false;
+  stageEl.hidden=false; document.body.style.overflow='hidden';
+  $('#stageTitle').textContent=title||''; $('#stageMeta').textContent=meta||'';
+  host.className='stage-host'; host.innerHTML='';
+  return runToken;
+}
+function endStage(){
+  runToken++; cleanups.forEach(f=>{ try{f();}catch(e){} }); cleanups=[];
+  stageEl.hidden=true; document.body.style.overflow='';
+  renderAll();
+}
+const alive = tok => tok===runToken;
+function sleep(ms,tok){ return new Promise(res=>{ const id=setTimeout(()=>res(alive(tok)),ms); cleanups.push(()=>{clearTimeout(id);res(false);}); }); }
+function wait(ms,tok){
+  return new Promise(res=>{
+    let acc=0,last=performance.now(),done=false;
+    const finish=v=>{ if(done) return; done=true; clearInterval(id); res(v); };
+    const id=setInterval(()=>{
+      if(!alive(tok)) return finish(false);
+      const t=performance.now();
+      acc += paused?0:(t-last); last=t;
+      if(acc>=ms) finish(true);
+    },12);
+    cleanups.push(()=>finish(false));
+  });
+}
+function setHost(cls){ host.className='stage-host'+(cls?' '+cls:''); }
+function toast(msg,ms=1800){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,ms); }
+
+/* =========================================================
+   4. BLOCS D'EXERCICE
+   ========================================================= */
+function pickText(niveau,opts){
+  opts=opts||{};
+  const n=clamp(niveau||1,1,5);
+  let pool=TEXTS.filter(t=>(t.niveau||1)===n);
+  if(opts.maxWords) pool=pool.filter(t=>wc(t.corps)<=opts.maxWords);
+  if(opts.long){ const longs=pool.filter(t=>wc(t.corps)>=500); if(longs.length) pool=longs; }
+  if(!pool.length) pool=TEXTS.filter(t=>Math.abs((t.niveau||1)-n)<=1);
+  if(!pool.length) pool=TEXTS.slice();
+  S.textUse=S.textUse||{};
+  // rotation : jamais les six derniers textes vus, puis le moins lu, puis au hasard
+  const recent=(S.recentTexts||[]).slice(-6);
+  let cand=pool.filter(t=>!recent.includes(t.id));
+  if(!cand.length) cand=pool.slice();
+  const min=Math.min(...cand.map(t=>(S.textUse[t.id]||0)));
+  const pickPool=cand.filter(t=>(S.textUse[t.id]||0)===min);
+  const t=pickPool[Math.floor(Math.random()*pickPool.length)];
+  S.textUse[t.id]=(S.textUse[t.id]||0)+1;
+  S.recentTexts=(recent.concat([t.id])).slice(-8);
+  S.lastText=t.id; save(); return t;
+}
+// nombre de questions posées après une lecture chronométrée : la vitesse prime, on échantillonne
+const quizSize = t => clamp(3+(t.niveau||1),4,7);
+function sampleQuiz(text,n){
+  const all=(text&&text.q)||[];
+  n=Math.min(n||4,all.length);
+  if(all.length<=n) return all.slice();
+  const idx=shuffle(all.map((_,i)=>i)).slice(0,n).sort((a,b)=>a-b);
+  return idx.map(i=>all[i]);
+}
+const niveauCourant = ()=> (ETAPES[currentEtapeIdx()]||ETAPES[0]).niveau||1;
+
+async function blockCountdown(tok,label,from=3){
+  setHost();
+  host.innerHTML=`<div class="block" style="text-align:center">
+    <div class="cd-label">${esc(label||'Prêt')}</div>
+    <div class="countdown" id="cd">${from}</div>
+    <div class="hint" style="margin-top:16px">Espace pour mettre en pause · Échap pour quitter</div>
+  </div>`;
+  for(let n=from;n>0;n--){
+    const el=$('#cd'); if(el) el.textContent=n;
+    const ok=await sleep(650,tok); if(!ok) return false;
+  }
+  host.innerHTML='';
+  return true;
+}
+
+function orpSplit(word){
+  const n=word.length; let i = n<=1?0 : n<=5?1 : n<=9?2 : 3;
+  return [word.slice(0,i),word.charAt(i),word.slice(i+1)];
+}
+/* un groupe de mots doit tenir sur une seule ligne : s'il est trop large, on réduit le corps */
+function fitText(el){
+  if(!el) return;
+  el.style.fontSize='';
+  const parent=el.parentElement; if(!parent) return;
+  const avail=(parent.clientWidth||640)-12;
+  let size=parseFloat(getComputedStyle(el).fontSize)||28, guard=0;
+  while(el.scrollWidth>avail && size>14 && guard++<48){ size-=1.5; el.style.fontSize=size.toFixed(1)+'px'; }
+}
+
+function renderRsvpChunk(el,chunk){
+  if(chunk.includes(' ')||!S.orp){
+    el.innerHTML=`<span class="l">${esc(chunk)}</span>`;
+    fitText(el);
+    el.style.transform='translateX(0)';
+    return;
+  }
+  const [l,o,r]=orpSplit(chunk);
+  el.innerHTML=`<span class="l">${esc(l)}</span><span class="o">${esc(o)}</span><span class="r">${esc(r)}</span>`;
+  fitText(el);
+  const L=el.querySelector('.l'), O=el.querySelector('.o');
+  const lw=L.getBoundingClientRect().width, ow=O.getBoundingClientRect().width, ww=el.getBoundingClientRect().width;
+  el.style.transform='translateX('+((ww/2)-(lw+ow/2))+'px)';
+}
+
+async function blockRsvp(tok,text,wpm,chunk){
+  setHost();
+  const ws=readTokens(text.corps);
+  const chunks=[];
+  for(let i=0;i<ws.length;i+=chunk) chunks.push(ws.slice(i,i+chunk).join(' '));
+  host.innerHTML=`<div class="block" style="max-width:900px">
+    <div class="block-head" style="text-align:left">
+      <span class="eyebrow">Flash · ${esc(text.titre)}</span>
+      <h2>${wpm} mots/min</h2>
+      <p style="margin:0">${ws.length} mots · ${chunk>1?chunk+' mots par affichage':'un mot par affichage'} · aucun retour possible</p>
+    </div>
+    <div class="rsvp-zone"><div class="rsvp-word" id="rsvpWord"></div></div>
+    <div class="read-progress"><i id="readProg"></i></div>
+    <div class="read-foot"><span id="paceState">lecture</span><span>${wpm} mpm</span></div>
+  </div>`;
+  const el=$('#rsvpWord'), prog=$('#readProg'), st=$('#paceState');
+  const t0=performance.now();
+  for(let i=0;i<chunks.length;i++){
+    if(!alive(tok)) return null;
+    renderRsvpChunk(el,chunks[i]);
+    prog.style.width=((i+1)/chunks.length*100)+'%';
+    const ms=(words(chunks[i]).length/wpm)*60000;
+    if(!await wait(ms,tok)) return null;
+    if(paused&&st) st.textContent='pause';
+    else if(st) st.textContent='lecture';
+  }
+  return {seconds:(performance.now()-t0)/1000, words:ws.length};
+}
+
+async function blockPacer(tok,text,wpm){
+  setHost();
+  const ws=readTokens(text.corps);
+  host.innerHTML=`<div class="block" style="max-width:860px">
+    <div class="block-head" style="text-align:left">
+      <span class="eyebrow">Lecture guidée · ${esc(text.titre)}</span>
+      <h2>${wpm} mots/min</h2>
+      <p style="margin:0">Le curseur balaie la ligne à vitesse constante et le texte lu <em>disparaît</em> : ce qui est passé n'existe plus, impossible de revenir.</p>
+    </div>
+    <div class="pacer-wrap" id="pacerWrap">
+      <div class="read-text" id="pacerText">${ws.map((w,i)=>`<span class="pw" data-i="${i}">${esc(w)}</span>`).join(' ')}</div>
+      <i class="pacer-bar" id="pacerBar"></i>
+    </div>
+    <div class="read-foot"><span id="paceState">lecture</span><span>${wpm} mpm</span></div>
+  </div>`;
+  const wrap=$('#pacerWrap'), spans=$$('#pacerText .pw'), st=$('#paceState'), bar=$('#pacerBar');
+  const msPer=60000/wpm;
+  const t0=performance.now();
+  let acc=0,last=t0,idx=-1,done=false;
+  return new Promise(res=>{
+    const finish=v=>{ if(done) return; done=true; clearInterval(id); res(v); };
+    const id=setInterval(()=>{
+      if(!alive(tok)) return finish(null);
+      const t=performance.now();
+      acc += paused?0:(t-last); last=t;
+      const i=Math.min(spans.length-1,Math.floor(acc/msPer));
+      if(i!==idx){
+        // le mot lu s'efface, le curseur glisse jusqu'au suivant
+        if(spans[idx]) spans[idx].classList.add('gone');
+        const s=spans[i];
+        bar.style.width='2px';
+        bar.style.left=(s.offsetLeft-1)+'px';
+        bar.style.top=s.offsetTop+'px';
+        bar.style.height=s.offsetHeight+'px';
+        idx=i;
+        wrap.scrollTop = s.offsetTop - wrap.clientHeight/2;
+        if(st) st.textContent=paused?'pause':'lecture';
+      }
+      if(acc>=msPer*spans.length){ if(spans[idx]) spans[idx].classList.add('gone'); finish({seconds:(performance.now()-t0)/1000,words:spans.length}); }
+    },16);
+    cleanups.push(()=>finish(null));
+  });
+}
+
+let audioCtx=null;
+function tickSound(strong){
+  if(!S.click) return;
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return;
+    audioCtx=audioCtx||new AC();
+    if(audioCtx.state==='suspended') audioCtx.resume();
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type='square'; o.frequency.value=strong?1320:990;
+    const t=audioCtx.currentTime;
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.06,t+0.003);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.045);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(t); o.stop(t+0.06);
+  }catch(e){ /* audio indisponible : le battement visuel suffit */ }
+}
+
+async function blockMetronome(tok,text,wpm,wpBeat){
+  setHost();
+  const ws=readTokens(text.corps);
+  // taille du groupe : le même réglage que le Flash (mots par affichage), qui monte avec le palier de vitesse
+  const per=wpBeat||clamp(Math.max(S.chunk||1, chunkForLevel()),1,8);
+  const groups=[];
+  let cur=[];
+  for(const w of ws){
+    cur.push(w);
+    if(cur.length>=per){ groups.push(cur.join(' ')); cur=[]; }
+  }
+  if(cur.length) groups.push(cur.join(' '));
+  const bpm=clamp(Math.round(wpm/per),40,300);
+  const beatMs=60000/bpm;
+  host.innerHTML=`<div class="block" style="max-width:1000px">
+    <div class="block-head" style="text-align:left">
+      <span class="eyebrow">Métronome · ${esc(text.titre)}</span>
+      <h2 style="font-size:20px">${wpm} mots/min · ${bpm} battements/min</h2>
+      <p style="margin:0">Un battement = ${per>1?per+' mots':'un mot'}, et il change de côté à chaque fois : suis le point qui s'allume, de gauche à droite, sans revenir.</p>
+    </div>
+    <div class="ma" id="maStage">
+      <div class="ma-slot" id="maL"><b class="ma-dot"></b><span class="ma-word" id="maWordL"></span></div>
+      <div class="ma-slot" id="maR"><b class="ma-dot"></b><span class="ma-word" id="maWordR"></span></div>
+    </div>
+    <div class="read-foot"><span id="paceState">lecture</span><span class="mono" id="metroCount">0 / ${groups.length}</span><span>${wpm} mpm${S.click?' · son':' · muet'}</span></div>
+  </div>`;
+  const L=$('#maL'), R=$('#maR'), wl=$('#maWordL'), wr=$('#maWordR'), countEl=$('#metroCount'), st=$('#paceState');
+  return new Promise(res=>{
+    let i=0, done=false;
+    const t0=performance.now();
+    const finish=v=>{ if(done) return; done=true; clearInterval(id); res(v); };
+    const beat=()=>{
+      const left=(i%2===0);
+      const slot=left?L:R, wordEl=left?wl:wr, other=left?R:L;
+      other.classList.remove('on');
+      wordEl.textContent=groups[i]||'';
+      fitText(wordEl);
+      slot.classList.add('on');
+      countEl.textContent=(i+1)+' / '+groups.length;
+      tickSound(i%4===0);
+      if(st) st.textContent=paused?'pause':'lecture';
+    };
+    beat();
+    const id=setInterval(()=>{
+      if(!alive(tok)) return finish(null);
+      if(paused) return;
+      i++;
+      if(i>=groups.length) return finish({seconds:(performance.now()-t0)/1000,words:ws.length,bpm,wpBeat:per,anchors:true});
+      beat();
+    },beatMs);
+    cleanups.push(()=>finish(null));
+  });
+}
+
+async function blockGuide(tok,text,wpm,group=3){
+  setHost();
+  const ws=readTokens(text.corps);
+  const nGroups=Math.ceil(ws.length/group);
+  host.innerHTML=`<div class="block" style="max-width:900px">
+    <div class="block-head" style="text-align:left">
+      <span class="eyebrow">Indicateur visuel · ${esc(text.titre)}</span>
+      <h2 style="font-size:20px">${wpm} mots/min · un point de fixation tous les ${group} mots</h2>
+      <p style="margin:0">Le point sous le groupe indique où poser le regard : fixe-le, prends le groupe entier d'un seul coup, puis saute au point suivant.</p>
+    </div>
+    <div class="guide-wrap" id="guideWrap">
+      <div class="read-text guide-text" id="guideText">${(()=>{const gs=[];for(let i=0;i<ws.length;i+=group) gs.push(ws.slice(i,i+group));return gs.map(g=>`<span class="grp">${g.map(w=>`<span class="pw">${esc(w)}</span>`).join(' ')}</span>`).join(' ');})()}</div>
+      <b class="guide-dot" id="guideDot"></b>
+    </div>
+    <div class="read-foot"><span id="paceState">lecture</span><span class="mono" id="guideCount"></span></div>
+  </div>`;
+  const wrap=$('#guideWrap'), spans=$$('#guideText .pw'), dot=$('#guideDot');
+  const msPerGroup=(group/wpm)*60000;
+  const t0=performance.now();
+  let g=0, done=false;
+  return new Promise(res=>{
+    const finish=v=>{ if(done) return; done=true; clearInterval(id); res(v); };
+    const paint=()=>{
+      const from=g*group, to=Math.min(ws.length-1, from+group-1);
+      const first=spans[from], last=spans[to];
+      if(first&&last){
+        // point de fixation : centre du groupe, posé dans l'interligne sous les lettres (jamais sur les lettres)
+        const x0=first.offsetLeft, x1=last.offsetLeft+last.offsetWidth;
+        const glyphH=first.getBoundingClientRect().height||parseFloat(getComputedStyle(first).fontSize)||19;
+        const glyphBottom=first.offsetTop+(first.offsetHeight+glyphH)/2;   // bas des lettres, en coordonnées de contenu
+        dot.style.left=((x0+x1)/2)+'px'; dot.style.top=(glyphBottom+3.5)+'px';
+        wrap.scrollTop=Math.max(0, first.offsetTop-wrap.clientHeight*0.42);
+      }
+      for(let k=0;k<spans.length;k++){
+        const s=spans[k]; if(!s) continue;
+        s.classList.toggle('seen', k<=to);
+        s.classList.toggle('fix', k>=from&&k<=to);
+      }
+      const c=$('#guideCount'); if(c) c.textContent=(g+1)+' / '+nGroups;
+      const st=$('#paceState'); if(st) st.textContent=paused?'pause':'lecture';
+    };
+    paint();
+    const id=setInterval(()=>{
+      if(!alive(tok)) return finish(null);
+      if(paused) return;
+      g++;
+      if(g>=nGroups) return finish({seconds:(performance.now()-t0)/1000,words:ws.length,group});
+      paint();
+    },msPerGroup);
+    cleanups.push(()=>finish(null));
+  });
+}
+
+const SAC_LETTERS='BDGKMNPRSTVXZ';
+async function blockSaccades(tok,rounds=3){
+  const ANCH=[{x:16,y:50},{x:50,y:20},{x:84,y:50},{x:50,y:80}];
+  const per=6, dur=380, gap=140;
+  let correct=0;
+  for(let r=0;r<rounds;r++){
+    const seq=[]; let prev=-1, prevCh='';
+    for(let i=0;i<per;i++){
+      let a; do{ a=Math.floor(Math.random()*ANCH.length); } while(a===prev);
+      prev=a;
+      let ch; do{ ch=SAC_LETTERS[Math.floor(Math.random()*SAC_LETTERS.length)]; } while(ch===prevCh);
+      prevCh=ch;
+      seq.push({a, ch});
+    }
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:680px">
+      <div class="block-head" style="text-align:left">
+        <span class="eyebrow">Saccades · manche ${r+1} / ${rounds}</span>
+        <h2 style="font-size:19px">Garde le regard sur les repères</h2>
+        <p style="margin:0">${per} lettres, ${dur} ms chacune, sur quatre ancres fixes. Tu devras restituer la séquence : ne balaie pas la zone, saute d'ancre en ancre.</p>
+      </div>
+      <div class="sacc" id="sacc">
+        ${ANCH.map(a=>`<i class="sacc-anchor" style="left:${a.x}%;top:${a.y}%"></i>`).join('')}
+        <b class="sacc-letter" id="saccLetter"></b>
+      </div>
+      <div class="read-foot"><span>manche ${r+1} / ${rounds}</span><span class="mono">${correct} juste${correct>1?'s':''}</span></div>
+    </div>`;
+    const letter=$('#saccLetter');
+    if(!await sleep(700,tok)) return null;
+    for(const s of seq){
+      if(!alive(tok)) return null;
+      const A=ANCH[s.a];
+      letter.style.left=A.x+'%'; letter.style.top=A.y+'%';
+      letter.textContent=s.ch; letter.classList.add('on');
+      if(!await sleep(dur,tok)) return null;
+      letter.classList.remove('on');
+      if(!await sleep(gap,tok)) return null;
+    }
+    const truth=seq.map(s=>s.ch).join(' ');
+    const v1=[...seq.map(s=>s.ch)]; [v1[1],v1[4]]=[v1[4],v1[1]];
+    const v2=[...seq.map(s=>s.ch)];
+    v2[2]=SAC_LETTERS.replace(v2[2],'')[Math.floor(Math.random()*(SAC_LETTERS.length-1))]||v2[2];
+    const opts=shuffle([truth,v1.join(' '),v2.join(' ')]);
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:680px">
+      <div class="block-head" style="text-align:left">
+        <span class="eyebrow">Saccades · manche ${r+1} / ${rounds}</span>
+        <h2 style="font-size:19px">Quelle séquence as-tu vue ?</h2>
+      </div>
+      <div class="empan-opts">
+        ${opts.map((o,k)=>`<button class="opt" data-p="${esc(o)}"><span class="ok-k mono">${k+1}</span><span class="mono" style="font-size:16px;letter-spacing:.18em">${esc(o)}</span></button>`).join('')}
+      </div>
+      <div id="saccFb"></div>
+    </div>`;
+    const picked=await new Promise(resolve=>{
+      const onClick=e=>{ const b=e.target.closest('[data-p]'); if(!b) return; resolve(b.dataset.p); };
+      const onKey=e=>{ const k=+e.key; if(k>=1&&k<=opts.length){ const b=host.querySelectorAll('.opt')[k-1]; if(b) b.click(); } };
+      host.addEventListener('click',onClick); document.addEventListener('keydown',onKey);
+      cleanups.push(()=>{ host.removeEventListener('click',onClick); document.removeEventListener('keydown',onKey); });
+    });
+    if(!alive(tok)) return null;
+    const good=picked===truth;
+    if(good) correct++;
+    $$('.opt',host).forEach(b=>{ b.classList.add(b.dataset.p===truth?'good':(b.dataset.p===picked?'bad':'dim')); });
+    const fb=$('#saccFb');
+    if(fb) fb.innerHTML=`<div class="quiz-fb"><b>${good?'Juste.':'Raté.'}</b> Séquence : <span class="mono">${esc(truth)}</span></div>`;
+    if(!await sleep(1100,tok)) return null;
+  }
+  return {correct,total:rounds,acc:correct/rounds};
+}
+
+/* identification en vision périphérique : fixation centrale imposée, cible brève, masque rétroactif */
+async function blockPeriph(tok,rounds=8){
+  const NEAR=[{x:37,y:35},{x:63,y:35},{x:63,y:65},{x:37,y:65}];
+  const FAR=[{x:12,y:50},{x:88,y:50},{x:50,y:12},{x:50,y:88}];
+  const L='BDGKMNPRSTVXZ';
+  S.periphDur=clamp(S.periphDur||220,80,320);
+  const dur=S.periphDur;
+  setHost();
+  host.innerHTML=`<div class="block" style="max-width:780px">
+    <div class="block-head" style="text-align:left">
+      <span class="eyebrow">Vision périphérique · ${rounds} essais</span>
+      <h2 style="font-size:19px">Regarde le point central, ne le quitte pas</h2>
+      <p style="margin:0">Une lettre apparaît sur le côté pendant <b>${dur} ms</b>, puis l'écran est masqué. Si tu bouges les yeux pour la chercher, l'exercice ne mesure plus rien : identifie-la du coin de l'œil.</p>
+    </div>
+    <div class="periph" id="periph">
+      <div class="periph-center">+</div>
+      <b class="periph-target" id="periphTarget"></b>
+      <div class="periph-mask" id="periphMask"></div>
+    </div>
+    <div id="periphOpts" class="quiz-opts" style="margin-top:14px"></div>
+    <div class="read-foot"><span id="periphState">fixation</span><span class="mono" id="periphScore">0 / ${rounds}</span></div>
+  </div>`;
+  const tgt=$('#periphTarget'), mask=$('#periphMask'), opts=$('#periphOpts'), scoreEl=$('#periphScore'), stateEl=$('#periphState');
+  let correct=0;
+  const bucket={near:[0,0],far:[0,0]};
+  for(let i=0;i<rounds;i++){
+    if(!alive(tok)) return null;
+    const far=(i%2===1);
+    const ring=far?FAR:NEAR;
+    const A=ring[Math.floor(Math.random()*ring.length)];
+    const ch=L[Math.floor(Math.random()*L.length)];
+    const options=shuffle([ch].concat(shuffle(L.split('').filter(c=>c!==ch)).slice(0,3)));
+    opts.innerHTML='';
+    mask.classList.remove('on');
+    stateEl.textContent='fixation';
+    tgt.style.left=A.x+'%'; tgt.style.top=A.y+'%'; tgt.textContent=ch;
+    if(!await sleep(380,tok)) return null;
+    tgt.classList.add('on');
+    if(!await sleep(dur,tok)) return null;
+    tgt.classList.remove('on'); mask.classList.add('on');
+    stateEl.textContent='masqué';
+    if(!await sleep(200,tok)) return null;
+    opts.innerHTML=options.map((c,k)=>`<button class="opt" data-p="${c}"><span class="ok-k mono">${k+1}</span><span class="mono" style="font-size:15px;letter-spacing:.16em">${c}</span></button>`).join('');
+    stateEl.textContent='quelle lettre ?';
+    const picked=await new Promise(resolve=>{
+      const onClick=e=>{ const b=e.target.closest('[data-p]'); if(!b) return; resolve(b.dataset.p); };
+      const onKey=e=>{ const k=+e.key; if(k>=1&&k<=4){ const b=$$('.opt',opts)[k-1]; if(b) b.click(); } };
+      opts.addEventListener('click',onClick); document.addEventListener('keydown',onKey);
+      cleanups.push(()=>{ opts.removeEventListener('click',onClick); document.removeEventListener('keydown',onKey); });
+    });
+    if(!alive(tok)) return null;
+    const good=picked===ch;
+    if(good) correct++;
+    bucket[far?'far':'near'][0]+=good?1:0;
+    bucket[far?'far':'near'][1]+=1;
+    $$('.opt',opts).forEach(b=>b.classList.add(b.dataset.p===ch?'good':(b.dataset.p===picked?'bad':'dim')));
+    scoreEl.textContent=correct+' / '+(i+1);
+    if(!await sleep(500,tok)) return null;
+  }
+  const acc=correct/rounds;
+  S.periphDur=clamp(Math.round(acc>=.85?dur-15:acc<=.5?dur+15:dur),80,320);
+  save();
+  return {correct,total:rounds,acc,dur,near:bucket.near,far:bucket.far};
+}
+
+/* ---------- voix intérieure : suppression articulatoire + accès orthographique ---------- */
+const ORTHO_SILENT=['tabac','doigt','poids','loup','trop','bord','nid','froid','grand','vingt','temps','corps','banc','blanc','porc','fusil','outil','gentil','galop','sirop','pot','lit','rat','chat','artichaut','escroc','accroc','noix','choix','toux','paix','voix','deux','mieux','yeux','chevaux','oiseaux','animaux','bras'];
+// mots dont aucune lettre ne se prononce en moins : pas de consonne finale muette, pas de -e final, pas de h muet
+const ORTHO_PLAIN=['papa','midi','vélo','café','radio','moto','stylo','photo','sac','mur','fil','col','sel','bol','jour','tour','dur','ami','défi','zéro','taxi','menu','pneu','lac','pic','truc','four','opéra','solo','abri','bikini'];
+
+async function blockOrtho(tok,n=20){
+  const silent=shuffle(ORTHO_SILENT).slice(0,Math.round(n/2));
+  const plain=shuffle(ORTHO_PLAIN).slice(0,n-silent.length);
+  const items=shuffle(silent.map(w=>({w,silent:true})).concat(plain.map(w=>({w,silent:false}))));
+  setHost();
+  host.innerHTML=`<div class="block" style="max-width:640px">
+    <div class="block-head" style="text-align:center">
+      <span class="eyebrow">Orthographe · ${items.length} mots</span>
+      <h2 style="font-size:20px">Ce mot a-t-il une lettre muette ?</h2>
+      <p style="margin:0">Réponds au clavier : <b>O</b> pour « lettre muette », <b>N</b> pour « aucune » (ou <b>1</b>/<b>2</b>, ou <b>←</b>/<b>→</b>). Tu n'as pas le temps de l'entendre dans ta tête, c'est le but.</p>
+    </div>
+    <div class="ortho-stage"><b class="ortho-word" id="orthoWord"></b></div>
+    <div class="quiz-opts" style="display:flex;gap:10px;justify-content:center">
+      <button class="opt" data-o="1" style="flex:1"><span class="ok-k mono">O</span><span>lettre muette</span></button>
+      <button class="opt" data-o="0" style="flex:1"><span class="ok-k mono">N</span><span>aucune</span></button>
+    </div>
+    <div class="read-foot"><span id="orthoState">prêt</span><span class="mono" id="orthoScore">0 / ${items.length}</span></div>
+  </div>`;
+  const wordEl=$('#orthoWord'), scoreEl=$('#orthoScore'), stateEl=$('#orthoState');
+  const PER=1500;
+  let correct=0, timeouts=0; const lat=[], latGood=[];
+  for(let i=0;i<items.length;i++){
+    if(!alive(tok)) return null;
+    const it=items[i];
+    wordEl.textContent=it.w;
+    stateEl.textContent='oui ou non';
+    const t0=performance.now();
+    let picked=null;
+    const pickedP=new Promise(resolve=>{
+      let settled=false;
+      const done=v=>{ if(settled) return; settled=true; host.removeEventListener('click',onClick); document.removeEventListener('keydown',onKey); resolve(v); };
+      const onClick=e=>{ const b=e.target.closest('[data-o]'); if(b) done(b.dataset.o==='1'); };
+      // O / N, 1 / 2, flèches gauche / droite : le choix ne demande plus de viser à la souris
+      const onKey=e=>{
+        if(e.repeat) return;
+        const k=(e.key||'').toLowerCase();
+        if(k==='o'||k==='1'||e.key==='ArrowLeft'){ e.preventDefault(); done(true); }
+        else if(k==='n'||k==='2'||e.key==='ArrowRight'){ e.preventDefault(); done(false); }
+      };
+      host.addEventListener('click',onClick); document.addEventListener('keydown',onKey);
+      cleanups.push(()=>{ host.removeEventListener('click',onClick); document.removeEventListener('keydown',onKey); });
+    });
+    const timed=new Promise(resolve=>{ const id=setTimeout(()=>resolve('timeout'),PER); cleanups.push(()=>{ clearTimeout(id); resolve('timeout'); }); });
+    picked=await Promise.race([pickedP,timed]);
+    if(!alive(tok)) return null;
+    if(picked==='timeout'){ stateEl.textContent='trop tard'; timeouts++; lat.push(PER); }
+    else {
+      const dt=performance.now()-t0;
+      lat.push(dt);
+      const good=picked===it.silent;
+      if(good){ correct++; latGood.push(dt); }
+      wordEl.classList.add(good?'good':'bad');
+      setTimeout(()=>wordEl.classList.remove('good','bad'),260);
+    }
+    scoreEl.textContent=correct+' / '+(i+1);
+    if(!await sleep(picked==='timeout'?260:180,tok)) return null;
+  }
+  const med=a=>{ if(!a.length) return null; const s=a.slice().sort((x,y)=>x-y); return Math.round(s[Math.floor(s.length/2)]); };
+  return {correct,total:items.length,comp:correct/items.length,median:med(latGood),medianAll:med(lat),timeouts};
+}
+
+async function blockSuppression(tok,text,wpm,chunk=1,loop=true){
+  setHost();
+  const ws=readTokens(text.corps);
+  const groups=[];
+  for(let i=0;i<ws.length;i+=chunk) groups.push(ws.slice(i,i+chunk).join(' '));
+  const bpm=240, tickMs=60000/bpm, wordMs=60000/wpm;
+  host.innerHTML=`<div class="block" style="max-width:860px">
+    <div class="block-head" style="text-align:left">
+      <span class="eyebrow">${loop?'Bouche fermée · avec boucle':'Contrôle · sans boucle'} · ${esc(text.titre)}</span>
+      <h2 style="font-size:20px">${loop?'Répète mentalement « ta-ta-ta », sans bouger les lèvres':'Lis normalement, au même rythme'}</h2>
+      <p style="margin:0">${loop?'Cette boucle occupe la voix intérieure : si tu continues à comprendre, c\'est que tu lis par les yeux. Garde le rythme du repère sonore jusqu\'au bout.':'Même cadence, même longueur : c\'est la référence de comparaison. Lis comme tu lis d\'habitude, avec ou sans voix intérieure.'}</p>
+    </div>
+    <div class="supp">
+      <div class="supp-top">${loop?'<b id="suppTa">ta</b>':''}<span class="mono" id="suppCount">0 / ${groups.length}</span><span class="mono">${wpm} mots/min</span></div>
+      <div class="supp-read"><span class="supp-word" id="suppWord"></span></div>
+      <div class="read-progress"><i id="suppProg"></i></div>
+    </div>
+    <div class="read-foot"><span id="paceState">lecture</span><span>${loop?'boucle ta-ta-ta · '+bpm+'/min':'sans boucle · contrôle'}</span></div>
+  </div>`;
+  const wordEl=$('#suppWord'), taEl=$('#suppTa'), countEl=$('#suppCount'), prog=$('#suppProg'), st=$('#paceState');
+  const ta=['ta','ta','ta','ta'];
+  return new Promise(res=>{
+    let i=0, k=0, done=false;
+    const t0=performance.now();
+    const finish=v=>{ if(done) return; done=true; clearInterval(iw); clearInterval(it); res(v); };
+    const paint=()=>{ wordEl.textContent=groups[i]||''; fitText(wordEl); countEl.textContent=(i+1)+' / '+groups.length; prog.style.width=((i+1)/groups.length*100)+'%'; };
+    paint();
+    const it=loop?setInterval(()=>{
+      if(!alive(tok)) return finish(null);
+      if(paused) return;
+      k++; if(taEl){ taEl.textContent=ta[k%ta.length]; taEl.classList.add('on'); setTimeout(()=>taEl.classList.remove('on'),80); }
+      tickSound(k%4===0);
+    },tickMs):null;
+    const iw=setInterval(()=>{
+      if(!alive(tok)) return finish(null);
+      if(paused){ if(st) st.textContent='pause'; return; }
+      if(st) st.textContent='lecture';
+      i++;
+      if(i>=groups.length) return finish({seconds:(performance.now()-t0)/1000,words:ws.length,wpm,chunk});
+      paint();
+    },wordMs);
+    cleanups.push(()=>finish(null));
+  });
+}
+
+/* ---------- pauses des yeux ---------- */
+const EYE_METHODS=[
+  {id:'loin',t:'Regarde au loin',d:20,txt:"Fixe un point à plus de six mètres — une fenêtre, un mur du fond. C'est le muscle ciliaire qui se relâche : il travaille en continu sur un écran, à 50 cm."},
+  {id:'cligne',t:'Cligne lentement',d:15,txt:"Dix clignements complets, paupières relâchées. Devant un écran, on cligne deux à trois fois moins : le film lacrymal s'assèche et la vue se brouille."},
+  {id:'paumes',t:'Paumes sur les yeux',d:20,txt:"Pose les paumes sans appuyer, doigts croisés sur le front. Noir complet, respire par le nez. Rien à voir, tout à relâcher."},
+  {id:'preloin',t:'Près / loin',d:25,txt:"Alterne un doigt à 40 cm et un point lointain, huit allers-retours lents. Tu réapprends à ton œil à changer de distance — ce qu'un écran ne demande jamais."}
+];
+function eyeLimit(){ return estDebutant() ? 4*60000 : 7*60000; }
+function eyeToday(){
+  const d=dayKey();
+  if(!S.eyeBreaks||S.eyeBreaks.day!==d) S.eyeBreaks={day:d,count:0};
+  return S.eyeBreaks;
+}
+function eyeBreak(force){
+  return new Promise(res=>{
+    if(!force&&document.getElementById('eyeBreak')) return res(false);
+    const m=EYE_METHODS[(S.eyeIdx=(S.eyeIdx||0))%EYE_METHODS.length];
+    S.eyeIdx=(S.eyeIdx||0)+1; save();
+    const el=document.createElement('div');
+    el.id='eyeBreak'; el.className='eyebreak';
+    el.innerHTML=`<div class="eb-card">
+      <span class="eyebrow">Pause des yeux · ${m.t}</span>
+      <h2>${m.t}</h2>
+      <p>${m.txt}</p>
+      <div class="eb-time"><b id="ebSec">${m.d}</b><small>secondes</small></div>
+      <div class="eb-actions">
+        <button class="btn primary" id="ebDone" disabled>Encore ${m.d} s</button>
+        <button class="btn ghost" id="ebSkip">Plus tard</button>
+      </div>
+    </div>`;
+    document.body.appendChild(el);
+    const secEl=el.querySelector('#ebSec'), done=el.querySelector('#ebDone');
+    let left=m.d;
+    const id=setInterval(()=>{
+      left--; if(secEl) secEl.textContent=Math.max(0,left);
+      if(left<=0){ clearInterval(id); done.disabled=false; done.textContent='Reprendre'; done.focus(); }
+      else if(done) done.textContent='Encore '+left+' s';
+    },1000);
+    const close=ok=>{
+      clearInterval(id); el.remove();
+      if(ok){ S.eyeMs=0; const b=eyeToday(); b.count++; S.eyeSnooze=0; }
+      else { S.eyeSnooze=Date.now()+2*60000; S.eyeMs=Math.max(0,(S.eyeMs||0)-60000); }
+      save(); res(ok);
+    };
+    done.addEventListener('click',()=>close(true));
+    el.querySelector('#ebSkip').addEventListener('click',()=>close(false));
+  });
+}
+async function maybeEyeBreak(){
+  if(!S.eyeAuto) return false;
+  if(document.getElementById('eyeBreak')) return false;
+  if(S.eyeSnooze&&Date.now()<S.eyeSnooze) return false;
+  if((S.eyeMs||0)<eyeLimit()) return false;
+  return await eyeBreak();
+}
+let __eyeTick=Date.now();
+setInterval(()=>{
+  const now=Date.now(); const dt=Math.min(now-__eyeTick,15000); __eyeTick=now;
+  if(document.visibilityState!=='visible'||!S.eyeAuto) return;
+  if(document.getElementById('eyeBreak')) return;
+  S.eyeMs=(S.eyeMs||0)+dt;
+  if(Math.random()<0.04) save();
+},5000);
+
+function askComfort(tok){
+  return new Promise(res=>{
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:560px;text-align:center">
+      <span class="eyebrow">Ressenti</span>
+      <h2 style="font-size:22px;margin:8px 0 18px">Ce rythme, c'était…</h2>
+      <div class="quiz-opts">
+        <button class="opt" data-c="lent"><span class="ok-k mono">1</span><span>Trop lent — je m'ennuyais</span></button>
+        <button class="opt" data-c="ok"><span class="ok-k mono">2</span><span>Confortable — je pouvais suivre</span></button>
+        <button class="opt" data-c="rapide"><span class="ok-k mono">3</span><span>Trop rapide — j'ai décroché</span></button>
+      </div>
+    </div>`;
+    const onClick=e=>{ const b=e.target.closest('[data-c]'); if(!b) return; done(b.dataset.c); };
+    const onKey=e=>{ const m={'1':'lent','2':'ok','3':'rapide'}[e.key]; if(m) done(m); };
+    function done(v){ host.removeEventListener('click',onClick); document.removeEventListener('keydown',onKey); res(v); }
+    host.addEventListener('click',onClick); document.addEventListener('keydown',onKey);
+    cleanups.push(()=>{ host.removeEventListener('click',onClick); document.removeEventListener('keydown',onKey); });
+  });
+}
+
+function askQuiz(tok,qs,titre){
+  return new Promise(async res=>{
+    let correct=0;
+    for(let i=0;i<qs.length;i++){
+      const q=qs[i];
+      // positions mélangées : sinon on mémorise « c'est toujours la 2 »
+      const order=shuffle(q.o.map((_,k)=>k));
+      setHost();
+      host.innerHTML=`<div class="block" style="max-width:720px">
+        <div class="block-head" style="text-align:left;margin-bottom:6px">
+          <span class="eyebrow">Compréhension ${i+1} / ${qs.length}${titre?' · '+esc(titre):''}${(S.combo||0)>1?' · <span class="combo">série ×'+S.combo+'</span>':''}</span>
+        </div>
+        <h2 class="quiz-q" style="text-align:left">${esc(q.q)}</h2>
+        <div class="quiz-opts">${order.map((oi,k)=>`<button class="opt" data-k="${oi}"><span class="ok-k mono">${k+1}</span><span>${esc(q.o[oi])}</span></button>`).join('')}</div>
+        <div id="qfb"></div>
+      </div>`;
+      let picked=-1;
+      await new Promise(r=>{
+        const onClick=e=>{ const b=e.target.closest('.opt'); if(!b||picked>=0) return; picked=+b.dataset.k; r(); };
+        const onKey=e=>{ const n=+e.key; if(n>=1&&n<=q.o.length){ const b=$$('.opt',host)[n-1]; if(b) b.click(); } };
+        host.addEventListener('click',onClick); document.addEventListener('keydown',onKey);
+        cleanups.push(()=>{ host.removeEventListener('click',onClick); document.removeEventListener('keydown',onKey); });
+      });
+      if(!alive(tok)) return res(null);
+      const good=picked===q.r;
+      if(good){ correct++; S.combo=(S.combo||0)+1; } else { S.combo=0; }
+      $$('.opt',host).forEach(b=>{ const k=+b.dataset.k; b.classList.add(k===q.r?'good':(k===picked?'bad':'dim')); });
+      $('#qfb').innerHTML=`<div class="quiz-fb"><b>${good?'Juste.':'Raté.'}</b> ${esc(q.e||'')}</div>
+        <div class="block-foot"><span class="hint">${correct} / ${qs.length} justes${(S.combo||0)>1?' · série ×'+S.combo:''}</span>
+        <button class="btn primary" id="qnext">${i+1<qs.length?'Question suivante':'Continuer'}</button></div>`;
+      await new Promise(r=>{
+        const b=$('#qnext');
+        const onClick=()=>{ b.removeEventListener('click',onClick); r(); };
+        b.addEventListener('click',onClick); cleanups.push(()=>r());
+        b.focus();
+      });
+      if(!alive(tok)) return res(null);
+    }
+    res({correct,total:qs.length,comp:correct/qs.length});
+  });
+}
+
+const LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXY';   // a→y : 25 lettres, de quoi remplir une grille 5×5
+function gridSequence(mode,n){
+  if(mode==='alpha') return Array.from({length:n},(_,i)=>LETTERS[i]);
+  if(mode==='mix'){
+    const out=[]; let k=1,j=0;
+    while(out.length<n){ out.push(String(k++)); if(out.length<n) out.push(LETTERS[j++]); }
+    return out;
+  }
+  return Array.from({length:n},(_,i)=>String(i+1));
+}
+async function blockGrid(tok,{size=4,mode='num'}={}){
+  setHost();
+  const n=size*size;
+  const seq=gridSequence(mode,n);
+  if(seq.some(v=>v==null)){ toast('Grille impossible'); return null; }
+  const cells=shuffle(seq);
+  const isAlpha=mode==='alpha', isMix=mode==='mix';
+  // débutant : la case reste verte. avancé : vert le temps de signaler, puis neutre.
+  const novice=estDebutant();
+  host.innerHTML=`<div class="block" style="max-width:520px">
+    <div class="block-head">
+      <span class="eyebrow">Échauffement · champ visuel · ${isAlpha?'lettres':isMix?'alternée':'chiffres'} · ${size}×${size}</span>
+      <h2>${isMix?'1, A, 2, B… dans cet ordre':'Clique dans l’ordre'}</h2>
+      <p>Garde le regard au centre de la grille. Ce sont les yeux qui bougent, pas la tête.${novice?'':''}</p>
+    </div>
+    <div class="schulte ${novice?'novice':'adv'}" id="schulteGrid" style="grid-template-columns:repeat(${size},1fr)">
+      ${cells.map(v=>`<button data-v="${esc(v)}">${esc(v)}</button>`).join('')}
+    </div>
+    <div class="schulte-meta"><span id="schTime">00:00</span><span id="schErr" class="err">0 erreur</span><span id="schNext">suivant : ${esc(seq[0])}</span></div>
+    <div class="block-foot"><button class="btn ghost" id="schSkip">Passer</button><span class="hint">${novice?'les cases trouvées restent vertes':'le vert s’efface : la mémoire de la grille, c’est toi'}</span></div>
+  </div>`;
+  let next=0, t0=null, finished=false, errors=0;
+  const timeEl=$('#schTime'), nextEl=$('#schNext'), errEl=$('#schErr');
+  const tick=setInterval(()=>{ if(t0) timeEl.textContent=mmss(performance.now()-t0); },100);
+  cleanups.push(()=>clearInterval(tick));
+  return new Promise(res=>{
+    const onClick=e=>{
+      const b=e.target.closest('[data-v]'); if(!b||finished) return;
+      const v=b.dataset.v;
+      if(v===seq[next]){
+        if(!t0) t0=performance.now();
+        b.classList.add('done'); b.disabled=true;
+        b.classList.add('okflash');
+        setTimeout(()=>b.classList.remove('okflash'),420);
+        next++;
+        nextEl.textContent = next>=n ? 'terminé' : 'suivant : '+seq[next];
+        if(next>=n){ finished=true; const ms=performance.now()-t0; clearInterval(tick); timeEl.textContent=mmss(ms);
+          setTimeout(()=>res({seconds:ms/1000,size,mode,completed:true,errors,novice}),380); }
+      } else {
+        // mauvaise case : rouge, puis neutre. Comptée, jamais bloquante.
+        errors++; errEl.textContent=errors+(errors>1?' erreurs':' erreur');
+        b.classList.add('miss'); setTimeout(()=>b.classList.remove('miss'),340);
+      }
+    };
+    const skip=()=>{ if(finished) return; finished=true; clearInterval(tick); res({seconds:t0?performance.now()-t0:null,size,mode,completed:false,errors,novice}); };
+    $('#schulteGrid').addEventListener('click',onClick);
+    $('#schSkip').addEventListener('click',skip);
+    cleanups.push(()=>{ clearInterval(tick); res(null); });
+  });
+}
+const blockSchulte=(tok,size)=>blockGrid(tok,{size,mode:'num'});
+const blockLettres=(tok,size)=>blockGrid(tok,{size,mode:'alpha'});
+
+function empanVariants(item){
+  const base=item.w.join(' ');
+  const out=[{phrase:base, ok:true}];
+  const seen=new Set([base]);
+  const len=item.w.length;
+  for(const pt of (item.s||[])){
+    if(pt.i>=len) continue;
+    const alts=shuffle(pt.a.filter(a=>a!==item.w[pt.i]));
+    for(const rep of alts){
+      const w=[...item.w]; w[pt.i]=rep;
+      const p=w.join(' ');
+      if(!seen.has(p)){ seen.add(p); out.push({phrase:p,ok:false}); }
+      if(out.length>=3) break;
+    }
+    if(out.length>=3) break;
+  }
+  return shuffle(out);
+}
+
+async function blockEmpan(tok,trials,startSpan){
+  // exposition constante : seule la longueur varie, sinon on ne mesure plus l'empan
+  const DUR=600;
+  let span=clamp(startSpan||S.span,3,9), correct=0, bestSpan=0, hits=0, miss=0;
+  const longest=Math.max(...EMPAN.map(i=>i.w.length));
+  span=Math.min(span,longest);
+  const items=shuffle(EMPAN).slice(0,Math.max(1,Math.min(trials,EMPAN.length)));
+  for(let t=0;t<items.length;t++){
+    const item=items[t];
+    // longueur exacte : on ne montre jamais moins de mots que l'empan testé
+    const nWords=Math.min(span,item.w.length);
+    const shownSpan=nWords;
+    bestSpan=Math.max(bestSpan,shownSpan);
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:680px">
+      <div class="block-head" style="text-align:left">
+        <span class="eyebrow">Empan visuel · essai ${t+1}/${items.length}</span>
+        <h2 style="font-size:19px">Fixe le centre. ${shownSpan} mots, ${DUR} ms.</h2>
+      </div>
+      <div class="empan-stage"><div class="empan-phrase blank" id="emPhrase"></div></div>
+      <div class="empan-score" id="emScore" style="margin-top:12px">empan ${span} mots · ${correct} justes</div>
+    </div>`;
+    const ph=$('#emPhrase');
+    await sleep(500,tok);
+    if(!alive(tok)) return null;
+    const phraseText=item.w.slice(0,nWords).join(' ');
+    const shownVariants=empanVariants({w:item.w.slice(0,nWords),s:item.s.filter(x=>x.i<nWords)});
+    ph.textContent=phraseText; ph.classList.remove('blank'); fitText(ph);
+    await sleep(DUR,tok); if(!alive(tok)) return null;
+    ph.classList.add('blank'); ph.textContent=phraseText;
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:680px">
+      <div class="block-head" style="text-align:left">
+        <span class="eyebrow">Empan visuel · essai ${t+1}/${items.length}</span>
+        <h2 style="font-size:19px">Laquelle as-tu vue ?</h2>
+      </div>
+      <div class="empan-opts">
+        ${shownVariants.map((v,k)=>`<button class="opt" data-p="${esc(v.phrase)}"><span class="ok-k mono">${k+1}</span><span>${esc(v.phrase)}</span></button>`).join('')}
+      </div>
+      <div class="empan-score" id="emScore2" style="margin-top:14px">empan ${span} mots · ${correct} justes</div>
+    </div>`;
+    const picked=await new Promise(r=>{
+      const onClick=e=>{ const b=e.target.closest('[data-p]'); if(!b) return; r(b.dataset.p); };
+      const onKey=e=>{ const k=+e.key; if(k>=1&&k<=shownVariants.length){ const b=host.querySelectorAll('.opt')[k-1]; if(b) b.click(); } };
+      host.addEventListener('click',onClick); document.addEventListener('keydown',onKey);
+      cleanups.push(()=>{ host.removeEventListener('click',onClick); document.removeEventListener('keydown',onKey); });
+    });
+    if(!alive(tok)) return null;
+    const good=picked===phraseText;
+    // escalier 2/3 : on ne monte qu'après deux réussites au même empan
+    if(good){ correct++; hits++; miss=0; } else { hits=0; miss++; }
+    if(hits>=2){ span=clamp(span+1,3,9); hits=0; }
+    else if(miss>=2){ span=clamp(span-1,3,9); miss=0; }
+    $$('.opt',host).forEach(b=>{ if(b.dataset.p===phraseText) b.classList.add('good'); else if(b.dataset.p===picked) b.classList.add('bad'); else b.classList.add('dim'); });
+    const sc=$('#emScore2'); if(sc) sc.textContent=`${good?'juste':'raté'} · empan ${span} mots · ${correct} justes`;
+    await sleep(700,tok);
+    if(!alive(tok)) return null;
+  }
+  S.span=span; save();
+  return {correct,total:items.length,span,bestSpan:bestSpan||span,comp:correct/items.length};
+}
+
+/* Empan vertical : une colonne de mots, deux flèches au centre pour la fixation.
+   On ne lit pas la colonne mot à mot : on fixe le milieu et on prend les extrêmes
+   en vision périphérique verticale. */
+const EV_WORDS=['colline','boussole','horloge','rivière','charbon','roquette','paradoxe','jaquette','fourneau','brouette','lumière','chapitre','galerie','mercredi','poussière','triangle','héritage','pellicule','caravane','défilé','marteau','brouillard','cuillère','épouvante','fromage','clocher','barrage','tulipe','manège','sifflet'];
+async function blockEmpanV(tok,trials=8,startSpan){
+  const DUR=750;
+  let span=clamp(startSpan||S.spanV||4,3,7), correct=0, bestSpan=0, hits=0, miss=0;
+  const n=clamp(trials,3,12);
+  for(let t=0;t<n;t++){
+    const col=shuffle(EV_WORDS.slice()).slice(0,span);
+    // on interroge une extrémité : c'est elle qu'il faut atteindre en périphérie
+    const top=Math.random()<0.5;
+    const target=top?col[0]:col[span-1];
+    const decoys=shuffle(col.filter(w=>w!==target)).slice(0,2);
+    const opts=shuffle([target].concat(decoys));
+    bestSpan=Math.max(bestSpan,span);
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:620px">
+      <div class="block-head" style="text-align:left">
+        <span class="eyebrow">Empan vertical · essai ${t+1}/${n}</span>
+        <h2 style="font-size:19px">Colonne de ${span} mots</h2>
+        <p style="margin:0">Fixe les deux flèches, au milieu. La colonne se lit d'un seul regard, du haut vers le bas.</p>
+      </div>
+      <div class="ev-stage" id="evStage">
+        <span class="ev-arrow l">→</span>
+        <span class="ev-arrow r">←</span>
+        <div class="ev-col" id="evCol">${col.map(w=>`<span class="ev-w">${esc(w)}</span>`).join('')}</div>
+      </div>
+      <div class="read-foot"><span class="mono" id="evScore">empan ${span} · ${correct} justes</span><span class="mono">750 ms</span></div>
+    </div>`;
+    const stage=$('#evStage');
+    await sleep(420,tok); if(!alive(tok)) return null;
+    stage.classList.add('show');
+    await sleep(DUR,tok); if(!alive(tok)) return null;
+    stage.classList.remove('show');
+    const col2=$('#evCol'); if(col2) col2.innerHTML=col.map(()=>'<span class="ev-w">•••</span>').join('');
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:620px">
+      <div class="block-head" style="text-align:left">
+        <span class="eyebrow">Empan vertical · essai ${t+1}/${n}</span>
+        <h2 style="font-size:19px">Quel mot était ${top?'en haut':'en bas'} de la colonne ?</h2>
+      </div>
+      <div class="empan-opts">
+        ${opts.map((w,k)=>`<button class="opt" data-p="${esc(w)}"><span class="ok-k mono">${k+1}</span><span>${esc(w)}</span></button>`).join('')}
+      </div>
+      <div class="empan-score" id="evScore2" style="margin-top:14px">empan ${span} mots · ${correct} justes</div>
+    </div>`;
+    const picked=await new Promise(r=>{
+      const onClick=e=>{ const b=e.target.closest('[data-p]'); if(!b) return; r(b.dataset.p); };
+      const onKey=e=>{ const k=+e.key; if(k>=1&&k<=opts.length){ const b=host.querySelectorAll('.opt')[k-1]; if(b) b.click(); } };
+      host.addEventListener('click',onClick);
+      window.addEventListener('keydown',onKey);
+      cleanups.push(()=>{ host.removeEventListener('click',onClick); window.removeEventListener('keydown',onKey); r('__abort'); });
+    });
+    if(picked==='__abort'||!alive(tok)) return null;
+    const good=picked===target;
+    if(good){ correct++; hits++; miss=0; } else { hits=0; miss++; }
+    if(hits>=2){ span=clamp(span+1,3,7); hits=0; }
+    else if(miss>=2){ span=clamp(span-1,3,7); miss=0; }
+    $$('.opt',host).forEach(b=>{ if(b.dataset.p===target) b.classList.add('good'); else if(b.dataset.p===picked) b.classList.add('bad'); else b.classList.add('dim'); });
+    const sc=$('#evScore2'); if(sc) sc.textContent=`${good?'juste':'raté'} · empan ${span} mots · ${correct} justes`;
+    await sleep(650,tok);
+    if(!alive(tok)) return null;
+  }
+  S.spanV=span; save();
+  return {correct,total:n,span,bestSpan:bestSpan||span,comp:correct/n};
+}
+
+async function blockFreeRead(tok,text){
+  setHost('top');
+  host.innerHTML=`<div class="block" style="max-width:760px;padding-top:10px">
+    <div class="block-head" style="text-align:left">
+      <span class="eyebrow">Lecture · ${esc(text.titre)} · niveau ${text.niveau}</span>
+      <h2 style="font-size:20px">Lis à ton rythme naturel</h2>
+      <p style="margin:0">Le chronomètre démarre maintenant. Clique « J'ai fini » dès que tu as terminé — pas avant.</p>
+    </div>
+    <div class="freeread">
+      <div class="freeread-scroll"><div class="read-text static">${esc(text.corps)}</div></div>
+      <div class="freeread-foot"><span class="clock mono" id="clock">00:00</span>
+        <button class="btn primary" id="doneBtn">J'ai fini</button></div>
+    </div>
+  </div>`;
+  const t0=performance.now();
+  const tick=setInterval(()=>{ const c=$('#clock'); if(c) c.textContent=mmss(performance.now()-t0); },200);
+  cleanups.push(()=>clearInterval(tick));
+  return new Promise(res=>{
+    $('#doneBtn').addEventListener('click',()=>{ clearInterval(tick); res({seconds:(performance.now()-t0)/1000}); });
+    cleanups.push(()=>res(null));
+  });
+}
+
+const STOP=new Set("le la les de des du un une et a à en dans pour par sur avec sans que qui quoi dont où est sont être avoir ont au aux ce cet cette ces il elle ils elles on nous vous je tu se sa son ses leur leurs plus moins très comme mais ou donc or ni car si ne pas y d l qu c j n s".split(/\s+/));
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s']/g,' ').replace(/\s+/g,' ').trim();
+function keyIdeas(text){
+  const counts=new Map();
+  norm(text).split(' ').filter(w=>w.length>=5&&!STOP.has(w)).forEach(w=>counts.set(w,(counts.get(w)||0)+1));
+  return Array.from(counts.entries()).sort((a,b)=>b[1]-a[1]||b[0].length-a[0].length).slice(0,20).map(x=>x[0]);
+}
+function coverage(text,recall){
+  const ideas=keyIdeas(text), rs=new Set(norm(recall).split(' '));
+  let hit=0; const missed=[];
+  ideas.forEach(k=>{
+    const found=Array.from(rs).some(w=>w===k||(w.length>=6&&k.length>=6&&(w.startsWith(k.slice(0,6))||k.startsWith(w.slice(0,6)))));
+    if(found) hit++; else missed.push(k);
+  });
+  return {score:ideas.length?hit/ideas.length:0, ideas, missed, matched:hit};
+}
+
+async function blockRecall(tok,text){
+  const r=await blockFreeRead(tok,text);
+  if(!r||!alive(tok)) return null;
+  setHost('top');
+  host.innerHTML=`<div class="block" style="max-width:720px;padding-top:10px">
+    <div class="block-head" style="text-align:left">
+      <span class="eyebrow">Rappel libre · ${esc(text.titre)}</span>
+      <h2 style="font-size:20px">Écris tout ce que tu as retenu</h2>
+      <p style="margin:0">Pas besoin de style : les idées, les chiffres, les liens. Tu as lu ${Math.round(r.seconds)} s.</p>
+    </div>
+    <textarea class="recall" id="recallText" placeholder="De quoi parlait le texte ? Quels étaient les points principaux ?"></textarea>
+    <div class="block-foot"><span class="hint" id="recallCount">0 mot</span>
+      <button class="btn primary" id="recallGo">Valider mon rappel</button></div>
+  </div>`;
+  const taEl=$('#recallText'), cntEl=$('#recallCount');
+  taEl.addEventListener('input',()=>{ if(!cntEl) return; const n=wc(taEl.value); cntEl.textContent=n+' mot'+(n>1?'s':''); });
+  taEl.focus();
+  const txt=await new Promise(res=>{
+    $('#recallGo').addEventListener('click',()=>res($('#recallText').value));
+    cleanups.push(()=>res(''));
+  });
+  if(!alive(tok)) return null;
+  const cov=coverage(text.corps,txt||'');
+  return {seconds:r.seconds,words:wc(text.corps),recall:cov.score,matched:cov.matched,ideas:cov.ideas.length,missed:cov.missed,recallWords:wc(txt||'')};
+}
+
+/* =========================================================
+   5. LANCEMENTS
+   ========================================================= */
+function specLabel(spec){
+  switch(spec.k){
+    case 'schulte': return 'Grille de chiffres '+(spec.size||4)+'×'+(spec.size||4);
+    case 'lettres': return 'Grille de lettres '+(spec.size||4)+'×'+(spec.size||4);
+    case 'empan': return 'Empan visuel — '+(spec.n||6)+' essais';
+    case 'empanV': return 'Empan vertical — colonne de mots';
+    case 'saccades': return 'Saccades guidées — '+(spec.rounds||3)+' séquences';
+    case 'peripherie': return 'Vision périphérique — '+(spec.rounds||8)+' essais';
+    case 'rsvp': return 'Flash RSVP'+(spec.chunk>1?' ('+spec.chunk+' mots)':'')+' + questions';
+    case 'pacer': return 'Lecture guidée + questions';
+    case 'metronome': return 'Métronome deux points'+(spec.wpBeat>1?' ('+spec.wpBeat+' mots/battement)':'')+' + questions';
+    case 'guide': return 'Indicateur visuel + questions';
+    case 'quiz': return 'Questions de compréhension';
+    case 'rappel': return 'Lecture + rappel libre';
+    case 'suppression': return 'Bouche fermée — contrôle + boucle';
+    case 'ortho': return 'Lettres muettes — '+(spec.n||20)+' mots';
+    default: return spec.k;
+  }
+}
+function specMeta(spec){
+  switch(spec.k){
+    case 'schulte': case 'lettres': return '~40 s';
+    case 'empan': return '~1 min';
+    case 'empanV': return '~1 min 30';
+    case 'saccades': return '~1 min';
+    case 'peripherie': return '~1 min';
+    case 'rsvp': case 'pacer': case 'metronome': case 'guide': return '~2 min';
+    case 'rappel': return '~3 min';
+    case 'suppression': return '~3 min';
+    case 'ortho': return '~1 min';
+    default:return '';
+  }
+}
+function specMetaOfEtape(e){
+  const per={schulte:0.7,lettres:0.7,empan:1,saccades:1,peripherie:1,rsvp:2,pacer:2.5,metronome:2,guide:2.5,rappel:3};
+  const min=e.blocks.reduce((a,b)=>a+(per[b.k]||1),0);
+  return e.blocks.length+' exercices · ~'+Math.round(min)+' min · '+e.cible+' mots/min';
+}
+
+const READ_MODES=new Set(['rsvp','pacer','metronome','guide']);
+
+async function runReadingBlock(spec,tok,text,niveau){
+  const wpm=S.wpm;
+  // taille du groupe : la préférence de l'utilisateur est un plancher, le niveau impose le reste
+  const chunk=spec.chunk||clamp(Math.max(S.chunk||1, chunkForLevel()),1,8);
+  const t=text||pickText(niveau||niveauCourant(),{maxWords:800});
+  let read=null;
+  if(spec.k==='rsvp') read=await blockRsvp(tok,t,wpm,chunk);
+  else if(spec.k==='pacer') read=await blockPacer(tok,t,wpm);
+  else if(spec.k==='metronome') read=await blockMetronome(tok,t,wpm,spec.wpBeat||chunk);
+  else read=await blockGuide(tok,t,wpm,spec.group||3);
+  if(!read||!alive(tok)) return null;
+  const comfort=await askComfort(tok); if(!alive(tok)) return null;
+  const quiz=await askQuiz(tok,sampleQuiz(t,quizSize(t)),t.titre); if(!quiz||!alive(tok)) return null;
+  return {k:spec.k,text:t.titre,words:read.words,seconds:read.seconds,wpm,chunk,comfort,comp:quiz.comp,correct:quiz.correct,total:quiz.total};
+}
+
+async function runSpec(spec,tok,ctx){
+  switch(spec.k){
+    case 'schulte': return await blockGrid(tok,{size:spec.size||4,mode:'num'});
+    case 'lettres': return await blockGrid(tok,{size:spec.size||4,mode:spec.mode||'alpha'});
+    case 'empan': return await blockEmpan(tok,spec.n||8);
+    case 'empanV': return await blockEmpanV(tok,spec.n||8);
+    case 'saccades': return await blockSaccades(tok,spec.rounds||3);
+    case 'peripherie': return await blockPeriph(tok,spec.rounds||8);
+    case 'ortho': return await blockOrtho(tok,spec.n||20);
+    case 'suppression': { const lvl=(ctx&&ctx.niveau)||niveauCourant();
+      const t1=pickText(lvl,{maxWords:800}); let t2=pickText(lvl,{maxWords:800});
+      if(t2.id===t1.id) t2=pickText(lvl,{maxWords:800});
+      const w=spec.wpm||Math.max(250,S.wpm);
+      // ordre contrebalancé : une session sur deux commence par la boucle (biais d'ordre, de fatigue et de familiarité)
+      S.voixN=(S.voixN||0)+1; save();
+      const loopFirst=(S.voixN%2===0);
+      const one=async(t,loop)=>{
+        const rd=await blockSuppression(tok,t,w,1,loop);
+        if(!rd||!alive(tok)) return null;
+        return await askQuiz(tok,sampleQuiz(t,quizSize(t)),t.titre);
+      };
+      let qLoop,qCtrl;
+      if(loopFirst){
+        qLoop=await one(t2,true); if(!qLoop||!alive(tok)) return null;
+        qCtrl=await one(t1,false); if(!qCtrl||!alive(tok)) return null;
+      } else {
+        qCtrl=await one(t1,false); if(!qCtrl||!alive(tok)) return null;
+        qLoop=await one(t2,true); if(!qLoop||!alive(tok)) return null;
+      }
+      const qa=await askComfort(tok);
+      return {k:'suppression',wpm:w,text:t2.titre,textCtrl:t1.titre,words:0,seconds:0,
+        comp:qLoop.comp,compCtrl:qCtrl.comp,compLoop:qLoop.comp,gap:Math.round((qCtrl.comp-qLoop.comp)*100),
+        ctrlCorrect:qCtrl.correct,ctrlTotal:qCtrl.total,correct:qLoop.correct,total:qLoop.total,
+        loopFirst,comfort:qa?qa.comfort:null}; }
+    case 'rsvp': case 'pacer': case 'metronome': case 'guide':
+      return await runReadingBlock(spec,tok,ctx&&ctx.text,ctx&&ctx.niveau);
+    case 'rappel': { const t=(ctx&&ctx.text)||pickText((ctx&&ctx.niveau)||niveauCourant());
+      const r=await blockRecall(tok,t); return r?Object.assign({k:'rappel',text:t.titre,wpm:S.wpm,comp:null},r):null; }
+    case 'examen': { const t=(ctx&&ctx.text)||pickText((ctx&&ctx.niveau)||niveauCourant());
+      const rd=await blockFreeRead(tok,t);
+      if(!rd||!alive(tok)) return null;
+      const q=await askQuiz(tok,t.q,t.titre);          // toutes les questions du texte
+      if(!q||!alive(tok)) return null;
+      const words=rd.words||wc(t.corps);
+      const wpmReal=rd.seconds>3?Math.round(words/rd.seconds*60):null;
+      return {k:'examen',text:t.titre,words,seconds:rd.seconds,wpm:wpmReal,comp:q.comp,correct:q.correct,total:q.total}; }
+    default: return null;
+  }
+}
+
+/* -------- étape du parcours -------- */
+async function launchEtape(idx){
+  const e=ETAPES[idx];
+  const tok=begin('Étape '+(idx+1)+' / '+ETAPES.length+' — '+e.nom, specMetaOfEtape(e));
+  if(!tok) return;
+  S.combo=0;
+  const niveau=e.niveau||1;
+  // plancher de vitesse : une seule fois par étape, pour ne pas effacer une baisse méritée
+  if(S.wpm<e.cible && S.etapeFloor!==e.id){ S.wpm=e.cible; S.etapeFloor=e.id; save(); }
+  const text=pickText(niveau,{maxWords:800});
+  const res={etape:e.id,mode:'etape',ts:Date.now(),blocks:[],comp:null,wpm:S.wpm,span:S.span,schulte:null,lettres:null,
+    saccades:null,saccadesTotal:null,empanCorrect:null,empanTotal:null,empanBestSpan:null,recall:null,words:0,seconds:0};
+  const ok=await blockCountdown(tok,e.nom); if(!ok||!alive(tok)) return endStage();
+  for(const spec of e.blocks){
+    if(!alive(tok)) return;
+    await maybeEyeBreak(tok);
+    const r=await runSpec(spec,tok,{text,niveau});
+    if(!alive(tok)) return;
+    if(!r) continue;
+    res.blocks.push({k:spec.k,label:specLabel(spec),...r});
+    if((spec.k==='schulte'||spec.k==='lettres')&&r.completed){
+      res[spec.k]=r.seconds;
+      const key=r.size+(spec.k==='lettres'?'L':'N');
+      if(!S.schulteBest[key]||r.seconds<S.schulteBest[key]) S.schulteBest[key]=r.seconds;
+    }
+    if(spec.k==='saccades'){ res.saccades=r.correct; res.saccadesTotal=r.total; }
+    if(spec.k==='ortho'){ res.orthoScore=r.correct; res.orthoTotal=r.total; res.orthoMedian=r.median; }
+    if(spec.k==='suppression'){ res.suppComp=r.compLoop; res.suppCtrl=r.compCtrl; res.voixGap=r.gap; res.wpm=r.wpm; res.comp=r.compLoop; }
+    if(spec.k==='empan'){ res.empanCorrect=r.correct; res.empanTotal=r.total; res.empanBestSpan=r.bestSpan; res.span=r.span; }
+    if(READ_MODES.has(spec.k)&&r.comp!=null) res.comp=r.comp;
+    if(spec.k==='rappel'){ res.recall=r.recall; res.words=r.words||0; res.seconds=r.seconds||0; res.recallWords=r.recallWords; res.ideas=r.matched+'/'+r.ideas;
+      res.realWpm=r.seconds?Math.round(r.words/r.seconds*60):null; }
+    if(READ_MODES.has(spec.k)){ res.words=r.words; res.seconds=r.seconds; }
+  }
+  if(!res.blocks.length){ toast('Séance interrompue'); return endStage(); }
+  // journalisation
+  const logs=S.logs[e.id]||(S.logs[e.id]=[]);
+  logs.push(res);
+  S.history.push({ts:res.ts,mode:'etape '+e.id,label:'Étape '+e.id+' — '+e.nom,wpm:res.wpm,comp:res.comp,effective:res.comp!=null?res.wpm*res.comp:null,words:res.words,seconds:res.seconds});
+  adaptAfter(res);
+  if(res.suppComp!=null) recordVoix(res.suppComp,res.suppCtrl,res.wpm);
+  res.xp=addXp(xpFor(res));
+  if(etapeValidated(e)) S.etapeFloor=null;   // étape suivante : le plancher se réapplique à sa cible
+  save();
+  await showEtapeResult(res,e,tok,idx);
+}
+
+function adaptAfter(res){
+  if(res.comp==null) return;
+  if(res.suppComp!=null) return;   // diagnostic sous boucle : ne déplace pas la vitesse
+  const before=S.wpm;
+  const c=res.comp;
+  if(c>=.75){
+    const rapide=(res.blocks||[]).some(b=>b.comfort==='rapide');
+    if(!rapide) S.wpm=clamp(S.wpm+20,120,WPM_MAX);
+  } else if(c>=.5){ /* consolider */ }
+  else { S.wpm=clamp(S.wpm-20,120,WPM_MAX); }
+  res.delta=S.wpm-before;
+}
+
+async function showEtapeResult(res,e,tok,idx){
+  const crit=e.crit(etapeLogs(e.id));
+  const passed=crit.items.every(i=>i.ok);
+  const nxt=ETAPES[idx+1]||null;
+  const allDone=parcoursDone();
+  const pendIdx=currentEtapeIdx(), pend=ETAPES[pendIdx];
+  setHost();
+  const rows=res.blocks.map(b=>{
+    let v='—';
+    if(b.k==='schulte'||b.k==='lettres') v=b.completed?b.seconds.toFixed(1)+' s':'passé';
+    if(b.k==='empan') v=b.correct+'/'+b.total+' justes · empan '+b.span+' mots';
+    if(b.k==='saccades') v=b.correct+'/'+b.total+' séquences';
+    if(READ_MODES.has(b.k)) v=b.correct+'/'+b.total+' justes · '+Math.round(b.wpm)+' mpm';
+    if(b.k==='rappel') v=Math.round(b.recall*100)+' % des idées · '+b.recallWords+' mots écrits';
+    return `<div class="block-row"><span class="bi">·</span><span>${esc(b.label||specLabel(b))}</span><span class="bt">${v}</span></div>`;
+  }).join('');
+  const headline = passed ? 'Étape validée.' : (res.comp!=null&&res.comp<.5 ? "Trop d'informations perdues." : 'Critère non atteint — on reprend.');
+  host.innerHTML=`<div class="result">
+    <span class="eyebrow">Étape ${idx+1} sur ${ETAPES.length} · ${esc(e.nom)}</span>
+    <h2>${headline}</h2>
+    ${res.comp!=null?`<div class="result-grid">
+      <div><span class="eyebrow">Vitesse</span><b>${Math.round(res.wpm)}</b><small>mots/min</small></div>
+      <div><span class="eyebrow">Compréhension</span><b>${Math.round(res.comp*100)}</b><small>% · ${res.blocks.filter(b=>b.total).map(b=>b.correct+'/'+b.total).join(' · ')||'—'}</small></div>
+      <div class="hi"><span class="eyebrow">Lecture utile</span><b>${Math.round(res.wpm*res.comp)}</b><small>indice débit × QCM</small></div>
+    </div>`:''}
+    ${res.recall!=null?`<div class="result-grid">
+      <div><span class="eyebrow">Couverture</span><b>${Math.round(res.recall*100)}</b><small>% des idées clés</small></div>
+      <div><span class="eyebrow">Vitesse réelle</span><b>${res.realWpm||'—'}</b><small>mots/min, sans consigne</small></div>
+      <div><span class="eyebrow">Écrit</span><b>${res.recallWords||0}</b><small>mots de rappel</small></div>
+    </div>`:''}
+    <div class="xp"><span class="xp-num">Nv ${niveauInfo().n}</span><span class="xp-bar"><i style="width:${niveauInfo().pct}%"></i></span><span class="xp-num">+${res.xp?res.xp.pts:0} XP · ${niveauInfo().rest}/${niveauInfo().need}</span></div>
+    <div style="border-top:1px solid var(--line);margin-bottom:16px">${rows}</div>
+    <div class="crit">
+      <span class="eyebrow" style="margin-bottom:6px">Critère de passage</span>
+      <ul>${crit.items.map(i=>`<li class="${i.ok?'ok':''}"><span class="mk">${i.ok?'✓':'·'}</span><span>${esc(i.label)}</span><span class="val">${esc(i.val||'')}</span></li>`).join('')}</ul>
+    </div>
+    <div class="verdict">${verdictText(res,crit,passed,nxt)}</div>
+    <div class="result-actions">
+      ${passed&&nxt?`<button class="btn primary" id="goNext">Étape suivante : ${esc(nxt.nom)} →</button>`:''}
+      ${passed&&!nxt&&allDone?`<button class="btn primary" id="goParcours">Parcours terminé — voir le bilan</button>`:''}
+      ${passed&&!nxt&&!allDone?`<button class="btn primary" id="goPending">Reprendre l'étape ${pendIdx+1} : ${esc(pend.nom)} →</button>`:''}
+      <button class="btn" id="again">Refaire l'étape</button>
+      <button class="btn ghost" id="back">Quitter</button>
+    </div>
+  </div>`;
+  const wire=(id,fn)=>{ const b=$('#'+id); if(b) b.addEventListener('click',()=>{ endStage(); fn(); }); };
+  wire('goNext',()=>launchEtape(idx+1));
+  wire('goPending',()=>launchEtape(pendIdx));
+  wire('again',()=>launchEtape(idx));
+  wire('goParcours',()=>setView('progress'));
+  wire('back',()=>setView('dash'));
+}
+
+function verdictText(res,crit,passed,nxt){
+  const d=res.delta||0;
+  let s='';
+  const failed=crit.items.filter(i=>!i.ok);
+  const counting=failed.filter(i=>/^\d+\/\d+$/.test((i.val||'').trim()));
+  const needsMore=!passed && counting.length>0 && counting.length===failed.length;
+  if(res.comp==null&&res.recall==null){
+    s = passed
+      ? `<strong>Mesures visuelles au niveau demandé.</strong> Ici la vitesse n'est pas jugée : ce sont la largeur du champ visuel et la constance qui comptent. La suite ajoute le rythme.`
+      : "Séance visuelle enregistrée. Ce type d'exercice ne se juge pas sur la vitesse mais sur la régularité : refais-le à froid pour comparer.";
+  } else if(res.comp==null&&res.recall!=null){
+    s=`<strong>Couverture : ${Math.round(res.recall*100)} % des idées clés.</strong> `+
+      (passed?'Le rappel est suffisant : la vitesse ne sert à rien si rien ne reste.':"Ce n'est pas la vitesse qui manque ici, c'est la trace laissée. Refais l'étape en ralentissant légèrement.")+
+      (nxt?'':' Tu as fait le tour du parcours.');
+  } else if(passed){
+    s=`<strong>Critère atteint.</strong> Lecture utile : ${Math.round(res.wpm*res.comp)} (débit × compréhension, un indice, pas une mesure du regard). `+
+      (d>0?`Le rythme monte de ${d} mots/min pour la suite.`:'Le rythme reste identique pour consolider.')+
+      (nxt?` Prochaine étape : ${esc(nxt.nom)}.`:' Tu as fait le tour du parcours — reste en entretien.');
+  } else if(needsMore){
+    const gap=counting.map(i=>i.val).join(' ');
+    s=`<strong>Ce passage est bon, il en manque un.</strong> Ce critère demande de répéter l'exercice pour vérifier que le résultat n'est pas un coup de chance (${esc(gap)}). `+
+      `Refais l'étape maintenant, à froid : la deuxième mesure vaut plus que la première.`;
+  } else {
+    const miss=failed.map(i=>i.label.toLowerCase()).join(' ; ');
+    s=`<strong>Il reste :</strong> ${esc(miss)}. `+
+      (d<0?`La vitesse redescend de ${Math.abs(d)} mots/min : mieux vaut comprendre à 240 que survoler à 320.`:
+       d>0?`Le rythme monte de ${d} mots/min sur les points déjà acquis.`:
+       `Garde le même rythme et refais l'étape : la régularité compte plus que le record.`);
+  }
+  return s;
+}
+
+/* -------- mesure de départ -------- */
+async function launchCalibrage(){
+  const tok=begin('Mesure de départ','lecture libre · 4 questions');
+  if(!tok) return;
+  const text=pickText(2);
+  const r=await blockFreeRead(tok,text);
+  if(!r||!alive(tok)) return endStage();
+  const quiz=await askQuiz(tok,sampleQuiz(text,4),text.titre);
+  if(!quiz||!alive(tok)) return endStage();
+  const wpm=r.seconds>3?Math.round(wc(text.corps)/r.seconds*60):0;
+  const target=clamp(Math.round((wpm*(quiz.comp>=.75?1.12:1))/10)*10,120,WPM_MAX);
+  S.wpm=target; S.onboarded=true; bumpStreak();
+  S.history.push({ts:Date.now(),mode:'calibrage',label:'Mesure de départ',wpm,comp:quiz.comp,effective:wpm*quiz.comp,words:wc(text.corps),seconds:r.seconds});
+  save();
+  setHost();
+  host.innerHTML=`<div class="result">
+    <span class="eyebrow">Mesure de départ · ${esc(text.titre)}</span>
+    <h2>Ta vitesse naturelle : ${wpm} mots/min</h2>
+    <div class="result-grid">
+      <div><span class="eyebrow">Vitesse mesurée</span><b>${wpm}</b><small>mots/min, lecture normale</small></div>
+      <div><span class="eyebrow">Compréhension</span><b>${Math.round(quiz.comp*100)}</b><small>% · ${quiz.correct}/${quiz.total}</small></div>
+      <div class="hi"><span class="eyebrow">Vitesse cible</span><b>${target}</b><small>mots/min pour démarrer</small></div>
+    </div>
+    <div class="verdict">${quiz.comp>=.75
+      ? `Tu lis vite et tu comprends : la cible démarre <strong>12 % au-dessus</strong> de ta vitesse mesurée, et le parcours la fera monter par paliers tant que la compréhension tient.`
+      : `Compréhension fragile à cette allure : la cible reste à ta vitesse mesurée. Le parcours commencera par consolider la saisie avant d'accélérer — c'est l'ordre correct.`}
+      <br><br>La vitesse cible <strong>n'est pas un objectif fixe</strong> : elle bouge de ±20 mots/min après chaque séance, selon ce que tu comprends réellement.</div>
+    <div class="result-actions">
+      <button class="btn primary" id="calGo">Commencer l'étape 1</button>
+      <button class="btn ghost" id="calLater">Plus tard</button>
+    </div>
+  </div>`;
+  const go=async(id,fn)=>{ const b=$('#'+id); if(b) b.addEventListener('click',()=>{ endStage(); fn(); }); };
+  go('calGo',()=>launchEtape(0));
+  go('calLater',()=>setView('dash'));
+}
+
+/* -------- exercice libre -------- */
+async function launchFree(kind, missionIdx=null){
+  const lvl=niveauCourant();
+  const size=levelIdx()>=3?5:4;
+  const spec = kind==='schulte'?{k:'schulte',size}
+    : kind==='lettres'?{k:'lettres',size,mode:'alpha'}
+    : kind==='empan'?{k:'empan',n:8}
+    : kind==='saccades'?{k:'saccades',rounds:3}
+    : kind==='peripherie'?{k:'peripherie',rounds:8}
+    : kind==='metronome'?{k:'metronome'}
+    : kind==='guide'?{k:'guide',group:3}
+    : kind==='rappel'?{k:'rappel'}
+    : kind==='suppression'?{k:'suppression',wpm:Math.max(250,S.wpm),chunk:1}
+    : kind==='ortho'?{k:'ortho',n:20}
+    : {k:kind};
+  const tok=begin((missionIdx!=null?'Mission · ':'Exercice libre — ')+specLabel(spec), missionIdx!=null?'mission du jour':'hors parcours');
+  if(!tok) return;
+  S.combo=0;
+  const text=pickText(lvl, kind==='examen' ? {long:Math.random()<0.75} : (kind==='rappel'?{long:true}:{maxWords:800}));
+  const ok=await blockCountdown(tok,'Prêt'); if(!ok||!alive(tok)) return endStage();
+  await maybeEyeBreak(tok);
+  const r=await runSpec(spec,tok,{text,niveau:lvl});
+  if(!r||!alive(tok)) return endStage();
+  const rec={ts:Date.now(),mode:kind,label:'Libre — '+specLabel(spec),wpm:r.wpm||null,
+    comp:r.comp!=null?r.comp:null,effective:(r.comp!=null&&r.wpm)?r.wpm*r.comp:null,words:r.words||0,seconds:r.seconds||0,span:r.span||null,
+    recall:r.recall!=null?r.recall:null,saccades:r.k==='saccades'?r.correct:null,mission:missionIdx!=null?missionIdx:null};
+  if(r.k==='schulte'||r.k==='lettres'){ const key=r.size+(r.k==='lettres'?'L':'N'); if(r.completed&&(!S.schulteBest[key]||r.seconds<S.schulteBest[key])) S.schulteBest[key]=r.seconds; }
+  S.history.push(rec); save();
+  // la vitesse ne bouge que sur une lecture mesurée en compréhension
+  if(READ_MODES.has(r.k)) adaptAfter({comp:r.comp,blocks:[{comfort:r.comfort}]});
+  if(r.k==='suppression') recordVoix(r.compLoop,r.compCtrl,r.wpm);
+  const xp=addXp(xpFor(r));
+  let miss=null;
+  if(missionIdx!=null){ missionTask=null; miss=markMissionTask(missionIdx); }
+  save();
+  const lv=niveauInfo();
+  setHost();
+  host.innerHTML=`<div class="result">
+    <span class="eyebrow">${missionIdx!=null?'Mission du jour · tâche '+(missionIdx+1)+'/3':'Exercice libre · ne valide pas l’étape'}</span>
+    <h2>${miss&&miss.complete?'Mission accomplie.':'Séance enregistrée'}</h2>
+    <div class="result-grid">
+      ${r.wpm?`<div><span class="eyebrow">Vitesse</span><b>${Math.round(r.wpm)}</b><small>mots/min</small></div>`:''}
+      ${r.comp!=null?`<div><span class="eyebrow">Compréhension</span><b>${Math.round(r.comp*100)}</b><small>%${r.total?' · '+r.correct+'/'+r.total:''}</small></div>
+        ${r.k!=='suppression'?`<div class="hi"><span class="eyebrow">Lecture utile</span><b>${Math.round(r.wpm*r.comp)}</b><small>indice, pas une mesure du regard</small></div>`:''}`:''}
+      ${r.k==='empan'?`<div><span class="eyebrow">Empan</span><b>${r.span}</b><small>mots</small></div>`:''}
+      ${r.k==='saccades'?`<div><span class="eyebrow">Séquences justes</span><b>${r.correct}/${r.total}</b><small>séquences</small></div>`:''}
+      ${r.k==='peripherie'?`<div><span class="eyebrow">Périphérie</span><b>${r.correct}/${r.total}</b><small>à ${r.dur} ms</small></div>`:''}
+      ${r.k==='suppression'?`<div><span class="eyebrow">Contrôle</span><b>${r.compCtrl!=null?Math.round(r.compCtrl*100):'—'}</b><small>% sans boucle</small></div>
+        <div class="hi"><span class="eyebrow">Écart</span><b>${r.gap!=null?(r.gap>0?'−'+r.gap:'+'+Math.abs(r.gap)):'—'}</b><small>points sous boucle</small></div>`:''}
+      ${r.k==='ortho'?`<div><span class="eyebrow">Justes</span><b>${r.correct}/${r.total}</b><small>médiane ${r.median!=null?r.median+' ms':'—'}${r.timeouts?' · '+r.timeouts+' hors délai':''}</small></div>`:''}
+      ${(r.k==='schulte'||r.k==='lettres')?`<div><span class="eyebrow">Temps</span><b>${r.seconds?r.seconds.toFixed(1):'—'}</b><small>secondes</small></div>`:''}
+      ${r.recall!=null?`<div><span class="eyebrow">Couverture</span><b>${Math.round(r.recall*100)}</b><small>% des idées</small></div>`:''}
+      <div><span class="eyebrow">Gain</span><b>+${xp.pts}</b><small>XP${(S.combo||1)>1?' · série ×'+comboMult():''}</small></div>
+    </div>
+    <div class="xp"><span class="xp-num">Nv ${lv.n}</span><span class="xp-bar"><i style="width:${lv.pct}%"></i></span><span class="xp-num">${lv.rest}/${lv.need}</span></div>
+    ${miss&&miss.complete?`<div class="verdict">Mission complète : <b>+${miss.bonus} XP</b> et une journée de plus dans la série (${miss.streak}). La série ne compte que les missions terminées, pas les exercices lancés puis abandonnés.</div>`:''}
+    ${READ_MODES.has(r.k)?`<div class="verdict">Vitesse cible ${Math.round(r.wpm)} mots/min : ${S.wpm>r.wpm?'elle monte à '+S.wpm:S.wpm<r.wpm?'elle redescend à '+S.wpm:'elle reste inchangée'} pour la prochaine séance.</div>`:`<div class="verdict">Mesure enregistrée. Cet exercice ne modifie pas ta vitesse de lecture.</div>`}
+    <div class="result-actions">
+      ${missionIdx!=null&&!miss.complete?`<button class="btn primary" id="missionNext">Tâche suivante →</button>`:''}
+      <button class="btn${missionIdx!=null&&!miss.complete?'':' primary'}" id="freeAgain">Refaire</button>
+      <button class="btn ghost" id="freeBack">Tableau de bord</button></div>
+  </div>`;
+  $('#freeAgain').addEventListener('click',()=>{ endStage(); launchFree(kind,missionIdx); });
+  $('#freeBack').addEventListener('click',()=>{ endStage(); setView('dash'); });
+  const mn=$('#missionNext');
+  if(mn) mn.addEventListener('click',()=>{
+    const st=missionState();
+    const next=st.done.findIndex(d=>!d);
+    endStage();
+    if(next>=0) launchFree(st.plan[next],next);
+  });
+}
+
+/* =========================================================
+   6. STREAK / STATS
+   ========================================================= */
+function bumpStreak(){
+  const today=dayKey();
+  if(S.streak.last===today) return;
+  const y=new Date(); y.setDate(y.getDate()-1);
+  S.streak.count = S.streak.last===dayKey(y) ? S.streak.count+1 : 1;
+  S.streak.last=today;
+}
+// les passages sous boucle ne comptent pas comme des lectures ordinaires : c'est un diagnostic
+function readingSessions(){ return S.history.filter(h=>h.wpm&&h.comp!=null&&h.mode!=='suppression'); }
+function avgComp(n=5){ const r=readingSessions().slice(-n); return r.length?r.reduce((a,b)=>a+b.comp,0)/r.length:null; }
+function avgEff(n=5){ const r=readingSessions().slice(-n); return r.length?r.reduce((a,b)=>a+(b.effective||0),0)/r.length:null; }
+
+/* ---------- XP, niveaux, mission quotidienne ---------- */
+const xpNeed = n => 120 + (n-1)*60;
+function niveauInfo(){
+  let n=1, rest=Math.max(0,Math.round(S.xp||0));
+  while(rest>=xpNeed(n)){ rest-=xpNeed(n); n++; }
+  return {n,rest,need:xpNeed(n),pct:Math.round(rest/xpNeed(n)*100)};
+}
+function addXp(pts){
+  const before=niveauInfo().n;
+  S.xp=Math.max(0,Math.round((S.xp||0)+pts));
+  const after=niveauInfo();
+  return {pts, up:after.n>before, level:after.n};
+}
+function voixRef(wpm){
+  const rs=S.history.filter(h=>h.comp!=null&&h.wpm&&h.mode!=='suppression'&&h.wpm>=wpm-40);
+  const last=rs.slice(-3);
+  if(!last.length) return null;
+  return last.reduce((a,b)=>a+b.comp,0)/last.length;
+}
+// écart de compréhension avec et sans boucle articulatoire : l'indice « voix intérieure »
+function recordVoix(compLoop,compCtrl,wpm){
+  if(compLoop==null) return null;
+  const w=Math.round(wpm||S.wpm);
+  if(compCtrl==null){ S.voix={comp:Math.round(compLoop*100),wpm:w,ref:null,gap:null,ts:Date.now()}; save(); return S.voix; }
+  S.voix={gap:Math.round((compCtrl-compLoop)*100),ref:Math.round(compCtrl*100),comp:Math.round(compLoop*100),wpm:w,ts:Date.now()};
+  save(); return S.voix;
+}
+function voixText(){
+  if(!S.voix) return null;
+  if(S.voix.gap==null) return null;
+  if(S.voix.gap>0) return '−'+S.voix.gap+' pts sous boucle';
+  return '+'+Math.abs(S.voix.gap)+' pts sous boucle';
+}
+
+const comboMult = ()=>clamp(S.combo||1,1,3);
+function xpFor(r){
+  const acc = r.comp!=null ? r.comp : (r.acc!=null ? r.acc : (r.correct!=null&&r.total ? r.correct/r.total : (r.completed?1:0.4)));
+  const base = r.comp!=null ? 8+acc*12 : 6+acc*8;
+  return Math.max(1, Math.round(base*comboMult()));
+}
+
+const MISSION_KINDS={
+  vision:['schulte','lettres','saccades','peripherie','empanV'],
+  lecture:['metronome','pacer','rsvp','examen'],
+  voix:['suppression','ortho','ortho','suppression'],
+  autre:['rappel','empan','lettres']
+};
+const MISSION_LABEL={
+  schulte:['Grille de chiffres','4×4, le plus vite possible'],
+  lettres:['Grille de lettres','A → P, sans balayer'],
+  saccades:['Saccades guidées','3 séquences à restituer'],
+  peripherie:['Vision périphérique','8 lettres hors du centre du regard'],
+  metronome:['Métronome deux points','gauche · droite · gauche'],
+  pacer:['Lecture guidée','au rythme cible'],
+  rsvp:['Flash RSVP','mots par groupes, sans retour'],
+  rappel:['Rappel libre','écrire ce qu’on retient'],
+  examen:['QCM complet','toutes les questions du texte'],
+  empan:['Empan visuel','reconnaître la bonne phrase'],
+  empanV:['Empan vertical','colonne de 4 à 7 mots'],
+  suppression:['Bouche fermée','lire en répétant ta-ta-ta'],
+  ortho:['Lettres muettes','20 mots, 1,5 s chacun']
+};
+function seedRand(seed){
+  let h=2166136261;
+  for(const c of String(seed)){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); }
+  return ()=>{ h^=h<<13; h>>>=0; h^=h>>>17; h^=h<<5; h>>>=0; return (h%100000)/100000; };
+}
+function missionPlan(){
+  const r=seedRand('m'+dayKey()+'/n'+niveauInfo().n);
+  const pick=a=>a[Math.floor(r()*a.length)];
+  const out=[];
+  const add=k=>{ if(!out.includes(k)) out.push(k); };
+  add(pick(MISSION_KINDS.vision));
+  add(pick(MISSION_KINDS.lecture));
+  add(pick(MISSION_KINDS.voix));
+  const extra=['pacer','schulte','peripherie','rappel','metronome','suppression','ortho'];
+  while(out.length<3) add(pick(extra));
+  return out;
+}
+const MISSION_XP=40;
+function missionState(){
+  const today=dayKey();
+  if(!S.mission||S.mission.day!==today) S.mission={day:today,done:[],xp:0};
+  const plan=missionPlan();
+  S.mission.done=(S.mission.done||[]).slice(0,3);
+  while(S.mission.done.length<3) S.mission.done.push(false);
+  return {plan,done:S.mission.done,complete:S.mission.done.every(Boolean),xp:S.mission.xp||0};
+}
+let missionTask=null;
+function markMissionTask(i){
+  const st=missionState();
+  if(st.done[i]) return {already:true};
+  S.mission.done[i]=true; save();
+  const after=missionState();
+  if(after.complete){
+    const y=new Date(); y.setDate(y.getDate()-1);
+    S.streak.count = S.streak.last===dayKey(y) ? (S.streak.count||0)+1 : 1;
+    S.streak.last=dayKey();
+    const bonus=addXp(MISSION_XP);
+    S.mission.xp=MISSION_XP; save();
+    return {complete:true,bonus:MISSION_XP,streak:S.streak.count,gain:bonus};
+  }
+  return {complete:false};
+}
+
+/* ---------- agrégation journalière ---------- */
+function dayStats(){
+  const map=new Map();
+  S.history.forEach(h=>{
+    const k=dayKey(h.ts);
+    let d=map.get(k);
+    if(!d){ d={day:k,sessions:0,seconds:0,compSum:0,compN:0,effSum:0,effN:0,best:0,steps:[]}; map.set(k,d); }
+    d.sessions++;
+    d.seconds+=(h.seconds||0);
+    if(h.comp!=null){ d.compSum+=h.comp; d.compN++; }
+    if(h.effective){ d.effSum+=h.effective; d.effN++; d.best=Math.max(d.best,h.effective); }
+    if(h.mode&&String(h.mode).startsWith('etape')) d.steps.push(h.mode);
+  });
+  return Array.from(map.values()).sort((a,b)=>a.day<b.day?-1:1).map(d=>({
+    day:d.day, sessions:d.sessions, seconds:d.seconds,
+    comp:d.compN?d.compSum/d.compN:null,
+    eff:d.effN?d.effSum/d.effN:null,
+    best:d.best, steps:Array.from(new Set(d.steps))
+  }));
+}
+function lastDays(n){
+  const by=new Map(dayStats().map(d=>[d.day,d]));
+  const out=[];
+  for(let i=n-1;i>=0;i--){
+    const d=new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate()-i);
+    const k=dayKey(d);
+    out.push(by.get(k)||{day:k,sessions:0,seconds:0,eff:null,comp:null,best:0,steps:[]});
+  }
+  return out;
+}
+const dayLabel = k => new Date(k+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit',month:'2-digit'});
+
+/* =========================================================
+   7. VUES
+   ========================================================= */
+function setView(name){
+  ['dash','progress','guide'].forEach(v=>{ $('#view-'+v).hidden = v!==name; });
+  $$('.nav-item').forEach(b=>b.classList.toggle('is-active',b.dataset.view===name));
+  if(name==='dash') renderDash();
+  if(name==='progress') renderProgress();
+  if(name==='guide') renderGuide();
+}
+
+function renderRail(){
+  $('#railWpm').textContent=S.wpm;
+  $('#railRange').value=S.wpm;
+  const c=avgComp(5);
+  $('#railComp').textContent=c!=null?Math.round(c*100)+' % compréh.':'pas encore de mesure';
+  $('#railEtape').textContent='Étape '+Math.min(currentEtapeIdx()+1,ETAPES.length)+'/'+ETAPES.length;
+  document.documentElement.dataset.theme=S.theme;
+  document.documentElement.style.setProperty('--tscale',S.size);
+  $('#orpBtn').classList.toggle('is-on',!!S.orp);
+  $('#themeBtn').textContent=S.theme==='ink'?'INVERSER':'INVERSER';
+  $('#sizeBtn').textContent='TEXTE '+['A','A+','A++'][S.size===1?0:S.size===1.14?1:2];
+}
+
+function renderDash(){
+  const idx=currentEtapeIdx(), e=ETAPES[idx], lvl=levelIdx();
+  const logs=etapeLogs(e.id);
+  const crit=e.crit(logs);
+  const reads=readingSessions();
+  const eff=avgEff(5), comp=avgComp(5);
+  const done=ETAPES.filter(x=>etapeValidated(x)).length;
+  renderRail();
+
+  const etapeBlocks=e.blocks.map((b,i)=>`<div class="block-row">
+      <span class="bi">0${i+1}</span>
+      <span>${esc(specLabel(b))}</span>
+      <span class="bt">${specMeta(b)}</span>
+    </div>`).join('');
+
+  const ladder=ETAPES.map((x,i)=>{
+    const ok=etapeValidated(x), now=i===idx&&!ok;
+    const cls=ok?'done':now?'now':(i>idx?'locked':'done');
+    const state=ok?'validée':now?'en cours':'verrouillée';
+    return `<div class="ladder-row ${cls}"><span class="ln">${ok?'✓':String(i+1).padStart(2,'0')}</span>
+      <span>${esc(x.nom)}<br><span class="ls">${x.cible} mots/min</span></span>
+      <span class="ls">${state}</span></div>`;
+  }).join('');
+
+  const mi=missionState();
+  const missionHtml=`<div class="mission${mi.complete?' done':''}" style="margin-bottom:22px">
+    <div class="mission-h">
+        <div class="mission-t"><span>Mission du jour</span><b>${mi.complete?'Accomplie — revenir demain':'3 exercices · ~8 min · un visuel, un rythmique, un de voix'}</b></div>
+      <span class="mono" style="font-size:11px;color:var(--dim)">${mi.done.filter(Boolean).length}/3${mi.complete?' · +'+mi.xp+' XP':''}</span>
+    </div>
+    ${mi.plan.map((k,i)=>`<div class="m-task${mi.done[i]?' ok':''}">
+      <span class="tick">${mi.done[i]?'✓':''}</span>
+      <span class="lbl"><b style="font-size:12.5px">${esc(MISSION_LABEL[k][0])}</b><br><span style="color:var(--dim);font-size:11px">${esc(MISSION_LABEL[k][1])}</span></span>
+      ${mi.done[i]?`<span class="mono" style="font-size:10px;color:var(--dim)">fait</span>`:`<button class="btn ghost" style="padding:5px 11px;font-size:11px" data-mission="${i}">Faire</button>`}
+    </div>`).join('')}
+    <p class="hint" style="margin:0">La série ne compte que les missions terminées : lancer un exercice puis l'abandonner ne la fait pas avancer.</p>
+    <div class="xp"><span class="xp-num">Nv ${niveauInfo().n}</span><span class="xp-bar"><i style="width:${niveauInfo().pct}%"></i></span><span class="xp-num">${S.xp||0} XP · ${niveauInfo().rest}/${niveauInfo().need}</span></div>
+  </div>`;
+  const chart=chartSvg(reads.slice(-20));
+  const week=weekStrip(7);
+  const fams=[...new Set(EXOS.map(x=>x.fam))];
+  const exoList=fams.map(f=>`<span class="exo-fam">${f==='Lecture'?'Lecture — rythme, saisie':f==='Vision'?'Fixations et vision':'La voix intérieure'}</span>`+
+    EXOS.filter(x=>x.fam===f).map(x=>`<button class="row-btn" data-free="${x.id}">
+      <span class="row-num">${x.id==='metronome'?'♪':x.id==='saccades'?'↔':x.id==='guide'?'|':x.id==='lettres'?'A':x.id==='schulte'?'1':x.id==='empan'?'⌷':x.id==='empanV'?'↕':x.id==='rappel'?'✎':x.id==='pacer'?'›':x.id==='peripherie'?'◎':'≡'}</span>
+      <span class="row-body"><b>${esc(x.nom)}</b><span>${esc(x.desc)}</span></span>
+      <span class="row-meta">${x.meta}</span></button>`).join('')).join('');
+
+  $('#view-dash').innerHTML=`
+  <div class="statusbar">
+    <div class="sb"><span class="eyebrow">Étape</span><b>${idx+1}<span style="font-size:12px;color:var(--dim)"> / ${ETAPES.length}</span></b><small>${esc(e.nom)}</small></div>
+    <div class="sb"><span class="eyebrow">Vitesse cible</span><b>${S.wpm}</b><small>mots/min · niveau ${lvl+1} ${LEVELS[lvl].nom}</small></div>
+    <div class="sb"><span class="eyebrow">Compréhension</span><b>${comp!=null?Math.round(comp*100)+'<span style="font-size:12px"> %</span>':'—'}</b><small>5 dernières lectures</small></div>
+    <div class="sb"><span class="eyebrow">Lecture utile</span><b>${eff!=null?Math.round(eff):'—'}</b><small>indice : débit × QCM</small></div>
+    <div class="sb"><span class="eyebrow">Niveau</span><b>${niveauInfo().n}<span style="font-size:12px;color:var(--dim)"> · ${S.xp||0} XP</span></b><small>${niveauInfo().rest}/${niveauInfo().need} avant le suivant</small></div>
+    <div class="sb"><span class="eyebrow">Voix intérieure</span><b>${voixText()||'—'}</b><small>${S.voix&&S.voix.gap!=null?'écart à '+S.voix.wpm+' mots/min':'passe par « Bouche fermée »'}</small></div>
+    <div class="sb"><span class="eyebrow">Série</span><b>${S.streak.count||0}</b><small>mission${(S.streak.count||0)>1?'s':''} d'affilée</small></div>
+  </div>
+
+  ${missionHtml}
+  <div class="pause-card">
+    <div class="pc-t">
+      <b>Pause des yeux</b>
+      <small>${S.eyeAuto?('une toutes les '+(estDebutant()?'4':'7')+' min d\'écran, sans rien faire · '+eyeToday().count+' aujourd\'hui'):'automatique désactivée — les pauses restent disponibles à la main'}</small>
+    </div>
+    <button class="btn ghost" id="eyeNow" style="padding:6px 12px;font-size:12px">20 secondes</button>
+  </div>
+
+  ${!S.onboarded?`<div class="etape-card" style="border-color:var(--accent);margin-bottom:22px;display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap;background:var(--surface)">
+    <div>
+      <span class="eyebrow">Avant le parcours</span>
+      <h2 style="font-size:22px;margin:4px 0 4px">Mesure de départ</h2>
+      <p class="hint" style="max-width:62ch">Deux minutes : tu lis un texte à ton rythme naturel, tu réponds à quatre questions. On en déduit ta vitesse réelle et ta cible de départ. Sans cette mesure, les ${S.wpm} mots/min affichés ne sont qu'une hypothèse.</p>
+    </div>
+    <button class="btn primary" id="startCal">Mesurer ma vitesse</button>
+  </div>`:''}
+
+  <div class="grid-main">
+    <div class="stack">
+      <div class="etape-card">
+        <div class="etape-top">
+          <div>
+            <span class="eyebrow">Étape ${idx+1} / ${ETAPES.length} · ${done} validée${done>1?'s':''}</span>
+            <h1 class="etape-title">${esc(e.nom)}</h1>
+            <p class="etape-but">${esc(e.but)}</p>
+          </div>
+          <div class="etape-cible">
+            <span class="eyebrow">Cible</span>
+            <b>${S.wpm}</b>
+            <span class="eyebrow" style="color:var(--dim)">mots/min</span>
+          </div>
+        </div>
+        <div class="blocks">${etapeBlocks}</div>
+        <div class="crit">
+          <span class="eyebrow" style="margin-bottom:4px">Pour passer à la suite</span>
+          <ul>${crit.items.map(i=>`<li class="${i.ok?'ok':''}"><span class="mk">${i.ok?'✓':'·'}</span><span>${esc(i.label)}</span><span class="val">${esc(i.val||'')}</span></li>`).join('')}</ul>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+          ${done===ETAPES.length
+            ? `<button class="btn primary" id="runEtape">Séance d'entretien</button>
+               <span class="hint">Parcours terminé : ${ETAPES.length} étapes validées. L'entretien garde la mesure — une séance par jour suffit.</span>`
+            : `<button class="btn primary" id="runEtape">Lancer l'étape ${idx+1}</button>
+               ${logs.length?`<button class="btn" id="runEtapeAgain">Refaire</button>`:''}
+               <span class="hint">${logs.length?logs.length+' passage'+(logs.length>1?'s':'')+' enregistré'+(logs.length>1?'s':''):'premier passage'}</span>`}
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-h"><h2>Progression</h2><span class="eyebrow">${reads.length} lecture${reads.length>1?'s':''} mesurée${reads.length>1?'s':''}</span></div>
+        ${chart}
+        ${week}
+      </div>
+
+      <div class="panel">
+        <div class="panel-h"><h2>Exercices libres</h2><span class="eyebrow">hors parcours · ne valident pas l'étape</span></div>
+        <div id="freeList">${exoList}</div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="panel">
+        <div class="panel-h"><h2>Le parcours</h2><span class="eyebrow">${ETAPES.length} étapes</span></div>
+        <div class="ladder">${ladder}</div>
+      </div>
+      <div class="panel">
+        <div class="panel-h"><h2>Réglages</h2></div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div>
+            <span class="eyebrow">Vitesse cible (mots/min)</span>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+              <input type="range" min="120" max="1000" step="10" id="dashRange" value="${S.wpm}" style="flex:1">
+              <span class="mono" style="font-size:15px;min-width:3ch;text-align:right">${S.wpm}</span>
+            </div>
+          </div>
+          <div>
+            <span class="eyebrow">Mots par affichage (Flash)</span>
+            <div style="display:flex;gap:6px;margin-top:6px">
+              ${[1,2,3,4,5,6,7,8].map(n=>`<button class="chip ${S.chunk===n?'is-on':''}" data-chunk="${n}">${n}</button>`).join('')}
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="chip ${S.orp?'is-on':''}" data-pref="orp">Ancrage ORP</button>
+            <button class="chip ${S.click?'is-on':''}" data-pref="click">Son du métronome</button>
+            <button class="chip ${S.eyeAuto?'is-on':''}" data-pref="eyeAuto">Pauses des yeux auto</button>
+            <button class="chip" data-pref="theme">Thème ${S.theme==='ink'?'encre':'papier'}</button>
+            <button class="chip" data-pref="size">Taille ${['normale','grande','max'][[1,1.14,1.28].indexOf(S.size)]||'grande'}</button>
+          </div>
+          <p class="hint">Données stockées localement dans ce navigateur. Aucun envoi, aucun compte.</p>
+          <button class="btn ghost" id="resetAll" style="align-self:flex-start">Effacer mes données</button>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px">
+            <button class="chip" id="exportJson">Sauvegarde (JSON)</button>
+            <label class="chip" style="cursor:pointer;display:inline-flex;align-items:center">Restaurer<input type="file" id="importJson" accept="application/json,.json" hidden></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  $('#runEtape').addEventListener('click',()=>launchEtape(idx));
+  const sc=$('#startCal'); if(sc) sc.addEventListener('click',()=>launchCalibrage());
+  const again=$('#runEtapeAgain'); if(again) again.addEventListener('click',()=>launchEtape(idx));
+  $$('#freeList [data-free]').forEach(b=>b.addEventListener('click',()=>launchFree(b.dataset.free)));
+  $$('[data-mission]').forEach(b=>{ const i=+b.dataset.mission; b.addEventListener('click',()=>launchFree(missionState().plan[i],i)); });
+  const en=$('#eyeNow'); if(en) en.addEventListener('click',()=>eyeBreak(true));
+  $('#dashRange').addEventListener('input',e2=>{ S.wpm=+e2.target.value; save(); renderDash(); });
+  $$('[data-chunk]').forEach(b=>b.addEventListener('click',()=>{ S.chunk=+b.dataset.chunk; save(); renderDash(); }));
+  $$('[data-pref]').forEach(b=>b.addEventListener('click',()=>{
+    const p=b.dataset.pref;
+    if(p==='orp') S.orp=!S.orp;
+    if(p==='click') S.click=!S.click;
+    if(p==='eyeAuto'){ S.eyeAuto=!S.eyeAuto; if(!S.eyeAuto) S.eyeMs=0; }
+    if(p==='theme') S.theme=S.theme==='ink'?'paper':'ink';
+    if(p==='size'){ const sizes=[1,1.14,1.28]; S.size=sizes[(sizes.indexOf(S.size)+1)%3]; }
+    save(); renderDash();
+  }));
+  $('#resetAll').addEventListener('click',()=>{
+    if(confirm("Effacer tout l'historique et repartir de zéro ?")){ localStorage.removeItem(KEY); S=load(); renderDash(); toast('Données effacées'); }
+  });
+  wireExports();
+}
+function wireExports(){
+  const ex=$('#exportJson'); if(ex) ex.addEventListener('click',exportJSON);
+  const ec=$('#exportCsv'); if(ec) ec.addEventListener('click',exportCSV);
+  const im=$('#importJson'); if(im) im.addEventListener('change',e=>importJSON(e.target.files[0]));
+}
+
+/* ---------- export / restauration ---------- */
+function download(name,text,type){
+  try{
+    const blob=new Blob([text],{type:type||'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download=name;
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{ try{ URL.revokeObjectURL(url); a.remove(); }catch(e){} },500);
+  }catch(e){ toast('Export impossible dans ce navigateur'); }
+}
+function exportJSON(){ download('lecture-eclair-sauvegarde.json', JSON.stringify(S,null,2)); toast('Sauvegarde téléchargée'); }
+function exportCSV(){
+  const head=['date','heure','seance','vitesse_cible','comprehension_pct','vitesse_efficace','mots','secondes'];
+  const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+  const rows=S.history.map(h=>{
+    const d=new Date(h.ts);
+    return [d.toISOString().slice(0,10), d.toTimeString().slice(0,5), h.label||h.mode||'',
+      h.wpm!=null?Math.round(h.wpm):'',
+      h.comp!=null?Math.round(h.comp*100):'',
+      h.effective?Math.round(h.effective):'',
+      h.words||0, h.seconds?Math.round(h.seconds):0].map(q).join(';');
+  });
+  download('lecture-eclair-seances.csv', [head.join(';')].concat(rows).join('\n'), 'text/csv;charset=utf-8');
+  toast('Séances exportées ('+S.history.length+')');
+}
+function importJSON(file){
+  if(!file) return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const p=JSON.parse(String(r.result));
+      if(!p||typeof p!=='object'||!Array.isArray(p.history)) throw new Error('format');
+      if(!confirm('Remplacer les données actuelles par cette sauvegarde ('+p.history.length+' séances) ?')) return;
+      localStorage.setItem(KEY,JSON.stringify(p));
+      S=load(); renderAll(); setView('dash'); toast('Sauvegarde restaurée');
+    }catch(e){ toast('Fichier illisible ou invalide'); }
+  };
+  r.onerror=()=>toast('Lecture du fichier impossible');
+  r.readAsText(file);
+}
+
+function chartSvg(data){
+  if(data.length<2) return `<div class="empty">Deux séances de lecture suffisent pour tracer la courbe. La ligne haute sera ta vitesse imposée, la ligne pleine ta vitesse réellement comprise.</div>`;
+  const W=640,H=220,P=34;
+  const maxV=Math.max(...data.map(d=>Math.max(d.wpm||0,d.effective||0)))*1.12||1;
+  const x=i=>P+(i/(data.length-1))*(W-P-14);
+  const y=v=>H-P-(v/maxV)*(H-P-16);
+  const line=(key)=>data.map((d,i)=>`${i?'L':'M'}${x(i).toFixed(1)},${y(d[key]||0).toFixed(1)}`).join(' ');
+  const area=data.map((d,i)=>`${i?'L':'M'}${x(i).toFixed(1)},${y(d.effective||0).toFixed(1)}`).join(' ')+` L${x(data.length-1).toFixed(1)},${H-P} L${x(0).toFixed(1)},${H-P} Z`;
+  const grid=[0,.25,.5,.75,1].map(f=>`<line x1="${P}" x2="${W-14}" y1="${y(maxV*f).toFixed(1)}" y2="${y(maxV*f).toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`).join('');
+  const dots=data.map((d,i)=>`<circle cx="${x(i).toFixed(1)}" cy="${y(d.effective||0).toFixed(1)}" r="2.6" fill="var(--accent)"/>`).join('');
+  return `<div class="chart-wrap">
+    <svg viewBox="0 0 ${W} ${H}" width="100%" height="auto" role="img" aria-label="Évolution de la vitesse imposée et de la vitesse efficace">
+      ${grid}
+      <path d="${area}" fill="var(--accent-soft)"/>
+      <path d="${line('wpm')}" fill="none" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4"/>
+      <path d="${line('effective')}" fill="none" stroke="var(--accent)" stroke-width="1.8"/>
+      ${dots}
+      <text x="${P}" y="16" fill="var(--dim)" font-family="ui-monospace, Menlo, monospace" font-size="9">${Math.round(maxV)} mots/min</text>
+    </svg>
+    <div class="chart-legend"><span><i style="background:var(--accent)"></i>lecture utile</span>
+      <span><i style="background:var(--muted)"></i>vitesse imposée</span></div>
+  </div>`;
+}
+
+function weekStrip(n=7){
+  const days=lastDays(n);
+  const max=Math.max(...days.map(d=>d.eff||0),1);
+  const today=dayKey();
+  return `<div class="week">${days.map(d=>{
+    const lbl=new Date(d.day+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'narrow'});
+    const pct=d.eff?Math.max(4,Math.round(d.eff/max*100)):0;
+    return `<div class="wday${d.day===today?' today':''}${d.sessions?' has':''}" title="${esc(dayLabel(d.day))} — ${d.eff?Math.round(d.eff)+' mots/min compris':''}${d.sessions?' · '+d.sessions+' séance'+(d.sessions>1?'s':''):''}">
+      <span class="wk">${lbl}</span>
+      <span class="wbar"><i style="height:${pct}%"></i></span>
+      <span class="wval">${d.eff?Math.round(d.eff):''}</span>
+    </div>`;
+  }).join('')}</div>
+  <div class="chart-legend" style="padding-left:2px"><span>7 derniers jours · vitesse efficace moyenne</span><span class="mono">${days.filter(d=>d.sessions).length} jour${days.filter(d=>d.sessions).length>1?'s':''} actif${days.filter(d=>d.sessions).length>1?'s':''}</span></div>`;
+}
+
+function barsSvg(days){
+  const withData=days.filter(d=>d.eff);
+  if(!withData.length) return `<div class="empty">Aucune journée mesurée. Dès la première séance, chaque journée apparaîtra ici avec sa moyenne.</div>`;
+  const W=640,H=200,P=32;
+  const max=Math.max(...days.map(d=>d.eff||0),1)*1.15;
+  const step=(W-P-12)/days.length;
+  const bw=Math.max(6,Math.min(30,step*0.62));
+  const bars=days.map((d,i)=>{
+    if(!d.eff) return '';
+    const h=(d.eff/max)*(H-P-18);
+    const x=P+i*step+(step-bw)/2;
+    return `<g>
+      <rect x="${x.toFixed(1)}" y="${(H-P-h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="var(--accent)" opacity="${d.day===dayKey()?1:.72}"/>
+      <text x="${(x+bw/2).toFixed(1)}" y="${(H-P-h-5).toFixed(1)}" text-anchor="middle" fill="var(--muted)" font-family="ui-monospace, Menlo, monospace" font-size="9">${Math.round(d.eff)}</text>
+    </g>`;
+  }).join('');
+  const labels=days.map((d,i)=>{
+    if(i%Math.ceil(days.length/7)!==0 && i!==days.length-1) return '';
+    const x=P+i*step+step/2;
+    return `<text x="${x.toFixed(1)}" y="${H-10}" text-anchor="middle" fill="var(--dim)" font-family="ui-monospace, Menlo, monospace" font-size="8.5">${dayLabel(d.day).replace(' ','').slice(0,6)}</text>`;
+  }).join('');
+  const grid=[0,.5,1].map(f=>`<line x1="${P}" x2="${W-12}" y1="${(H-P-(H-P-18)*f).toFixed(1)}" y2="${(H-P-(H-P-18)*f).toFixed(1)}" stroke="var(--line)"/>`).join('');
+  return `<div class="chart-wrap">
+    <svg viewBox="0 0 ${W} ${H}" width="100%" height="auto" role="img" aria-label="Vitesse efficace moyenne par jour">
+      ${grid}${bars}${labels}
+      <text x="${P}" y="14" fill="var(--dim)" font-family="ui-monospace, Menlo, monospace" font-size="9">${Math.round(max)} mots/min compris</text>
+    </svg>
+  </div>`;
+}
+
+function renderProgress(){
+  renderRail();
+  const h=S.history.slice().reverse();
+  const reads=readingSessions();
+  const totalMin=Math.round(S.history.reduce((a,b)=>a+(b.seconds||0),0)/60);
+  const best=reads.length?Math.max(...reads.map(r=>r.effective||0)):null;
+  const comp=avgComp(10);
+  const rows=h.slice(0,14).map(r=>{
+    const d=new Date(r.ts);
+    const when=d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    return `<tr><td>${when}</td><td>${esc(r.label||r.mode)}</td>
+      <td class="n">${r.wpm?Math.round(r.wpm):'—'}</td>
+      <td class="n">${r.comp!=null?Math.round(r.comp*100)+' %':'—'}</td>
+      <td class="n">${r.effective?Math.round(r.effective):(r.recall!=null?Math.round(r.recall*100)+' %':'—')}</td></tr>`;
+  }).join('');
+  const etapeRows=ETAPES.map((e,i)=>{
+    const l=etapeLogs(e.id), ok=etapeValidated(e);
+    const c=e.crit(l);
+    return `<div class="ladder-row ${ok?'done':(i===currentEtapeIdx()?'now':'locked')}">
+      <span class="ln">${ok?'✓':String(i+1).padStart(2,'0')}</span>
+      <span>${esc(e.nom)}<br><span class="ls">${c.items.map(x=>x.label.split(' ').slice(0,4).join(' ')+(x.ok?' ✓':'')).join(' · ')}</span></span>
+      <span class="ls">${l.length} passage${l.length>1?'s':''}</span></div>`;
+  }).join('');
+
+  // ---- progression journalière
+  const allDays=dayStats();
+  const days30=lastDays(30);
+  const prevEff=new Map();
+  allDays.forEach((d,i)=>{ prevEff.set(d.day, i>0?allDays[i-1].eff:null); });
+  const dayRows=allDays.slice().reverse().slice(0,12).map(d=>{
+    const prev=prevEff.get(d.day);
+    const delta=(d.eff!=null&&prev!=null)?Math.round(d.eff-prev):null;
+    return `<tr>
+      <td>${esc(dayLabel(d.day))}${d.day===dayKey()?' <span class="tag now">aujourd’hui</span>':''}</td>
+      <td class="n">${d.sessions}</td>
+      <td class="n">${Math.round(d.seconds/60)} min</td>
+      <td class="n">${d.comp!=null?Math.round(d.comp*100)+' %':'—'}</td>
+      <td class="n">${d.eff!=null?Math.round(d.eff):'—'}</td>
+      <td class="n ${delta>0?'delta-up':delta<0?'delta-down':''}">${delta==null?'—':(delta>0?'+':'')+delta}</td>
+    </tr>`;
+  }).join('');
+  const activeDays=allDays.filter(d=>d.sessions).length;
+  const today=allDays.find(d=>d.day===dayKey());
+
+  $('#view-progress').innerHTML=`
+    <div class="statusbar">
+      <div class="sb"><span class="eyebrow">Séances</span><b>${S.history.length}</b><small>toutes catégories</small></div>
+      <div class="sb"><span class="eyebrow">Temps de pratique</span><b>${totalMin}</b><small>minutes</small></div>
+      <div class="sb"><span class="eyebrow">Compréhension moyenne</span><b>${comp!=null?Math.round(comp*100)+' %':'—'}</b><small>10 dernières lectures</small></div>
+      <div class="sb"><span class="eyebrow">Record utile</span><b>${best?Math.round(best):'—'}</b><small>meilleur indice débit × QCM</small></div>
+      <div class="sb"><span class="eyebrow">Étapes validées</span><b>${ETAPES.filter(e=>etapeValidated(e)).length}/${ETAPES.length}</b><small>du parcours</small></div>
+      <div class="sb"><span class="eyebrow">Jours actifs</span><b>${activeDays}</b><small>${today?Math.round(today.seconds/60)+' min aujourd’hui':'rien aujourd’hui'}</small></div>
+    </div>
+    <div class="grid-main">
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-h"><h2>Jour par jour</h2><span class="eyebrow">30 derniers jours</span></div>
+          ${barsSvg(days30)}
+          <div style="overflow:auto;margin-top:14px"><table class="sess daytable">
+            <thead><tr><th style="text-align:left">Jour</th><th>Séances</th><th>Temps</th><th>Compréh.</th><th>Efficace</th><th>Écart</th></tr></thead>
+            <tbody>${dayRows||`<tr><td colspan="6" style="text-align:left;color:var(--dim)">Aucune journée enregistrée</td></tr>`}</tbody>
+          </table></div>
+          <p class="hint" style="margin-top:10px">Chaque journée garde sa moyenne de vitesse efficace (mots/min réellement compris). L'écart se calcule avec la dernière journée mesurée, pas avec la séance précédente : c'est la pente réelle de la progression.</p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">
+            <button class="chip" id="exportCsv">Exporter les séances (CSV)</button>
+            <button class="chip" id="exportJson">Sauvegarde complète (JSON)</button>
+            <label class="chip" style="cursor:pointer;display:inline-flex;align-items:center">Restaurer une sauvegarde<input type="file" id="importJson" accept="application/json,.json" hidden></label>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-h"><h2>Vitesse imposée / vitesse comprise</h2><span class="eyebrow">20 dernières lectures</span></div>
+          ${chartSvg(reads.slice(-20))}
+          <p class="hint" style="margin-top:12px">L'écart entre les deux lignes, c'est le prix payé en compréhension. Une vitesse qui monte pendant que l'écart se creuse n'est pas un progrès.</p>
+        </div>
+        <div class="panel">
+          <div class="panel-h"><h2>Journal</h2><span class="eyebrow">${S.history.length} entrées</span></div>
+          ${S.history.length?`<div style="overflow:auto"><table class="sess">
+            <thead><tr><th>Quand</th><th style="text-align:left">Séance</th><th>Vitesse</th><th>Compréh.</th><th>Efficace</th></tr></thead>
+            <tbody>${rows}</tbody></table></div>`:`<div class="empty">Aucune séance. Commence par l'étape 1 du parcours.</div>`}
+        </div>
+      </div>
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-h"><h2>Parcours</h2></div>
+          <div class="ladder">${etapeRows}</div>
+        </div>
+        <div class="panel">
+          <div class="panel-h"><h2>Repères</h2></div>
+          <div class="mini-stats">
+            <div><b>${S.span}</b><small>empan visuel (mots)</small></div>
+            <div><b>${S.schulteBest['4N']?S.schulteBest['4N'].toFixed(1)+' s':'—'}</b><small>grille chiffres 4×4</small></div>
+            <div><b>${S.schulteBest['4L']?S.schulteBest['4L'].toFixed(1)+' s':'—'}</b><small>grille lettres 4×4</small></div>
+            <div><b>${S.streak.count||0}</b><small>jours d'affilée</small></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  wireExports();
+}
+
+function renderGuide(){
+  renderRail();
+  $('#view-guide').innerHTML=`
+    <div class="statusbar">
+      <div class="sb"><span class="eyebrow">Parcours</span><b>${ETAPES.length}</b><small>étapes séquentielles</small></div>
+      <div class="sb"><span class="eyebrow">Blocage</span><b>Aucun</b><small>la vitesse s'ajuste seule</small></div>
+      <div class="sb"><span class="eyebrow">Mesure clé</span><b>Efficace</b><small>mots/min compris</small></div>
+    </div>
+    <div class="grid-main">
+      <div class="prose">
+        <h2>Le principe</h2>
+        <p>La lecture rapide n'est pas un chronomètre : c'est un compromis. Lire à 400 mots/min en ne retenant rien n'a aucune valeur. Ici, chaque lecture est suivie de questions, et la seule note qui compte est la <strong style="color:var(--ink)">lecture utile</strong> : débit × compréhension. C'est un <em>indice</em>, pas une mesure du regard — il compare des séances, il ne mesure pas les mouvements oculaires.</p>
+        <p class="note">À 280 mots/min avec 75 % de compréhension, l'indice vaut 210. À 200 avec 100 %, il vaut 200. Le second profil est plus solide — et il progressera plus loin.</p>
+
+        <h2>Le jeu : mission, série, XP</h2>
+        <ul>
+          <li><strong style="color:var(--ink)">Mission du jour</strong> — trois exercices tirés au sort chaque jour (un visuel, un rythmique, un de voix intérieure), environ huit minutes. Elle se termine quand les trois sont faits, pas quand tu en lances un.</li>
+          <li><strong style="color:var(--ink)">Série</strong> — elle n'avance que sur une mission terminée. Abandonner un exercice ne casse rien, mais ne compte pas.</li>
+          <li><strong style="color:var(--ink)">XP et niveaux</strong> — 8 à 20 XP par exercice selon la justesse, ×2 ou ×3 quand tu enchaînes les bonnes réponses dans un même quiz. Le niveau monte lentement : ~120 XP pour le deuxième niveau, puis davantage.</li>
+          <li><strong style="color:var(--ink)">Contre le farming</strong> — refaire vingt fois la grille de chiffres rapporte peu : le gain dépend de la compréhension et de la série, pas du nombre de clics.</li>
+        </ul>
+
+        <h2>La voix intérieure : la bouche et l'oreille</h2>
+        <p>La plupart des lecteurs lents « disent » ce qu'ils lisent : une voix intérieure articule les mots et une oreille interne les écoute. C'est la <em>subvocalisation</em>. Elle n'est pas un défaut — elle aide à comprendre un texte difficile — mais elle plafonne la lecture au débit de la parole, environ 250 à 300 mots/min. Pour aller plus vite sans perdre le sens, il faut lire par les yeux : la forme écrite accède directement au sens, sans passer par le son.</p>
+        <ul>
+          <li><strong style="color:var(--ink)">Bouche fermée</strong> — deux textes à la même cadence : un <em>contrôle</em> lu normalement, puis le même exercice en répétant mentalement « ta-ta-ta » au rythme d'un repère. Cette boucle occupe la voix intérieure : si tu comprends encore, c'est que tu n'en avais pas besoin. C'est la <em>suppression articulatoire</em>, la technique classique pour faire taire la voix. L'écart entre les deux passages est l'indice qui compte : sous 25 points (une question sur quatre), la lecture commence à se passer du son.</li>
+          <li><strong style="color:var(--ink)">Lettres muettes</strong> — un mot s'affiche 1,5 s : a-t-il une lettre muette ? Impossible de répondre en l'entendant (« tabac », « doigt », « poids »), il faut voir l'orthographe. Tu entraînes l'accès direct à la forme écrite, et la médiane de réponse dit à quelle vitesse cet accès se fait.</li>
+          <li><strong style="color:var(--ink)">Ce que mesure l'indice « voix intérieure »</strong> — l'écart de compréhension entre tes lectures normales et tes lectures sous boucle, à vitesse comparable. Un écart qui se réduit sur plusieurs semaines veut dire que la lecture se détache du son. Un écart important veut dire que la voix porte encore le sens chez toi : ce n'est pas une faute, c'est l'étape en cours.</li>
+        </ul>
+        <p class="note">Sans micro ni électrodes sur la gorge, rien ici ne mesure l'articulation réelle : l'écart de compréhension est un <em>indice indirect</em>, et l'auto-observation n'est pas notée. On ne cherche pas le silence total — sur un texte dense ou technique, la voix reste utile. L'objectif est de pouvoir s'en passer quand on veut aller vite.</p>
+
+        <h2>Les pauses des yeux</h2>
+        <p>Lire sur un écran, c'est accommoder en permanence à 50 cm : le muscle ciliaire ne se relâche plus, et on cligne deux à trois fois moins. La règle classique est 20-20-20 — toutes les 20 minutes, regarder à 6 mètres pendant 20 secondes — mais elle suppose qu'on y pense. Ici, l'app le fait à ta place : une pause s'ouvre <strong style="color:var(--ink)">entre deux exercices</strong> (jamais au milieu d'un quiz), toutes les 4 minutes pour un débutant et toutes les 7 pour un lecteur plus avancé. Le bouton « 20 secondes » du tableau de bord les ouvre à la demande, et les pauses automatiques se coupent dans les réglages.</p>
+        <ul>
+          <li><strong style="color:var(--ink)">Regarde au loin</strong> — un point à plus de six mètres, 20 s. C'est le relâchement de l'accommodation.</li>
+          <li><strong style="color:var(--ink)">Cligne lentement</strong> — dix clignements complets, 15 s. Le film lacrymal se reforme.</li>
+          <li><strong style="color:var(--ink)">Paumes sur les yeux</strong> — 20 s dans le noir, sans appuyer (palming).</li>
+          <li><strong style="color:var(--ink)">Près / loin</strong> — huit allers-retours entre un doigt à 40 cm et un point lointain, 25 s.</li>
+        </ul>
+        <p class="note">Aucune de ces méthodes ne « répare » la vue ni ne soigne quoi que ce soit : elles réduisent la fatigue oculaire de l'écran. Si tu portes des lunettes ou as une correction, garde-la pendant les exercices.</p>
+
+        <h2>Les textes</h2>
+        <p>${TEXTS.length} textes, cinq niveaux, du plus court au plus dense (de 180 à 1500 mots), sur une douzaine de thèmes : sciences, nature, histoire, géographie, arts, technologie, société, santé, sport, cuisine, espace, animaux, architecture, économie. Chaque texte est livré avec <strong style="color:var(--ink)">15 à 27 questions</strong> — faits explicites, inférences, idée principale — avec trois options et une explication après chaque réponse.</p>
+        <ul>
+          <li>Le tirage est <strong style="color:var(--ink)">aléatoire par niveau</strong>, jamais les six derniers textes vus, et toujours celui que tu as le moins lu dans la pile : la redondance devient rare.</li>
+          <li>Après une lecture chronométrée (Flash, guidée, métronome, boucle fermée), l'app pose <strong style="color:var(--ink)">4 à 7 questions tirées au hasard</strong> : à 300 mots/min, un QCM de 20 questions mesurerait la patience, pas la compréhension.</li>
+          <li>L'exercice <strong style="color:var(--ink)">Lecture + QCM complet</strong> lit un texte à ton rythme puis pose <em>toutes</em> ses questions : c'est le test de compréhension sans chronomètre.</li>
+          <li>Pour ajouter des textes : le fichier <code>textes.js</code> contient la bibliothèque, <code>textes/SPEC.md</code> décrit le schéma, et <code>node textes/valide-biblio.js textes.js</code> vérifie longueurs, nombre de questions, options et doublons.</li>
+        </ul>
+        <p class="note">Bibliothèque actuelle : ${BIBLIO_SRC==='secours'?'textes de secours (bibliothèque externe absente)':'textes.js'}. Aucun texte n'est téléchargé : tout est dans le fichier.</p>
+
+        <h2>Le parcours, étape par étape</h2>
+        <p>${ETAPES.length} étapes, dans l'ordre. Elles commencent par l'outil (le champ visuel, les fixations), passent par le rythme et la prise de groupes, puis par la voix intérieure et enfin la vitesse. Chacune a un objectif, deux ou trois exercices imposés, et un critère de passage chiffré. Tant que le critère n'est pas atteint, l'étape se refait : c'est normal, la régularité compte plus que le record.</p>
+        <ul>${ETAPES.map(e=>`<li><strong style="color:var(--ink)">${e.id}. ${esc(e.nom)}</strong> — ${esc(e.but)} <span class="mono" style="font-size:11px;color:var(--dim)">(${e.cible} mots/min)</span></li>`).join('')}</ul>
+
+        <h2>Comment la vitesse bouge</h2>
+        <ul>
+          <li>3 ou 4 bonnes réponses sur 4 et rythme supportable → <code>+20 mots/min</code></li>
+          <li>3 sur 4 mais rythme éprouvant, ou 2 sur 4 → la vitesse ne bouge pas</li>
+          <li>moins de 2 sur 4 → <code>−20 mots/min</code>, on reconstruit la saisie</li>
+          <li>chaque étape impose un plancher : elle ne peut pas démarrer en dessous de sa cible</li>
+          <li>seules les lectures avec questions déplacent la vitesse : une grille, des saccades ou un empan réussi ne la font pas monter</li>
+          <li>le plancher d'une étape ne s'applique qu'une fois : une baisse gagnée (mauvaise compréhension) n'est pas effacée au lancement suivant</li>
+        </ul>
+        <p>Tu peux forcer la vitesse à la main dans les réglages, mais l'adaptation automatique reprend la main à la séance suivante. C'est volontaire : le curseur doit rester honnête.</p>
+
+        <h2>Les exercices et ce qu'ils travaillent</h2>
+        <p><strong style="color:var(--ink)">Lecture</strong> — la saisie et le rythme.</p>
+        <ul>
+          <li><strong style="color:var(--ink)">Flash RSVP</strong> — un mot à huit mots à la fois, ancré sur un point fixe : le groupe grandit avec ton palier de vitesse (2 mots à 300 mots/min, 4 à 520, 6 à 800, 8 à 1000). Supprime le retour oculaire et réduit la subvocalisation.</li>
+          <li><strong style="color:var(--ink)">Lecture guidée</strong> — un curseur vertical balaie la ligne à vitesse constante et le texte lu <em>disparaît</em> : pas de point de fixation, pas de retour, aucune relecture — seulement le flux.</li>
+          <li><strong style="color:var(--ink)">Métronome deux points</strong> — deux points de fixation, à gauche et à droite de l'écran : les groupes de mots s'allument alternativement à l'un puis à l'autre, au rythme du battement. L'œil doit traverser tout le champ à chaque temps, sans s'arrêter au milieu. Le groupe suit le même réglage que le Flash (« mots par affichage », de 1 à 8) et grandit donc tout seul avec ton palier de vitesse.</li>
+          <li><strong style="color:var(--ink)">Lecture + rappel libre</strong> — tu écris ce que tu retiens, la couverture des idées clés est estimée par recoupement lexical.</li>
+        </ul>
+        <p><strong style="color:var(--ink)">Fixations et vision</strong> — l'outil optique, avant la vitesse.</p>
+        <ul>
+          <li><strong style="color:var(--ink)">Grille de chiffres</strong> — 1, 2, 3… à cliquer dans l'ordre, sans balayer. Élargit le champ utile.</li>
+          <li><strong style="color:var(--ink)">Grille de lettres</strong> — A, B, C… dans l'ordre. Même exercice sans l'appui de la suite numérique : la recherche est plus coûteuse, donc plus révélatrice.</li>
+          <li><strong style="color:var(--ink)">Saccades guidées</strong> — des lettres apparaissent brièvement sur des repères fixes ; tu dois restituer la séquence. Entraîne la précision du saut d'un point à l'autre, pas la vitesse de lecture.</li>
+          <li><strong style="color:var(--ink)">Indicateur visuel</strong> — une barre marque où poser le regard, un point tous les trois mots. Tu ne lis qu'entre deux points, puis tu sautes. C'est la fixation groupée, celle qui fait vraiment gagner des mots par minute.</li>
+          <li><strong style="color:var(--ink)">Vision périphérique</strong> — le regard reste sur une croix centrale, une lettre est flashée sur le côté puis masquée. Ce que tu identifies hors du centre, sans bouger les yeux, est mesuré ; la durée d'exposition s'ajuste seule.</li>
+          <li><strong style="color:var(--ink)">Empan visuel</strong> — une phrase flashée, trois variantes proches : tu dois reconnaître la bonne. Mesure combien de mots ton œil saisit d'un coup, horizontalement.</li>
+          <li><strong style="color:var(--ink)">Empan vertical</strong> — une colonne de 4 à 7 mots, deux flèches au centre : tu fixes le milieu et la colonne se lit d'un seul regard vertical. On mesure la hauteur du champ, pas la largeur — c'est ce qui compte pour descendre une page sans balayer.</li>
+        </ul>
+
+        <h2>L'historique et la progression journalière</h2>
+        <p>Chaque séance est enregistrée dans ce navigateur (date, vitesse, compréhension, vitesse efficace). La vue <em>Progression</em> agrège ces séances <strong style="color:var(--ink)">par jour</strong> : moyenne de vitesse efficace, temps de pratique, écart avec la journée précédente, et le nombre de jours actifs. La bande des sept derniers jours sur le tableau de bord donne la même information d'un coup d'œil.</p>
+        <p>Trois nuances à garder en tête : la moyenne du jour mélange les exercices faciles et difficiles, une journée sans séance ne fait pas baisser la courbe (elle disparaît), et l'écart journalier bouge beaucoup — c'est la tendance sur deux semaines qui compte. Les boutons d'export (CSV pour les séances, JSON pour la sauvegarde complète) servent à garder les mesures si tu changes de navigateur ou vides le cache.</p>
+
+        <h2>Ce que cette app ne fait pas</h2>
+        <ul>
+          <li>Le score de rappel libre est une <em>estimation</em> par mots-clés, pas une correction sémantique : une reformulation juste avec d'autres mots peut être sous-notée.</li>
+          <li>Quatre questions par texte, c'est un échantillon. Une bonne série ne prouve pas une compréhension profonde.</li>
+          <li>Rien ici n'est un test clinique ou scolaire. Aucune donnée n'est envoyée : tout reste dans le navigateur.</li>
+          <li>La compréhension d'un texte difficile dépend d'abord du vocabulaire et du sujet — pas de la vitesse des yeux.</li>
+          <li>Sans oculométrie, rien ici ne mesure les mouvements oculaires réels : « fixations », « saccades » et « anti-régression » sont des tâches attentionnelles qui les sollicitent, pas des mesures du regard.</li>
+          <li>Les QCM mélangent leurs options à chaque passage, et les textes tournent par ordre d'utilisation — mais dix textes ne remplacent pas une bibliothèque : relire un texte déjà vu reste possible et biaise une mesure.</li>
+        </ul>
+
+        <h2>Trois conseils qui changent plus que l'exercice</h2>
+        <ul>
+          <li>Lis à la même heure, 10 minutes, tous les jours. Trois séances de 10 minutes valent mieux qu'une de 30.</li>
+          <li>Ne reviens jamais en arrière pendant un exercice. La régression est le premier frein mesurable.</li>
+          <li>Termine par une lecture réelle, hors application, à la vitesse du jour. C'est le seul transfert qui compte.</li>
+        </ul>
+      </div>
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-h"><h2>Où j'en suis</h2></div>
+          <div class="mini-stats">
+            <div><b>${currentEtapeIdx()+1}/${ETAPES.length}</b><small>étape courante</small></div>
+            <div><b>${S.wpm}</b><small>mots/min cible</small></div>
+            <div><b>${avgComp(5)!=null?Math.round(avgComp(5)*100)+' %':'—'}</b><small>compréhension</small></div>
+            <div><b>${avgEff(5)!=null?Math.round(avgEff(5)):'—'}</b><small>vitesse efficace</small></div>
+          </div>
+          <button class="btn primary" style="margin-top:14px" id="guideStart">Reprendre le parcours</button>
+        </div>
+      </div>
+    </div>`;
+  $('#guideStart').addEventListener('click',()=>{ setView('dash'); launchEtape(currentEtapeIdx()); });
+}
+
+function renderAll(){ renderRail(); if(!$('#view-dash').hidden) renderDash(); if(!$('#view-progress').hidden) renderProgress(); if(!$('#view-guide').hidden) renderGuide(); }
+
+/* =========================================================
+   8. INIT
+   ========================================================= */
+$$('.nav-item').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+$('#railRange').addEventListener('input',e=>{
+  S.wpm=+e.target.value; $('#railWpm').textContent=S.wpm; save();
+  if(!$('#view-dash').hidden) renderDash();
+});
+$('#themeBtn').addEventListener('click',()=>{ S.theme=S.theme==='ink'?'paper':'ink'; save(); renderAll(); });
+$('#sizeBtn').addEventListener('click',()=>{ const sizes=[1,1.14,1.28]; S.size=sizes[(sizes.indexOf(S.size)+1)%3]; save(); renderAll(); });
+$('#orpBtn').addEventListener('click',()=>{ S.orp=!S.orp; save(); renderAll(); });
+$('#stageExit').addEventListener('click',()=>{ endStage(); });
+document.addEventListener('keydown',e=>{
+  if(stageEl.hidden) return;
+  const t=e.target;
+  const inField = !!(t && typeof t.closest==='function' && t.closest('button,textarea,input,select'));
+  if(e.key==='Escape'){ e.preventDefault(); endStage(); }
+  if(e.code==='Space'&&!inField){ e.preventDefault(); paused=!paused; const st=$('#paceState'); if(st) st.textContent=paused?'pause':'lecture'; toast(paused?'Pause':'Reprise',800); }
+});
+document.addEventListener('visibilitychange',()=>{ if(document.hidden&&!stageEl.hidden) paused=true; });
+
+renderAll();
+setView('dash');
+</script>
+</body>
+</html>
