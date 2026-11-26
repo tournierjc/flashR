@@ -1,4 +1,6 @@
-# Lecture éclair
+# flashR
+
+![flashR dashboard](docs/dashboard.png)
 
 A self-contained, offline web app for training **reading speed without sacrificing comprehension**.
 
@@ -8,15 +10,15 @@ One HTML file, one data file, no build step, no dependency, no network call. Eve
 
 ## Live demo
 
-GitHub Pages: **https://tournierjc.github.io/lecture-eclair/**
+GitHub Pages: **https://tournierjc.github.io/flashR/**
 
 It is the same file that runs locally — the library is loaded from `textes.js`, nothing else is fetched.
 
 ## Run locally
 
 ```bash
-git clone https://github.com/tournierjc/lecture-eclair.git
-cd lecture-eclair
+git clone https://github.com/tournierjc/flashR.git
+cd flashR
 xdg-open index.html        # or drag index.html into a browser
 ```
 

@@ -1,7 +1,7 @@
 # Spécification du contenu — bibliothèque de textes
 
 Fichier produit : **un tableau JSON** de textes, encodé UTF-8, écrit en une fois avec `write_file`.
-Validateur obligatoire : `node /opt/data/lecture-eclair/textes/valide-biblio.js <fichier>` — il doit afficher **« OK — aucune erreur »**.
+Validateur obligatoire : `node /opt/data/flashR/textes/valide-biblio.js <fichier>` — il doit afficher **« OK — aucune erreur »**.
 Si des erreurs sortent : corrige le fichier et relance. Ne rends jamais la main avec des erreurs.
 
 ## Schéma d'un texte

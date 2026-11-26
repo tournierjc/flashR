@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark light">
-<title>Lecture éclair — parcours progressif de lecture rapide</title>
+<title>flashR — parcours progressif de lecture rapide</title>
 <style>
 [hidden]{display:none !important}
 *,*::before,*::after{box-sizing:border-box}
@@ -411,9 +411,9 @@ textarea.recall:focus{border-color:var(--accent);outline:none}
 <div class="app">
   <aside class="rail">
     <div class="brand">
-      <div class="brand-mark">LE</div>
+      <div class="brand-mark">fR</div>
       <div>
-        <div class="brand-name">Lecture éclair</div>
+        <div class="brand-name">flashR</div>
         <div class="brand-sub">parcours progressif</div>
       </div>
     </div>
@@ -758,7 +758,15 @@ const countRuns = (l,{comp,wpm},tail=3)=>l.slice(-tail).filter(x=>(x.comp!=null&
 /* =========================================================
    2. ÉTAT
    ========================================================= */
-const KEY='lectureEclair.v1';
+const KEY='flashR.v1';
+// migration : les sauvegardes faites sous « lecture éclair » restent lisibles
+function migrateKey(){
+  try{
+    if(localStorage.getItem(KEY)) return;
+    const old=localStorage.getItem('lectureEclair.v1');
+    if(old){ localStorage.setItem(KEY,old); }
+  }catch(e){}
+}
 const PARCOURS_V=4;
 const DEFAULTS={wpm:180,chunk:1,orp:true,theme:'ink',size:1,span:4,history:[],logs:{},onboarded:false,
   streak:{last:null,count:0},schulteBest:{},lastText:null,click:true,parcoursV:PARCOURS_V,
@@ -768,6 +776,7 @@ const DEFAULTS={wpm:180,chunk:1,orp:true,theme:'ink',size:1,span:4,history:[],lo
 let S=load();
 function load(){
   try{
+    migrateKey();
     const raw=localStorage.getItem(KEY);
     const p=raw?JSON.parse(raw):{};
     p.parcoursV=p.parcoursV||1;
@@ -2494,7 +2503,7 @@ function download(name,text,type){
     setTimeout(()=>{ try{ URL.revokeObjectURL(url); a.remove(); }catch(e){} },500);
   }catch(e){ toast('Export impossible dans ce navigateur'); }
 }
-function exportJSON(){ download('lecture-eclair-sauvegarde.json', JSON.stringify(S,null,2)); toast('Sauvegarde téléchargée'); }
+function exportJSON(){ download('flashr-sauvegarde.json', JSON.stringify(S,null,2)); toast('Sauvegarde téléchargée'); }
 function exportCSV(){
   const head=['date','heure','seance','vitesse_cible','comprehension_pct','vitesse_efficace','mots','secondes'];
   const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
@@ -2506,7 +2515,7 @@ function exportCSV(){
       h.effective?Math.round(h.effective):'',
       h.words||0, h.seconds?Math.round(h.seconds):0].map(q).join(';');
   });
-  download('lecture-eclair-seances.csv', [head.join(';')].concat(rows).join('\n'), 'text/csv;charset=utf-8');
+  download('flashr-seances.csv', [head.join(';')].concat(rows).join('\n'), 'text/csv;charset=utf-8');
   toast('Séances exportées ('+S.history.length+')');
 }
 function importJSON(file){

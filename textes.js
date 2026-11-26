@@ -1,4 +1,4 @@
-/* Bibliothèque de textes — Lecture éclair
+/* Bibliothèque de textes — flashR
  * 100 textes, 1954 questions.
  * Pour l'étendre : ajoute un objet dans le tableau (même schéma), puis
  * node textes/valide-biblio.js textes.js && node --check → recharger l'app.

@@ -26,7 +26,7 @@ for (const t of all) {
 keep.sort((a,b) => (a.niveau - b.niveau) || a.theme.localeCompare(b.theme) || a.id.localeCompare(b.id));
 
 const json = JSON.stringify(keep, null, 1);
-const out = `/* Bibliothèque de textes — Lecture éclair
+const out = `/* Bibliothèque de textes — flashR
  * ${keep.length} textes, ${keep.reduce((n,t)=>n+t.q.length,0)} questions.
  * Pour l'étendre : ajoute un objet dans le tableau (même schéma), puis
  * node textes/valide-biblio.js textes.js && node --check → recharger l'app.

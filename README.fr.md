@@ -1,19 +1,21 @@
-# Lecture éclair
+# flashR
+
+![Tableau de bord flashR](docs/dashboard.png)
 
 Application web autonome (un seul fichier, sans dépendance, sans réseau) pour travailler la lecture rapide **sans sacrifier la compréhension**.
 
-> Documentation en anglais : [`README.md`](README.md). Démo : **https://tournierjc.github.io/lecture-eclair/**
+> Documentation en anglais : [`README.md`](README.md). Démo : **https://tournierjc.github.io/flashR/**
 
 ## Ouvrir
 
 ```
-xdg-open /opt/data/lecture-eclair/index.html
+xdg-open /opt/data/flashR/index.html
 ```
 
 ou glisser `index.html` dans un navigateur. Fonctionne hors ligne. Si un navigateur refuse de garder les données en `file://`, servir le dossier :
 
 ```
-python3 -m http.server 8000 --directory /opt/data/lecture-eclair
+python3 -m http.server 8000 --directory /opt/data/flashR
 ```
 
 ## Le jeu
@@ -94,7 +96,7 @@ Un bouton « 20 secondes » sur le tableau de bord les ouvre à la demande, un c
 
 ## Données
 
-Tout est stocké dans `localStorage` (`lectureEclair.v1`) : aucune requête réseau, aucun compte. L'historique complet des séances est conservé (date, vitesse, compréhension, indice). Deux exports : **CSV** des séances (tableur) et **JSON** de la sauvegarde complète, restaurable via le sélecteur de fichier. « Effacer mes données » remet le parcours à zéro.
+Tout est stocké dans `localStorage` (`flashR.v1`, avec reprise automatique d'une sauvegarde `lectureEclair.v1` si elle existe) : aucune requête réseau, aucun compte. L'historique complet des séances est conservé (date, vitesse, compréhension, indice). Deux exports : **CSV** des séances (tableur) et **JSON** de la sauvegarde complète, restaurable via le sélecteur de fichier. « Effacer mes données » remet le parcours à zéro.
 
 Le format du parcours est versionné (`parcoursV`) : si la liste des étapes change, les journaux d'étapes sont réinitialisés mais l'historique des séances est conservé.
 
