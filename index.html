@@ -449,9 +449,10 @@ textarea.recall:focus{border-color:var(--accent);outline:none}
     </nav>
     <div class="rail-foot">
       <div class="dial">
-        <div class="dial-row"><span class="eyebrow">Vitesse cible</span><span class="mono dial-num" id="railWpm">180</span></div>
-        <input id="railRange" type="range" min="120" max="1000" step="10" aria-label="Vitesse cible en mots par minute">
+        <div class="dial-row"><span class="eyebrow" title="Cible d'entraînement : déterminée par ton niveau, elle monte ou descend de ±20 mots/min selon ta compréhension">Cible d'entraînement</span><span class="mono dial-num" id="railWpm">180</span></div>
+        <input id="railRange" type="range" min="120" max="1000" step="10" aria-label="Vitesse cible d'entraînement en mots par minute">
         <div class="dial-row small"><span id="railEtape">Étape 1</span><span id="railComp"></span></div>
+        <div class="dial-row small"><span title="Déterminé par le palier de vitesse : 1 mot jusqu'à 250, 2 dès 300, 4 dès 520, 8 à 1000. La feuille de réglages d'un exercice peut s'en écarter.">Mots affichés</span><span class="mono" id="railChunk">1 mot · auto</span></div>
       </div>
       <div class="rail-toggles">
         <button class="chip" id="themeBtn" title="Basculer encre / papier">INVERSER</button>
@@ -1055,7 +1056,7 @@ async function blockMetronome(tok,text,wpm,wpBeat){
   setHost();
   const ws=readTokens(text.corps);
   // taille du groupe : le même réglage que le Flash (mots par affichage), qui monte avec le palier de vitesse
-  const per=wpBeat||clamp(Math.max(S.chunk||1, chunkForLevel()),1,8);
+  const per=wpBeat||clamp(chunkForLevel(),1,8);
   const groups=[];
   let cur=[];
   for(const w of ws){
@@ -1942,7 +1943,7 @@ const READ_MODES=new Set(['rsvp','pacer','metronome','guide']);
 async function runReadingBlock(spec,tok,text,niveau){
   const wpm=clamp(spec.wpm||S.wpm,120,WPM_MAX);
   // taille du groupe : la préférence de l'utilisateur est un plancher, le niveau impose le reste
-  const chunk=spec.chunk||clamp(Math.max(S.chunk||1, chunkForLevel()),1,8);
+  const chunk=spec.chunk||clamp(chunkForLevel(),1,8);
   const t=text||pickText(niveau||niveauCourant(),{maxWords:800});
   let read=null;
   if(spec.k==='rsvp') read=await blockRsvp(tok,t,wpm,chunk);
@@ -2178,7 +2179,7 @@ async function launchCalibrage(){
     <div class="verdict">${quiz.comp>=.75
       ? `Tu lis vite et tu comprends : la cible démarre <strong>12 % au-dessus</strong> de ta vitesse mesurée, et le parcours la fera monter par paliers tant que la compréhension tient.`
       : `Compréhension fragile à cette allure : la cible reste à ta vitesse mesurée. Le parcours commencera par consolider la saisie avant d'accélérer — c'est l'ordre correct.`}
-      <br><br>La vitesse cible <strong>n'est pas un objectif fixe</strong> : elle bouge de ±20 mots/min après chaque séance, selon ce que tu comprends réellement.</div>
+      <br><br>La cible d'entraînement <strong>n'est pas un objectif fixe</strong> : elle bouge de ±20 mots/min après chaque séance, selon ce que tu comprends réellement.</div>
     <div class="result-actions">
       <button class="btn primary" id="calGo">Commencer l'étape 1</button>
       <button class="btn ghost" id="calLater">Plus tard</button>
@@ -2214,8 +2215,8 @@ function exoDefaults(kind){
     eventail:{n:12,len:clamp(S.fanLen||2,2,8)},
     saccades:{rounds:3},
     peripherie:{rounds:8,dur:clamp(S.periphDur||220,80,320)},
-    rsvp:{wpm:S.wpm,chunk:clamp(S.chunk||1,1,8)},
-    metronome:{wpm:S.wpm,chunk:clamp(S.chunk||1,1,8)},
+    rsvp:{wpm:S.wpm,chunk:clamp(chunkForLevel(),1,8)},
+    metronome:{wpm:S.wpm,chunk:clamp(chunkForLevel(),1,8)},
     pacer:{wpm:S.wpm},
     guide:{wpm:S.wpm,group:3},
     suppression:{wpm:Math.max(250,S.wpm),chunk:1},
@@ -2357,7 +2358,7 @@ async function launchFree(kind, missionIdx=null, specOverride=null){
     </div>
     <div class="xp"><span class="xp-num">Nv ${lv.n}</span><span class="xp-bar"><i style="width:${lv.pct}%"></i></span><span class="xp-num">${lv.rest}/${lv.need}</span></div>
     ${miss&&miss.complete?`<div class="verdict">Mission complète : <b>+${miss.bonus} XP</b> et une journée de plus dans la série (${miss.streak}). La série ne compte que les missions terminées, pas les exercices lancés puis abandonnés.</div>`:''}
-    ${READ_MODES.has(r.k)?`<div class="verdict">Vitesse cible ${Math.round(r.wpm)} mots/min : ${S.wpm>r.wpm?'elle monte à '+S.wpm:S.wpm<r.wpm?'elle redescend à '+S.wpm:'elle reste inchangée'} pour la prochaine séance.</div>`:`<div class="verdict">Mesure enregistrée. Cet exercice ne modifie pas ta vitesse de lecture.</div>`}
+    ${READ_MODES.has(r.k)?`<div class="verdict">Cible d'entraînement ${Math.round(r.wpm)} mots/min : ${S.wpm>r.wpm?'elle monte à '+S.wpm:S.wpm<r.wpm?'elle redescend à '+S.wpm:'elle reste inchangée'} pour la prochaine séance.</div>`:`<div class="verdict">Mesure enregistrée. Cet exercice ne modifie pas ta cible d'entraînement.</div>`}
     <div class="result-actions">
       ${missionIdx!=null&&!miss.complete?`<button class="btn primary" id="missionNext">Tâche suivante →</button>`:''}
       <button class="btn${missionIdx!=null&&!miss.complete?'':' primary'}" id="freeAgain">Refaire</button>
@@ -2544,6 +2545,7 @@ function renderRail(){
   const c=avgComp(5);
   $('#railComp').textContent=c!=null?Math.round(c*100)+' % compréh.':'pas encore de mesure';
   $('#railEtape').textContent='Étape '+Math.min(currentEtapeIdx()+1,ETAPES.length)+'/'+ETAPES.length;
+  const rc=$('#railChunk'); if(rc){ const cl=chunkForLevel(); rc.textContent=cl+(cl>1?' mots':' mot')+' · auto'; }
   document.documentElement.dataset.theme=S.theme;
   document.documentElement.style.setProperty('--tscale',S.size);
   $('#orpBtn').classList.toggle('is-on',!!S.orp);
@@ -2601,7 +2603,7 @@ function renderDash(){
   $('#view-dash').innerHTML=`
   <div class="statusbar">
     <div class="sb"><span class="eyebrow">Étape</span><b>${idx+1}<span style="font-size:12px;color:var(--dim)"> / ${ETAPES.length}</span></b><small>${esc(e.nom)}</small></div>
-    <div class="sb"><span class="eyebrow">Vitesse cible</span><b>${S.wpm}</b><small>mots/min · niveau ${lvl+1} ${LEVELS[lvl].nom}</small></div>
+    <div class="sb"><span class="eyebrow">Cible d'entraînement</span><b>${S.wpm}</b><small>mots/min · niveau ${lvl+1} ${LEVELS[lvl].nom}</small></div>
     <div class="sb"><span class="eyebrow">Compréhension</span><b>${comp!=null?Math.round(comp*100)+'<span style="font-size:12px"> %</span>':'—'}</b><small>5 dernières lectures</small></div>
     <div class="sb"><span class="eyebrow">Lecture utile</span><b>${eff!=null?Math.round(eff):'—'}</b><small>indice : débit × QCM</small></div>
     <div class="sb"><span class="eyebrow">Niveau</span><b>${niveauInfo().n}<span style="font-size:12px;color:var(--dim)"> · ${S.xp||0} XP</span></b><small>${niveauInfo().rest}/${niveauInfo().need} avant le suivant</small></div>
@@ -2676,32 +2678,29 @@ function renderDash(){
       </div>
       <div class="panel">
         <div class="panel-h"><h2>Réglages</h2></div>
-        <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;flex-direction:column;gap:14px">
           <div>
-            <span class="eyebrow">Vitesse cible (mots/min)</span>
-            <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
-              <input type="range" min="120" max="1000" step="10" id="dashRange" value="${S.wpm}" style="flex:1">
-              <span class="mono" style="font-size:15px;min-width:3ch;text-align:right">${S.wpm}</span>
+            <span class="eyebrow">Automatiques</span>
+            <p class="hint" style="margin:6px 0 0">La <b style="color:var(--ink)">cible d'entraînement</b> et les <b style="color:var(--ink)">mots par affichage</b> évoluent avec ton niveau ; ils se règlent dans la colonne de gauche. La feuille de chaque exercice libre permet de s'en écarter ponctuellement, sans changer la cible.</p>
+          </div>
+          <div>
+            <span class="eyebrow">Options</span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+              <button class="chip ${S.orp?'is-on':''}" data-pref="orp">Ancrage ORP</button>
+              <button class="chip ${S.click?'is-on':''}" data-pref="click">Son du métronome</button>
+              <button class="chip ${S.eyeAuto?'is-on':''}" data-pref="eyeAuto">Pauses des yeux auto</button>
+              <button class="chip" data-pref="theme">Thème ${S.theme==='ink'?'encre':'papier'}</button>
+              <button class="chip" data-pref="size">Taille ${['normale','grande','max'][[1,1.14,1.28].indexOf(S.size)]||'grande'}</button>
             </div>
           </div>
           <div>
-            <span class="eyebrow">Mots par affichage (Flash)</span>
-            <div style="display:flex;gap:6px;margin-top:6px">
-              ${[1,2,3,4,5,6,7,8].map(n=>`<button class="chip ${S.chunk===n?'is-on':''}" data-chunk="${n}">${n}</button>`).join('')}
+            <span class="eyebrow">Données</span>
+            <p class="hint" style="margin:6px 0 8px">Stockées localement dans ce navigateur. Aucun envoi, aucun compte.</p>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+              <button class="chip" id="exportJson">Sauvegarde (JSON)</button>
+              <label class="chip" style="cursor:pointer;display:inline-flex;align-items:center">Restaurer<input type="file" id="importJson" accept="application/json,.json" hidden></label>
             </div>
-          </div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <button class="chip ${S.orp?'is-on':''}" data-pref="orp">Ancrage ORP</button>
-            <button class="chip ${S.click?'is-on':''}" data-pref="click">Son du métronome</button>
-            <button class="chip ${S.eyeAuto?'is-on':''}" data-pref="eyeAuto">Pauses des yeux auto</button>
-            <button class="chip" data-pref="theme">Thème ${S.theme==='ink'?'encre':'papier'}</button>
-            <button class="chip" data-pref="size">Taille ${['normale','grande','max'][[1,1.14,1.28].indexOf(S.size)]||'grande'}</button>
-          </div>
-          <p class="hint">Données stockées localement dans ce navigateur. Aucun envoi, aucun compte.</p>
-          <button class="btn ghost" id="resetAll" style="align-self:flex-start">Effacer mes données</button>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px">
-            <button class="chip" id="exportJson">Sauvegarde (JSON)</button>
-            <label class="chip" style="cursor:pointer;display:inline-flex;align-items:center">Restaurer<input type="file" id="importJson" accept="application/json,.json" hidden></label>
+            <button class="btn ghost" id="resetAll" style="align-self:flex-start">Effacer mes données</button>
           </div>
         </div>
       </div>
@@ -2714,7 +2713,7 @@ function renderDash(){
   $$('#freeList [data-free]').forEach(b=>b.addEventListener('click',()=>askFree(b.dataset.free)));
   $$('[data-mission]').forEach(b=>{ const i=+b.dataset.mission; b.addEventListener('click',()=>launchFree(missionState().plan[i],i)); });
   const en=$('#eyeNow'); if(en) en.addEventListener('click',()=>eyeBreak(true));
-  $('#dashRange').addEventListener('input',e2=>{ S.wpm=+e2.target.value; save(); renderDash(); });
+  const dr=$('#dashRange'); if(dr) dr.addEventListener('input',e2=>{ S.wpm=+e2.target.value; save(); renderDash(); });
   $$('[data-chunk]').forEach(b=>b.addEventListener('click',()=>{ S.chunk=+b.dataset.chunk; save(); renderDash(); }));
   $$('[data-pref]').forEach(b=>b.addEventListener('click',()=>{
     const p=b.dataset.pref;

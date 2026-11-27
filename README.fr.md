@@ -1,5 +1,10 @@
 # flashR
 
+[![Démo](https://img.shields.io/badge/d%C3%A9mo-en%20ligne-brightgreen)](https://tournierjc.github.io/flashR/)
+[![Licence : MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
+
+**▶ Démo : https://tournierjc.github.io/flashR/** — le même fichier que la version locale, rien à installer.
+
 ![Tableau de bord flashR](docs/dashboard.png)
 
 Application web autonome (un seul fichier, sans dépendance, sans réseau) pour travailler la lecture rapide **sans sacrifier la compréhension**.

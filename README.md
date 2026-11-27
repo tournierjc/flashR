@@ -1,5 +1,10 @@
 # flashR
 
+[![Live demo](https://img.shields.io/badge/demo-live-brightgreen)](https://tournierjc.github.io/flashR/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+**▶ Try it now: https://tournierjc.github.io/flashR/** — same file as the local one, nothing to install.
+
 ![flashR dashboard](docs/dashboard.png)
 
 A self-contained, offline web app for training **reading speed without sacrificing comprehension**.
