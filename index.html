@@ -2603,7 +2603,6 @@ function renderDash(){
   $('#view-dash').innerHTML=`
   <div class="statusbar">
     <div class="sb"><span class="eyebrow">Étape</span><b>${idx+1}<span style="font-size:12px;color:var(--dim)"> / ${ETAPES.length}</span></b><small>${esc(e.nom)}</small></div>
-    <div class="sb"><span class="eyebrow">Cible d'entraînement</span><b>${S.wpm}</b><small>mots/min · niveau ${lvl+1} ${LEVELS[lvl].nom}</small></div>
     <div class="sb"><span class="eyebrow">Compréhension</span><b>${comp!=null?Math.round(comp*100)+'<span style="font-size:12px"> %</span>':'—'}</b><small>5 dernières lectures</small></div>
     <div class="sb"><span class="eyebrow">Lecture utile</span><b>${eff!=null?Math.round(eff):'—'}</b><small>indice : débit × QCM</small></div>
     <div class="sb"><span class="eyebrow">Niveau</span><b>${niveauInfo().n}<span style="font-size:12px;color:var(--dim)"> · ${S.xp||0} XP</span></b><small>${niveauInfo().rest}/${niveauInfo().need} avant le suivant</small></div>
