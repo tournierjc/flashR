@@ -249,7 +249,7 @@ table.sess tr:hover td{background:var(--surface-2)}
 
 /* feuille de réglages d'un exercice */
 .sheet{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;background:rgba(12,10,9,.72)}
-.sheet-card{width:min(94vw,520px);max-height:88vh;overflow:auto;background:var(--paper);border:1px solid var(--line2);padding:22px 22px 18px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.sheet-card{width:min(94vw,520px);max-height:88vh;overflow:auto;background:var(--surface);color:var(--ink);border:1px solid var(--line-2);padding:22px 22px 18px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
 .sheet-head h2{margin:4px 0 6px;font-size:21px}
 .sheet-head p{margin:0;color:var(--dim);font-size:13px;line-height:1.5}
 .sheet-body{margin-top:18px;display:flex;flex-direction:column;gap:16px}
@@ -273,8 +273,9 @@ table.sess tr:hover td{background:var(--surface-2)}
 .grp{display:inline-block}
 .supp{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin-top:4px}
 .supp-top{display:flex;align-items:center;gap:14px;font-size:10px;color:var(--dim);letter-spacing:.09em;text-transform:uppercase}
-#suppTa{font-family:var(--mono);font-size:13px;color:var(--dim);letter-spacing:.14em;display:inline-block;min-width:2.4em;transition:color .05s,transform .05s}
-#suppTa.on{color:var(--accent);transform:scale(1.22)}
+.supp-beat{display:flex;justify-content:center;align-items:center;min-height:52px;margin-top:2px}
+#suppTa{font-family:var(--mono);font-size:clamp(26px,4.4vw,38px);line-height:1;letter-spacing:.16em;color:var(--dim);opacity:.5;display:inline-block;transition:color .07s,opacity .07s,transform .07s}
+#suppTa.on{color:var(--accent);opacity:1;transform:scale(1.14)}
 .supp-top #suppCount{margin-left:auto}
 .supp-read{min-height:clamp(120px,22vh,180px);display:flex;align-items:center;justify-content:center;padding:8px 0}
 .supp-word{font-family:var(--serif);font-size:calc(clamp(1.7rem,4.4vw,3.1rem) * var(--tscale));line-height:1.15}
@@ -1397,7 +1398,8 @@ async function blockSuppression(tok,text,wpm,chunk=1,loop=true){
       <p style="margin:0">${loop?'Cette boucle occupe la voix intérieure : si tu continues à comprendre, c\'est que tu lis par les yeux. Garde le rythme du repère sonore jusqu\'au bout.':'Même cadence, même longueur : c\'est la référence de comparaison. Lis comme tu lis d\'habitude, avec ou sans voix intérieure.'}</p>
     </div>
     <div class="supp">
-      <div class="supp-top">${loop?'<b id="suppTa">ta</b>':''}<span class="mono" id="suppCount">0 / ${groups.length}</span><span class="mono">${wpm} mots/min</span></div>
+      <div class="supp-top"><span class="mono" id="suppCount">0 / ${groups.length}</span><span class="mono">${wpm} mots/min</span></div>
+      <div class="supp-beat">${loop?'<b id="suppTa" aria-hidden="true">ta</b>':''}</div>
       <div class="supp-read"><span class="supp-word" id="suppWord"></span></div>
       <div class="read-progress"><i id="suppProg"></i></div>
     </div>
@@ -1414,7 +1416,7 @@ async function blockSuppression(tok,text,wpm,chunk=1,loop=true){
     const it=loop?setInterval(()=>{
       if(!alive(tok)) return finish(null);
       if(paused) return;
-      k++; if(taEl){ taEl.textContent=ta[k%ta.length]; taEl.classList.add('on'); setTimeout(()=>taEl.classList.remove('on'),80); }
+      k++; if(taEl){ taEl.textContent=ta[k%ta.length]; taEl.classList.add('on'); setTimeout(()=>taEl.classList.remove('on'),150); }
       tickSound(k%4===0);
     },tickMs):null;
     const iw=setInterval(()=>{
