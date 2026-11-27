@@ -80,6 +80,7 @@ Target speed moves **+20 wpm** after 3 or 4 correct answers out of 4 with comfor
 - **Visual indicator** — one fixation dot centred **under** each three-word group; groups never wrap onto two lines.
 - **Visual span** — fixed 600 ms exposure, staircase up on 2 successes out of 3.
 - **Vertical span** — a column of 4 to 7 words with two arrows marking the fixation point, 750 ms exposure; the question asks for the **top or bottom** word, i.e. the vertical peripheral reach.
+- **Visual fan** — a number of 2 to 8 digits is flashed, then you type it back; exposure shrinks as the number grows (420 ms for two digits, 180 ms for eight). Three successes in a row lengthen the number, two misses shorten it. Same idea as the book exercise: shorten the fixation while widening what one fixation takes in.
 
 Grid feedback depends on level: for a beginner a found cell stays green; for an advanced reader it flashes green then returns to neutral (the grid must be held in memory). A wrong cell turns red for a third of a second, counts as an error, and blocks nothing.
 

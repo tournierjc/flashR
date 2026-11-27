@@ -228,6 +228,18 @@ table.sess tr:hover td{background:var(--surface-2)}
 .empan-opts .opt{font-family:var(--serif);font-size:calc(16px * var(--tscale))}
 .empan-score{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
 
+/* éventail visuel : un nombre flashé, à restituer au clavier */
+.fan-stage{display:grid;place-items:center;min-height:clamp(160px,26vh,240px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:4px}
+.fan-num{font-family:var(--mono);font-size:calc(clamp(2.2rem,6.5vw,4.2rem) * var(--tscale));letter-spacing:.14em;line-height:1;white-space:nowrap;font-weight:500}
+.fan-num.blank{color:transparent}
+.fan-input-wrap{display:flex;justify-content:center;margin-top:22px}
+.fan-input{font-family:var(--mono);font-size:calc(clamp(1.6rem,4.6vw,2.6rem) * var(--tscale));letter-spacing:.2em;text-align:center;background:transparent;border:0;border-bottom:2px solid var(--line);color:var(--ink);width:min(100%,10ch);padding:6px 4px 8px;outline:none}
+.fan-input:focus{border-bottom-color:var(--accent)}
+.fan-reveal{display:flex;justify-content:center;gap:.3em;font-family:var(--mono);font-size:calc(clamp(1.5rem,4.2vw,2.3rem) * var(--tscale));letter-spacing:0;margin-top:16px;min-height:1em}
+.fan-reveal i{font-style:normal;font-weight:500}
+.fan-reveal i.ok{color:var(--accent)}
+.fan-reveal i.no{color:var(--warn)}
+
 /* métronome */
 .metro{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin-top:4px}
 .metro-top{display:flex;align-items:center;gap:14px;font-size:10px;color:var(--dim);letter-spacing:.09em;text-transform:uppercase}
@@ -709,6 +721,7 @@ const EXOS = [
   {id:'peripherie', fam:'Vision', nom:'Vision périphérique', desc:"Fixation centrale imposée, une lettre flashée sur le côté puis masquée. Mesure ce que tu identifies hors du centre du regard, pas ce que tu devines.", meta:'1 min'},
   {id:'empan', fam:'Vision', nom:'Empan visuel', desc:"Une phrase apparaît une fraction de seconde. Tu choisis celle que tu as vue : on mesure la largeur de ton regard.", meta:'1–2 min'},
   {id:'empanV', fam:'Vision', nom:'Empan vertical', desc:"Une colonne de 4 à 7 mots, deux flèches au centre : on fixe le milieu et on lit la colonne d'un seul regard, du haut vers le bas.", meta:'1–2 min'},
+  {id:'eventail', fam:'Vision', nom:'Éventail visuel', desc:"Un nombre s'affiche une fraction de seconde, puis disparaît : à toi de le retaper. À chaque réussite il s'allonge et s'affiche moins longtemps — de 2 à 8 chiffres. Mesure ce que ton œil prend d'un seul regard.", meta:'2 min'},
   {id:'suppression', fam:'Voix', nom:'Bouche fermée', desc:"Deux textes à la même cadence : d'abord un contrôle lu normalement, puis le même exercice en répétant mentalement « ta-ta-ta ». La boucle occupe la voix intérieure ; l'écart de compréhension entre les deux dit à quel point tu dépends d'elle.", meta:'3 min'},
   {id:'ortho', fam:'Voix', nom:'Lettres muettes', desc:"Un mot s'affiche 1,5 s : a-t-il une lettre muette ? Au clavier (O / N ou 1 / 2), impossible de répondre en l'entendant, il faut voir l'orthographe. Mesure l'accès direct à la forme écrite.", meta:'1 min'}
 ];
@@ -771,7 +784,7 @@ const PARCOURS_V=4;
 const DEFAULTS={wpm:180,chunk:1,orp:true,theme:'ink',size:1,span:4,history:[],logs:{},onboarded:false,
   streak:{last:null,count:0},schulteBest:{},lastText:null,click:true,parcoursV:PARCOURS_V,
   xp:0,combo:0,textUse:{},periphDur:220,mission:null,week:null,etapeFloor:null,voix:null,voixN:0,
-  spanV:4,
+  spanV:4,fanLen:2,
   eyeMs:0,eyeAuto:true,eyeBreaks:null,eyeIdx:0,eyeSnooze:0};
 let S=load();
 function load(){
@@ -1700,6 +1713,90 @@ async function blockEmpanV(tok,trials=8,startSpan){
   return {correct,total:n,span,bestSpan:bestSpan||span,comp:correct/n};
 }
 
+/* Éventail visuel : un nombre de plus en plus long, flashé de plus en plus court.
+   On ne relit pas, on ne compte pas : on prend le nombre entier d'un seul regard,
+   puis on le restitue. C'est l'exercice du livre, transposé au clavier. */
+const FAN_MAXLEN=8;
+function fanNumber(len){
+  let s=String(1+Math.floor(Math.random()*9));
+  while(s.length<len) s+=String(Math.floor(Math.random()*10));
+  return s;
+}
+// exposition par longueur : plus le nombre est long, moins on a de temps
+function fanDur(len){ return clamp(420-(len-2)*40,180,460); }
+async function blockEventail(tok,trials=12,startLen){
+  let len=clamp(startLen||S.fanLen||2,2,FAN_MAXLEN);
+  const n=Math.max(4,trials|0);
+  let correct=0, hits=0, miss=0, bestLen=len;
+  for(let t=0;t<n;t++){
+    if(!alive(tok)) return null;
+    const dur=fanDur(len), num=fanNumber(len);
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:660px">
+      <div class="block-head" style="text-align:center">
+        <span class="eyebrow">Éventail visuel · essai ${t+1}/${n}</span>
+        <h2 style="font-size:19px">${len} chiffres, ${dur} ms</h2>
+        <p style="margin:0">Fixe le centre, ne lis pas chiffre par chiffre : prends le nombre d'un seul regard.</p>
+      </div>
+      <div class="fan-stage"><b class="fan-num blank" id="fanNum"></b></div>
+      <div class="empan-score" id="fanScore" style="margin-top:12px">longueur ${len} chiffres · ${correct} justes</div>
+    </div>`;
+    const el=$('#fanNum');
+    await sleep(480,tok); if(!alive(tok)) return null;
+    el.textContent=num; el.classList.remove('blank'); fitText(el);
+    await sleep(dur,tok); if(!alive(tok)) return null;
+    el.classList.add('blank');
+
+    // restitution : la validation part dès que le nombre de chiffres est atteint
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:660px">
+      <div class="block-head" style="text-align:center">
+        <span class="eyebrow">Éventail visuel · essai ${t+1}/${n}</span>
+        <h2 style="font-size:19px">Quel nombre as-tu vu ?</h2>
+        <p style="margin:0">Tape les ${len} chiffres : la réponse est validée dès le dernier.</p>
+      </div>
+      <div class="fan-input-wrap"><input id="fanInput" class="fan-input" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" maxlength="${len}" aria-label="Nombre vu"></div>
+      <div class="fan-reveal" id="fanReveal"></div>
+      <div class="empan-score" id="fanScore2" style="margin-top:14px">longueur ${len} chiffres · exposé ${dur} ms · ${correct} justes</div>
+    </div>`;
+    const inp=$('#fanInput'), rev=$('#fanReveal'), sc2=$('#fanScore2');
+    const typed=await new Promise(resolve=>{
+      let done=false;
+      const finish=v=>{ if(done) return; done=true; document.removeEventListener('keydown',onKey); resolve(v); };
+      const read=()=>{ const raw=(inp.value||'').replace(/\D/g,'').slice(0,len); if(inp.value!==raw) inp.value=raw; return raw; };
+      const onInput=()=>{ const v=read(); if(v.length>=len) finish(v); };
+      const onKey=e=>{ if(e.key==='Enter'){ e.preventDefault(); const v=read(); if(v) finish(v); } };
+      inp.addEventListener('input',onInput); document.addEventListener('keydown',onKey);
+      cleanups.push(()=>{ inp.removeEventListener('input',onInput); document.removeEventListener('keydown',onKey); });
+      try{ inp.focus(); }catch(e){}
+      // une saisie déjà complète (autofill, collage) part tout de suite
+      const pre=read(); if(pre.length>=len) finish(pre);
+    });
+    if(!alive(tok)) return null;
+    const good=typed===num;
+    if(good){ correct++; hits++; miss=0; } else { hits=0; miss++; }
+    // escalier 3 sur ... : trois réussites de suite pour allonger, deux échecs pour raccourcir
+    if(hits>=3){ len=clamp(len+1,2,FAN_MAXLEN); hits=0; bestLen=Math.max(bestLen,len); }
+    else if(miss>=2){ len=clamp(len-1,2,FAN_MAXLEN); miss=0; }
+    if(good) bestLen=Math.max(bestLen,typed.length);
+    if(rev){
+      rev.innerHTML=[...num].map((c,i)=>`<i class="${typed[i]===c?'ok':'no'}">${c}</i>`).join('');
+      if(!good){
+        const toi=document.createElement('div');
+        toi.className='empan-score';
+        toi.style.marginTop='8px';
+        toi.textContent='toi : '+(typed||'—');
+        rev.parentElement.insertBefore(toi,rev.nextSibling);
+      }
+    }
+    if(sc2) sc2.textContent=`${good?'juste':'raté'} · longueur ${len} chiffres · ${correct} justes`;
+    await sleep(good?750:1200,tok);
+    if(!alive(tok)) return null;
+  }
+  S.fanLen=len; save();
+  return {correct,total:n,span:len,bestSpan:Math.max(bestLen,len),comp:correct/n};
+}
+
 async function blockFreeRead(tok,text){
   setHost('top');
   host.innerHTML=`<div class="block" style="max-width:760px;padding-top:10px">
@@ -1775,6 +1872,7 @@ function specLabel(spec){
     case 'lettres': return 'Grille de lettres '+(spec.size||4)+'×'+(spec.size||4);
     case 'empan': return 'Empan visuel — '+(spec.n||6)+' essais';
     case 'empanV': return 'Empan vertical — colonne de mots';
+    case 'eventail': return 'Éventail visuel — nombres flashés';
     case 'saccades': return 'Saccades guidées — '+(spec.rounds||3)+' séquences';
     case 'peripherie': return 'Vision périphérique — '+(spec.rounds||8)+' essais';
     case 'rsvp': return 'Flash RSVP'+(spec.chunk>1?' ('+spec.chunk+' mots)':'')+' + questions';
@@ -1793,6 +1891,7 @@ function specMeta(spec){
     case 'schulte': case 'lettres': return '~40 s';
     case 'empan': return '~1 min';
     case 'empanV': return '~1 min 30';
+    case 'eventail': return '~2 min';
     case 'saccades': return '~1 min';
     case 'peripherie': return '~1 min';
     case 'rsvp': case 'pacer': case 'metronome': case 'guide': return '~2 min';
@@ -1832,6 +1931,7 @@ async function runSpec(spec,tok,ctx){
     case 'lettres': return await blockGrid(tok,{size:spec.size||4,mode:spec.mode||'alpha'});
     case 'empan': return await blockEmpan(tok,spec.n||8);
     case 'empanV': return await blockEmpanV(tok,spec.n||8);
+    case 'eventail': return await blockEventail(tok,spec.n||12);
     case 'saccades': return await blockSaccades(tok,spec.rounds||3);
     case 'peripherie': return await blockPeriph(tok,spec.rounds||8);
     case 'ortho': return await blockOrtho(tok,spec.n||20);
@@ -2188,7 +2288,7 @@ function xpFor(r){
 }
 
 const MISSION_KINDS={
-  vision:['schulte','lettres','saccades','peripherie','empanV'],
+  vision:['schulte','lettres','saccades','peripherie','empanV','eventail'],
   lecture:['metronome','pacer','rsvp','examen'],
   voix:['suppression','ortho','ortho','suppression'],
   autre:['rappel','empan','lettres']
@@ -2205,6 +2305,7 @@ const MISSION_LABEL={
   examen:['QCM complet','toutes les questions du texte'],
   empan:['Empan visuel','reconnaître la bonne phrase'],
   empanV:['Empan vertical','colonne de 4 à 7 mots'],
+  eventail:['Éventail visuel','nombres flashés, de 2 à 8 chiffres'],
   suppression:['Bouche fermée','lire en répétant ta-ta-ta'],
   ortho:['Lettres muettes','20 mots, 1,5 s chacun']
 };
@@ -2350,7 +2451,7 @@ function renderDash(){
   const fams=[...new Set(EXOS.map(x=>x.fam))];
   const exoList=fams.map(f=>`<span class="exo-fam">${f==='Lecture'?'Lecture — rythme, saisie':f==='Vision'?'Fixations et vision':'La voix intérieure'}</span>`+
     EXOS.filter(x=>x.fam===f).map(x=>`<button class="row-btn" data-free="${x.id}">
-      <span class="row-num">${x.id==='metronome'?'♪':x.id==='saccades'?'↔':x.id==='guide'?'|':x.id==='lettres'?'A':x.id==='schulte'?'1':x.id==='empan'?'⌷':x.id==='empanV'?'↕':x.id==='rappel'?'✎':x.id==='pacer'?'›':x.id==='peripherie'?'◎':'≡'}</span>
+      <span class="row-num">${x.id==='metronome'?'♪':x.id==='saccades'?'↔':x.id==='guide'?'|':x.id==='lettres'?'A':x.id==='schulte'?'1':x.id==='empan'?'⌷':x.id==='empanV'?'↕':x.id==='eventail'?'⌗':x.id==='rappel'?'✎':x.id==='pacer'?'›':x.id==='peripherie'?'◎':'≡'}</span>
       <span class="row-body"><b>${esc(x.nom)}</b><span>${esc(x.desc)}</span></span>
       <span class="row-meta">${x.meta}</span></button>`).join('')).join('');
 
@@ -2787,6 +2888,7 @@ function renderGuide(){
           <li><strong style="color:var(--ink)">Vision périphérique</strong> — le regard reste sur une croix centrale, une lettre est flashée sur le côté puis masquée. Ce que tu identifies hors du centre, sans bouger les yeux, est mesuré ; la durée d'exposition s'ajuste seule.</li>
           <li><strong style="color:var(--ink)">Empan visuel</strong> — une phrase flashée, trois variantes proches : tu dois reconnaître la bonne. Mesure combien de mots ton œil saisit d'un coup, horizontalement.</li>
           <li><strong style="color:var(--ink)">Empan vertical</strong> — une colonne de 4 à 7 mots, deux flèches au centre : tu fixes le milieu et la colonne se lit d'un seul regard vertical. On mesure la hauteur du champ, pas la largeur — c'est ce qui compte pour descendre une page sans balayer.</li>
+          <li><strong style="color:var(--ink)">Éventail visuel</strong> — un nombre s'affiche une fraction de seconde puis disparaît, et tu le retapes. Deux chiffres au départ, huit au plus haut, et plus le nombre est long moins il reste affiché : deux chiffres 420 ms, huit chiffres 180 ms. Trois réussites d'affilée allongent le nombre, deux échecs le raccourcissent. L'idée est celle du livre : réduire la durée de fixation tout en augmentant ce qui est pris à chaque fixation.</li>
         </ul>
 
         <h2>L'historique et la progression journalière</h2>
