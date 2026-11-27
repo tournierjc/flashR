@@ -63,7 +63,9 @@ Target speed moves **+20 wpm** after 3 or 4 correct answers out of 4 with comfor
 
 **120 to 1000 wpm**, ten tiers: Découverte, Apprenti, Lecteur, Rapide, Véloce, Éclair, Vision, Fusée (650), Hyper (800), Limite (1000). Words per display follow the tier — 2 words at 300, 4 at 520, 6 at 800, 8 at 1000 — and the manual setting (1 to 8) can only raise that floor.
 
-### Exercises
+## Exercises
+
+Every free exercise opens a small **settings sheet** before it starts — speed, words per display, number of trials, starting length, exposure time, grid size — and the choices are remembered per exercise for next time. A **⟲ Recommencer** button in the stage bar restarts the same exercise with the same settings at any moment; **Refaire** on the result screen does the same once it is over.
 
 **Reading**
 

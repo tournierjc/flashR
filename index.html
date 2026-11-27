@@ -240,6 +240,19 @@ table.sess tr:hover td{background:var(--surface-2)}
 .fan-reveal i.ok{color:var(--accent)}
 .fan-reveal i.no{color:var(--warn)}
 
+/* feuille de réglages d'un exercice */
+.sheet{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;background:rgba(12,10,9,.72)}
+.sheet-card{width:min(94vw,520px);max-height:88vh;overflow:auto;background:var(--paper);border:1px solid var(--line2);padding:22px 22px 18px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.sheet-head h2{margin:4px 0 6px;font-size:21px}
+.sheet-head p{margin:0;color:var(--dim);font-size:13px;line-height:1.5}
+.sheet-body{margin-top:18px;display:flex;flex-direction:column;gap:16px}
+.cfg-row{border-top:1px solid var(--line);padding-top:12px}
+.cfg-lab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.cfg-lab b{color:var(--ink);font-size:13px;letter-spacing:0}
+.cfg-chips{display:flex;gap:6px;flex-wrap:wrap}
+.cfg-row input[type=range]{width:100%}
+.sheet-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:20px;padding-top:14px;border-top:1px solid var(--line)}
+
 /* métronome */
 .metro{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin-top:4px}
 .metro-top{display:flex;align-items:center;gap:14px;font-size:10px;color:var(--dim);letter-spacing:.09em;text-transform:uppercase}
@@ -457,12 +470,27 @@ textarea.recall:focus{border-color:var(--accent);outline:none}
 <div class="stage" id="stage" hidden>
   <div class="stage-bar">
     <button class="btn ghost" id="stageExit">✕ Quitter</button>
+    <button class="btn ghost" id="stageRestart" hidden>⟲ Recommencer</button>
     <div class="stage-title" id="stageTitle"></div>
     <div class="stage-title mono" id="stageMeta"></div>
   </div>
   <div class="stage-host" id="stageHost"></div>
 </div>
 <div class="toast" id="toast" hidden></div>
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-head">
+      <span class="eyebrow" id="sheetKind">Réglages</span>
+      <h2 id="sheetTitle"></h2>
+      <p id="sheetDesc"></p>
+    </div>
+    <div class="sheet-body" id="sheetBody"></div>
+    <div class="sheet-foot">
+      <button class="btn ghost" id="sheetCancel">Annuler</button>
+      <button class="btn primary" id="sheetGo">Lancer</button>
+    </div>
+  </div>
+</div>
 
 <script>
 /* =========================================================
@@ -784,7 +812,7 @@ const PARCOURS_V=4;
 const DEFAULTS={wpm:180,chunk:1,orp:true,theme:'ink',size:1,span:4,history:[],logs:{},onboarded:false,
   streak:{last:null,count:0},schulteBest:{},lastText:null,click:true,parcoursV:PARCOURS_V,
   xp:0,combo:0,textUse:{},periphDur:220,mission:null,week:null,etapeFloor:null,voix:null,voixN:0,
-  spanV:4,fanLen:2,
+  spanV:4,fanLen:2,exoPrefs:{},
   eyeMs:0,eyeAuto:true,eyeBreaks:null,eyeIdx:0,eyeSnooze:0};
 let S=load();
 function load(){
@@ -819,6 +847,7 @@ function parcoursDone(){ return ETAPES.every(e=>etapeValidated(e)); }
    3. STAGE / SÉQUENCEUR
    ========================================================= */
 let runToken=0, cleanups=[], paused=false;
+let lastRun=null;   // dernier exercice libre lancé : permet « Recommencer » avec les mêmes réglages
 const stageEl=$('#stage'), host=$('#stageHost');
 
 function begin(title,meta){
@@ -826,6 +855,7 @@ function begin(title,meta){
   runToken++; cleanups=[]; paused=false;
   stageEl.hidden=false; document.body.style.overflow='hidden';
   $('#stageTitle').textContent=title||''; $('#stageMeta').textContent=meta||'';
+  const rs=$('#stageRestart'); if(rs) rs.hidden=!lastRun;
   host.className='stage-host'; host.innerHTML='';
   return runToken;
 }
@@ -1870,11 +1900,11 @@ function specLabel(spec){
   switch(spec.k){
     case 'schulte': return 'Grille de chiffres '+(spec.size||4)+'×'+(spec.size||4);
     case 'lettres': return 'Grille de lettres '+(spec.size||4)+'×'+(spec.size||4);
-    case 'empan': return 'Empan visuel — '+(spec.n||6)+' essais';
-    case 'empanV': return 'Empan vertical — colonne de mots';
-    case 'eventail': return 'Éventail visuel — nombres flashés';
+    case 'empan': return 'Empan visuel — '+(spec.n||6)+' essais'+(spec.span?' dès '+spec.span+' mots':'');
+    case 'empanV': return 'Empan vertical — colonne de mots'+(spec.span?' dès '+spec.span+' mots':'');
+    case 'eventail': return 'Éventail visuel — '+(spec.n||12)+' nombres'+(spec.len?' dès '+spec.len+' chiffres':'');
     case 'saccades': return 'Saccades guidées — '+(spec.rounds||3)+' séquences';
-    case 'peripherie': return 'Vision périphérique — '+(spec.rounds||8)+' essais';
+    case 'peripherie': return 'Vision périphérique — '+(spec.rounds||8)+' essais'+(spec.dur?' à '+spec.dur+' ms':'');
     case 'rsvp': return 'Flash RSVP'+(spec.chunk>1?' ('+spec.chunk+' mots)':'')+' + questions';
     case 'pacer': return 'Lecture guidée + questions';
     case 'metronome': return 'Métronome deux points'+(spec.wpBeat>1?' ('+spec.wpBeat+' mots/battement)':'')+' + questions';
@@ -1910,7 +1940,7 @@ function specMetaOfEtape(e){
 const READ_MODES=new Set(['rsvp','pacer','metronome','guide']);
 
 async function runReadingBlock(spec,tok,text,niveau){
-  const wpm=S.wpm;
+  const wpm=clamp(spec.wpm||S.wpm,120,WPM_MAX);
   // taille du groupe : la préférence de l'utilisateur est un plancher, le niveau impose le reste
   const chunk=spec.chunk||clamp(Math.max(S.chunk||1, chunkForLevel()),1,8);
   const t=text||pickText(niveau||niveauCourant(),{maxWords:800});
@@ -1929,11 +1959,11 @@ async function runSpec(spec,tok,ctx){
   switch(spec.k){
     case 'schulte': return await blockGrid(tok,{size:spec.size||4,mode:'num'});
     case 'lettres': return await blockGrid(tok,{size:spec.size||4,mode:spec.mode||'alpha'});
-    case 'empan': return await blockEmpan(tok,spec.n||8);
-    case 'empanV': return await blockEmpanV(tok,spec.n||8);
-    case 'eventail': return await blockEventail(tok,spec.n||12);
+    case 'empan': return await blockEmpan(tok,spec.n||8,spec.span);
+    case 'empanV': return await blockEmpanV(tok,spec.n||8,spec.span);
+    case 'eventail': return await blockEventail(tok,spec.n||12,spec.len);
     case 'saccades': return await blockSaccades(tok,spec.rounds||3);
-    case 'peripherie': return await blockPeriph(tok,spec.rounds||8);
+    case 'peripherie': { if(spec.dur){ S.periphDur=clamp(spec.dur,80,320); save(); } return await blockPeriph(tok,spec.rounds||8); }
     case 'ortho': return await blockOrtho(tok,spec.n||20);
     case 'suppression': { const lvl=(ctx&&ctx.niveau)||niveauCourant();
       const t1=pickText(lvl,{maxWords:800}); let t2=pickText(lvl,{maxWords:800});
@@ -1979,6 +2009,7 @@ async function runSpec(spec,tok,ctx){
 /* -------- étape du parcours -------- */
 async function launchEtape(idx){
   const e=ETAPES[idx];
+  lastRun=null;   // une étape n'est pas un exercice libre : pas de « Recommencer » avec réglages
   const tok=begin('Étape '+(idx+1)+' / '+ETAPES.length+' — '+e.nom, specMetaOfEtape(e));
   if(!tok) return;
   S.combo=0;
@@ -2158,11 +2189,122 @@ async function launchCalibrage(){
   go('calLater',()=>setView('dash'));
 }
 
+/* -------- réglages par exercice (feuille avant lancement) -------- */
+const EXO_CFG={
+  schulte:[{key:'size',label:'Grille',vals:[4,5],fmt:v=>v+'×'+v}],
+  lettres:[{key:'size',label:'Grille',vals:[4,5],fmt:v=>v+'×'+v}],
+  empan:[{key:'n',label:'Essais',vals:[6,8,12]},{key:'span',label:'Mots au départ',vals:[3,4,5,6,7]}],
+  empanV:[{key:'n',label:'Essais',vals:[6,8,12]},{key:'span',label:'Mots au départ',vals:[3,4,5,6,7]}],
+  eventail:[{key:'n',label:'Essais',vals:[6,12,18]},{key:'len',label:'Chiffres au départ',vals:[2,3,4,5,6,7,8]}],
+  saccades:[{key:'rounds',label:'Séquences',vals:[2,3,5]}],
+  peripherie:[{key:'rounds',label:'Essais',vals:[6,8,12]},{key:'dur',label:'Exposition',vals:[120,160,220,280],fmt:v=>v+' ms'}],
+  rsvp:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'chunk',label:'Mots par affichage',vals:[1,2,3,4,5,6,7,8]}],
+  metronome:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'chunk',label:'Mots par affichage',vals:[1,2,3,4,5,6,7,8]}],
+  pacer:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'}],
+  guide:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'group',label:'Mots par point',vals:[2,3,4]}],
+  suppression:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'chunk',label:'Mots par affichage',vals:[1,2]}],
+  ortho:[{key:'n',label:'Mots',vals:[10,20,30]}]
+};
+function exoDefaults(kind){
+  const size=levelIdx()>=3?5:4;
+  const d={
+    schulte:{size}, lettres:{size},
+    empan:{n:8,span:clamp(S.span||4,3,9)},
+    empanV:{n:8,span:clamp(S.spanV||4,3,7)},
+    eventail:{n:12,len:clamp(S.fanLen||2,2,8)},
+    saccades:{rounds:3},
+    peripherie:{rounds:8,dur:clamp(S.periphDur||220,80,320)},
+    rsvp:{wpm:S.wpm,chunk:clamp(S.chunk||1,1,8)},
+    metronome:{wpm:S.wpm,chunk:clamp(S.chunk||1,1,8)},
+    pacer:{wpm:S.wpm},
+    guide:{wpm:S.wpm,group:3},
+    suppression:{wpm:Math.max(250,S.wpm),chunk:1},
+    ortho:{n:20}
+  };
+  return Object.assign({},d[kind]||{});
+}
+function specFromPrefs(kind,p){
+  switch(kind){
+    case 'schulte': return {k:'schulte',size:p.size};
+    case 'lettres': return {k:'lettres',size:p.size,mode:'alpha'};
+    case 'empan': return {k:'empan',n:p.n,span:p.span};
+    case 'empanV': return {k:'empanV',n:p.n,span:p.span};
+    case 'eventail': return {k:'eventail',n:p.n,len:p.len};
+    case 'saccades': return {k:'saccades',rounds:p.rounds};
+    case 'peripherie': return {k:'peripherie',rounds:p.rounds,dur:p.dur};
+    case 'rsvp': return {k:'rsvp',wpm:p.wpm,chunk:p.chunk};
+    case 'metronome': return {k:'metronome',wpm:p.wpm,chunk:p.chunk};
+    case 'pacer': return {k:'pacer',wpm:p.wpm};
+    case 'guide': return {k:'guide',wpm:p.wpm,group:p.group};
+    case 'suppression': return {k:'suppression',wpm:p.wpm,chunk:p.chunk};
+    case 'ortho': return {k:'ortho',n:p.n};
+    default: return {k:kind};
+  }
+}
+function askExoSettings(kind){
+  const fields=EXO_CFG[kind];
+  const exo=EXOS.find(x=>x.id===kind)||{nom:kind,desc:'',fam:''};
+  if(!fields) return Promise.resolve(specFromPrefs(kind,exoDefaults(kind)));
+  const p=Object.assign(exoDefaults(kind),(S.exoPrefs&&S.exoPrefs[kind])||{});
+  const sheet=$('#sheet'), body=$('#sheetBody');
+  $('#sheetKind').textContent='Réglages — '+(exo.fam||'exercice');
+  $('#sheetTitle').textContent=exo.nom;
+  $('#sheetDesc').textContent=exo.desc||'';
+  return new Promise(resolve=>{
+    let closed=false;
+    const onKey=e=>{ if(e.key==='Escape'){ e.preventDefault(); close(null); } };
+    const close=v=>{
+      if(closed) return; closed=true;
+      sheet.hidden=true;
+      document.removeEventListener('keydown',onKey);
+      $('#sheetCancel').onclick=null; $('#sheetGo').onclick=null; sheet.onclick=null;
+      resolve(v);
+    };
+    body.innerHTML=fields.map(f=>{
+      if(f.type==='range'){
+        return `<div class="cfg-row"><div class="cfg-lab"><span>${f.label}</span><b class="mono" data-v="${f.key}">${p[f.key]} ${f.unit||''}</b></div>
+          <input type="range" min="120" max="1000" step="10" data-r="${f.key}" value="${p[f.key]}"></div>`;
+      }
+      return `<div class="cfg-row"><div class="cfg-lab"><span>${f.label}</span></div><div class="cfg-chips" data-g="${f.key}">
+        ${f.vals.map(v=>`<button class="chip ${p[f.key]===v?'is-on':''}" data-k="${f.key}" data-v="${v}">${f.fmt?f.fmt(v):v}</button>`).join('')}</div></div>`;
+    }).join('');
+    body.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>{
+      const k=b.dataset.k, v=+b.dataset.v; p[k]=v;
+      body.querySelectorAll('[data-g="'+k+'"] [data-k]').forEach(x=>x.classList.toggle('is-on',+x.dataset.v===v));
+    }));
+    body.querySelectorAll('[data-r]').forEach(r=>r.addEventListener('input',()=>{
+      const k=r.dataset.r; p[k]=+r.value;
+      const lab=body.querySelector('[data-v="'+k+'"]');
+      const f=fields.find(x=>x.key===k);
+      if(lab) lab.textContent=p[k]+' '+(f&&f.unit||'');
+    }));
+    document.addEventListener('keydown',onKey);
+    $('#sheetCancel').onclick=()=>close(null);
+    $('#sheetGo').onclick=()=>{
+      S.exoPrefs=Object.assign({},S.exoPrefs||{},{[kind]:p}); save();
+      close(specFromPrefs(kind,p));
+    };
+    sheet.onclick=e=>{ if(e.target===sheet) close(null); };
+    sheet.hidden=false;
+  });
+}
+async function askFree(kind){
+  const spec=await askExoSettings(kind);
+  if(!spec) return;
+  launchFree(kind,null,spec);
+}
+function restartRun(){
+  if(!lastRun) return;
+  const r=lastRun;
+  endStage();
+  setTimeout(()=>launchFree(r.kind,r.missionIdx,r.spec),40);
+}
+
 /* -------- exercice libre -------- */
-async function launchFree(kind, missionIdx=null){
+async function launchFree(kind, missionIdx=null, specOverride=null){
   const lvl=niveauCourant();
   const size=levelIdx()>=3?5:4;
-  const spec = kind==='schulte'?{k:'schulte',size}
+  const spec = specOverride || (kind==='schulte'?{k:'schulte',size}
     : kind==='lettres'?{k:'lettres',size,mode:'alpha'}
     : kind==='empan'?{k:'empan',n:8}
     : kind==='saccades'?{k:'saccades',rounds:3}
@@ -2172,7 +2314,8 @@ async function launchFree(kind, missionIdx=null){
     : kind==='rappel'?{k:'rappel'}
     : kind==='suppression'?{k:'suppression',wpm:Math.max(250,S.wpm),chunk:1}
     : kind==='ortho'?{k:'ortho',n:20}
-    : {k:kind};
+    : {k:kind});
+  lastRun={kind,missionIdx,spec};
   const tok=begin((missionIdx!=null?'Mission · ':'Exercice libre — ')+specLabel(spec), missionIdx!=null?'mission du jour':'hors parcours');
   if(!tok) return;
   S.combo=0;
@@ -2220,7 +2363,7 @@ async function launchFree(kind, missionIdx=null){
       <button class="btn${missionIdx!=null&&!miss.complete?'':' primary'}" id="freeAgain">Refaire</button>
       <button class="btn ghost" id="freeBack">Tableau de bord</button></div>
   </div>`;
-  $('#freeAgain').addEventListener('click',()=>{ endStage(); launchFree(kind,missionIdx); });
+  $('#freeAgain').addEventListener('click',()=>{ endStage(); launchFree(kind,missionIdx,lastRun&&lastRun.kind===kind?lastRun.spec:null); });
   $('#freeBack').addEventListener('click',()=>{ endStage(); setView('dash'); });
   const mn=$('#missionNext');
   if(mn) mn.addEventListener('click',()=>{
@@ -2568,7 +2711,7 @@ function renderDash(){
   $('#runEtape').addEventListener('click',()=>launchEtape(idx));
   const sc=$('#startCal'); if(sc) sc.addEventListener('click',()=>launchCalibrage());
   const again=$('#runEtapeAgain'); if(again) again.addEventListener('click',()=>launchEtape(idx));
-  $$('#freeList [data-free]').forEach(b=>b.addEventListener('click',()=>launchFree(b.dataset.free)));
+  $$('#freeList [data-free]').forEach(b=>b.addEventListener('click',()=>askFree(b.dataset.free)));
   $$('[data-mission]').forEach(b=>{ const i=+b.dataset.mission; b.addEventListener('click',()=>launchFree(missionState().plan[i],i)); });
   const en=$('#eyeNow'); if(en) en.addEventListener('click',()=>eyeBreak(true));
   $('#dashRange').addEventListener('input',e2=>{ S.wpm=+e2.target.value; save(); renderDash(); });
@@ -2942,6 +3085,7 @@ $('#themeBtn').addEventListener('click',()=>{ S.theme=S.theme==='ink'?'paper':'i
 $('#sizeBtn').addEventListener('click',()=>{ const sizes=[1,1.14,1.28]; S.size=sizes[(sizes.indexOf(S.size)+1)%3]; save(); renderAll(); });
 $('#orpBtn').addEventListener('click',()=>{ S.orp=!S.orp; save(); renderAll(); });
 $('#stageExit').addEventListener('click',()=>{ endStage(); });
+$('#stageRestart').addEventListener('click',()=>restartRun());
 document.addEventListener('keydown',e=>{
   if(stageEl.hidden) return;
   const t=e.target;
