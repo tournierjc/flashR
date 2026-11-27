@@ -46,21 +46,22 @@ Nine-step progression, a calibrated starting speed, a daily mission with XP and 
 - **XP and levels** — 8 to 20 XP per exercise, ×2/×3 on consecutive right answers inside a quiz. ~120 XP for level 2, then 180, 240…
 - **Streak** — consecutive completed missions, with a "missed yesterday" rule that resets it to 1.
 
-### The nine steps
+### The twelve steps
 
-Order matters: the visual tool first, then rhythm and word grouping, then the inner voice, speed last. Every step has a numeric pass criterion, measured on recent attempts at the exact target speed — an old record or a run 20 wpm below target does not count.
+Order matters, and difficulty rises: the visual tool and visual search first, then fixations and periphery, then rhythm and word grouping, then the inner voice, and skimming and speed last. **All 21 exercises of the app appear in the parcours**, and the ones that come back — word hunt, look-alikes, double, guided reading, skim — come back with harder parameters. Every step has a numeric pass criterion, measured on recent attempts at the exact target speed: an old record or a run 20 wpm below target does not count.
 
-| # | Step | Pass criterion |
-|---|------|----------------|
-| 1 | Visual field | digit grid 4×4 < 26 s and letter grid A→P < 28 s |
-| 2 | Guided fixations | 2/3 correct saccade sequences + guided text 3/4 |
-| 3 | Metronome rhythm | metronome read at 200 wpm, 3/4 |
-| 4 | Continuous flow | guided reading at 220 wpm, 3/4 |
-| 5 | Wide span | span stable at 5 words + 2-word flash at 250 wpm, 3/4 |
-| 6 | Inner voice | reading under articulatory loop at 250 wpm, 3/4; silent letters 15/20 with median under 1.1 s |
-| 7 | Understanding under speed | two guided reads at 280 wpm, 3/4 |
-| 8 | Sustained speed | two flashes at 320 wpm, 3/4 |
-| 9 | Real reading | free recall ≥ 50 % of key ideas **and** at least 25 words written |
+- **1. Visual field** — digit grid 4×4 under 26 s and letter grid A→P under 28 s
+- **2. Visual search** — word hunt: 6 targets/min with at most one false tap; double: 4 of 6 lines
+- **3. Guided fixations** — 2 of 3 saccade sequences + guided text 3/4 + look-alikes 8/12
+- **4. Periphery and look-alikes** — 5 of 8 letters at 260 ms + look-alikes 9/12 at 260 ms + double 5/8
+- **5. Metronome rhythm** — one metronome read at 220 wpm, 3/4
+- **6. Wide span** — horizontal span stable at 5 words and vertical span stable at 5 words
+- **7. Digit span** — fan: 6 of 12 numbers right up to 4 digits + word hunt: 9 targets/min
+- **8. Continuous flow** — guided read at 260 wpm, 3/4 + quick gist: 3 of 5 extracts
+- **9. Grouping and triage** — 2-word flash at 280 wpm, 3/4 + paragraph triage 9/12
+- **10. Inner voice** — reading under the articulatory loop at 280 wpm, 3/4; silent letters 15/20 with a median under 1.1 s
+- **11. Skimming** — guided read at 320 wpm, 3/4 + skim: 2 of 3 useful sentences in under 30 s
+- **12. Real reading** — free recall ≥ 50 % of key ideas **and** 25 words written + skim 3/4 at 750 wpm in under 25 s + full quiz at 60 %
 
 Target speed moves **+20 wpm** after 3 or 4 correct answers out of 4 with comfortable rhythm, stays put at 2/4, drops 20 below that.
 
@@ -69,6 +70,8 @@ Target speed moves **+20 wpm** after 3 or 4 correct answers out of 4 with comfor
 **120 to 1000 wpm**, ten tiers: Découverte, Apprenti, Lecteur, Rapide, Véloce, Éclair, Vision, Fusée (650), Hyper (800), Limite (1000). Words per display follow the tier — 2 words at 300, 4 at 520, 6 at 800, 8 at 1000 — and the manual setting (1 to 8) can only raise that floor.
 
 ## Exercises
+
+Two families were added for the skills the rest of the app does not train. **Visual search**: *word hunt* (find every occurrence of a word in a running paragraph — targets per minute and false taps are counted), *look-alikes* (two real words one letter apart — revenir/devenir, sorte/forte — press when the target shows, exposure shrinks as you go) and *double* (a 6-to-12-word line with one word repeated, flashed then clicked; the staircase lengthens the line and shortens the exposure). **Skimming**: *skim by question* (the question first, the text scrolling at 600-750 wpm, click the sentence that answers — the right sentence is located by lexical overlap with the answer, with a margin), *quick gist* (three flashed lines at close to 1000 wpm, then three possible titles) and *paragraph triage* (useful or not for answering, four paragraphs per round).
 
 Every free exercise opens a small **settings sheet** before it starts — speed, words per display, number of trials, starting length, exposure time, grid size — and the choices are remembered per exercise for next time. A **⟲ Recommencer** button in the stage bar restarts the same exercise with the same settings at any moment; **Refaire** on the result screen does the same once it is over.
 

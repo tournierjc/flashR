@@ -239,6 +239,45 @@ table.sess tr:hover td{background:var(--surface-2)}
 .fan-stage{display:grid;place-items:center;min-height:clamp(160px,26vh,240px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:4px}
 .fan-num{font-family:var(--mono);font-size:calc(clamp(2.2rem,6.5vw,4.2rem) * var(--tscale));letter-spacing:.14em;line-height:1;white-space:nowrap;font-weight:500}
 .fan-num.blank{color:transparent}
+/* repérage & écrémage */
+.cw{font-weight:400;border-radius:3px;padding:0 1px;cursor:pointer;transition:background .08s,color .08s}
+.cw:hover{background:var(--accent-soft)}
+.cw.hit{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.cw.bad{background:var(--warn);color:#fff}
+.chasse-top{display:flex;align-items:baseline;gap:12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;margin:14px 0}
+.chasse-word{font-family:var(--mono);font-size:19px;color:var(--accent);letter-spacing:.06em}
+.chasse-top .mono{margin-left:auto;font-size:12px;color:var(--dim)}
+.chasse-top .mono+.mono{margin-left:16px}
+.chasse-text{font-family:var(--serif);font-size:calc(1.16rem * var(--tscale));line-height:1.85;color:var(--ink);padding-bottom:10px}
+.sosie-stage{display:grid;place-items:center;min-height:clamp(150px,24vh,220px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:4px}
+.sosie-word{font-family:var(--mono);font-size:calc(clamp(2rem,6vw,3.4rem) * var(--tscale));letter-spacing:.1em;line-height:1;white-space:nowrap}
+.sosie-word.blank{color:transparent}
+.dbl-stage{display:grid;place-items:center;min-height:clamp(120px,20vh,180px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:4px;overflow:hidden}
+.dbl-line{font-family:var(--serif);font-size:calc(clamp(1.5rem,3.6vw,2.4rem) * var(--tscale));letter-spacing:.02em;white-space:nowrap;text-align:center;width:100%}
+.dbl-line .cw{font-weight:400}
+.dbl-mask{color:var(--dim);letter-spacing:.3em}
+.gist-stage{display:grid;place-items:center;min-height:clamp(150px,24vh,210px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:4px;padding:8px 0}
+.gist-text{font-family:var(--serif);font-size:calc(1.14rem * var(--tscale));line-height:1.75;text-align:left;color:var(--ink)}
+.gist-text.blank{color:transparent}
+.gist-opts{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.gist-opt{padding:12px 14px;border:1px solid var(--line-2);background:var(--surface);font-size:14px;line-height:1.35;transition:border-color .1s,background .1s}
+.gist-opt:hover{border-color:var(--ink)}
+.gist-opt.hit{border-color:var(--accent);background:var(--accent-soft)}
+.gist-opt.bad{border-color:var(--warn);color:var(--warn)}
+.tri-stage{min-height:clamp(150px,24vh,220px);display:flex;align-items:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:4px;padding:12px 0}
+.tri-para{font-family:var(--serif);font-size:calc(1.1rem * var(--tscale));line-height:1.7}
+.tri-para.ok{border-left:3px solid var(--ok);padding-left:12px}
+.tri-para.no{border-left:3px solid var(--warn);padding-left:12px}
+.tri-foot{display:flex;gap:10px;margin-top:14px}
+.tri-foot .btn{flex:1;justify-content:center}
+.tri-foot small{color:var(--dim);font-size:11px;margin-left:6px}
+.survol-box{height:clamp(230px,42vh,360px);overflow:hidden;position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:12px}
+.survol-box:after{content:'';position:absolute;inset:auto 0 0 0;height:44px;background:linear-gradient(to bottom,transparent,var(--bg))}
+.survol-scroll{height:100%;overflow:hidden}
+.survol-s{font-family:var(--serif);font-size:calc(1.1rem * var(--tscale));line-height:1.62;padding:5px 8px;cursor:pointer;border-radius:3px;transition:background .1s}
+.survol-s:hover{background:var(--accent-soft)}
+.survol-s.hit{background:var(--accent);color:var(--accent-ink)}
+.survol-s.bad{background:var(--warn);color:#fff}
 .fan-input-wrap{display:flex;justify-content:center;margin-top:22px}
 .fan-input{font-family:var(--mono);font-size:calc(clamp(1.6rem,4.6vw,2.6rem) * var(--tscale));letter-spacing:.2em;text-align:center;background:transparent;border:0;border-bottom:2px solid var(--line);color:var(--ink);width:min(100%,10ch);padding:6px 4px 8px;outline:none}
 .fan-input:focus{border-bottom-color:var(--accent)}
@@ -661,102 +700,152 @@ const ETAPES = [
     }
   },
   {
-    id:2, nom:'Fixations guidées', cible:200, niveau:1,
-    but:"Poser le regard sur des points précis et le déplacer en saccades régulières, sans dériver.",
-    blocks:[{k:'saccades',rounds:3},{k:'guide',group:3}],
+    id:13, nom:'Repérage', cible:180, niveau:1,
+    but:"Chercher une cible dans du texte courant, et repérer un mot répété d'un seul regard. Ici on ne lit pas : on balaie.",
+    blocks:[{k:'chasse',secs:30},{k:'doublon',n:6}],
     crit:l=>{
-      const sa=maxRecent(l,'saccades'), g=countRuns(l,{comp:.75,wpm:200});
+      const ch=lastBlk(l,'chasse'), db=lastBlk(l,'doublon');
       return {items:[
-        {label:"Saccades : au moins 2 séquences justes sur 3", ok:sa!=null&&sa>=2, val:sa!=null?sa+'/3':'—'},
-        {label:"Un texte suivi à l'indicateur visuel, 3/4 compris", ok:g>=1, val:Math.min(g,1)+'/1'}
+        {label:"Chasse au mot : les trois quarts des cibles, une erreur tolérée", ok:!!ch&&ch.total>0&&ch.hits/ch.total>=.7&&(ch.falseTaps||0)<=1,
+          val:ch?(ch.hits+'/'+ch.total+' cibles · '+Math.round(ch.perMin)+'/min'+(ch.falseTaps?' · '+ch.falseTaps+' erreur'+(ch.falseTaps>1?'s':''):'')):'—'},
+        {label:"Doublon éclair : 4 doublons vus sur 6", ok:!!db&&db.correct>=4, val:db?db.correct+'/'+db.total:'—'}
       ]};
     }
   },
   {
-    id:3, nom:'Rythme au métronome', cible:200, niveau:2,
+    id:2, nom:'Fixations guidées', cible:200, niveau:1,
+    but:"Poser le regard sur des points précis et le déplacer en saccades régulières, sans dériver.",
+    blocks:[{k:'saccades',rounds:3},{k:'guide',group:3},{k:'sosies',n:12}],
+    crit:l=>{
+      const sa=maxRecent(l,'saccades'), g=countRuns(l,{comp:.75,wpm:200}), so=lastBlk(l,'sosies');
+      return {items:[
+        {label:"Saccades : au moins 2 séquences justes sur 3", ok:sa!=null&&sa>=2, val:sa!=null?sa+'/3':'—'},
+        {label:"Un texte suivi à l'indicateur visuel, 3/4 compris", ok:g>=1, val:Math.min(g,1)+'/1'},
+        {label:"Sosies : 8 détections justes sur 12", ok:!!so&&so.correct>=8, val:so?so.correct+'/'+so.total:'—'}
+      ]};
+    }
+  },
+  {
+    id:14, nom:'Périphérie et sosies', cible:210, niveau:2,
+    but:"Identifier hors du centre du regard, et distinguer deux mots qui ne diffèrent que d'une lettre : la discrimination fine qui décide de la vitesse de saisie.",
+    blocks:[{k:'peripherie',rounds:8,dur:260},{k:'sosies',n:12},{k:'doublon',n:8}],
+    crit:l=>{
+      const pe=lastBlk(l,'peripherie'), so=lastBlk(l,'sosies'), db=lastBlk(l,'doublon');
+      return {items:[
+        {label:"Vision périphérique : 5 lettres sur 8 à 260 ms", ok:!!pe&&pe.correct>=5, val:pe?pe.correct+'/'+pe.total+' à '+pe.dur+' ms':'—'},
+        {label:"Sosies : 9 détections justes sur 12", ok:!!so&&so.correct>=9, val:so?so.correct+'/'+so.total+' · exposition finale '+so.dur+' ms':'—'},
+        {label:"Doublon éclair : 5 doublons vus sur 8", ok:!!db&&db.correct>=5, val:db?db.correct+'/'+db.total:'—'}
+      ]};
+    }
+  },
+  {
+    id:3, nom:'Rythme au métronome', cible:220, niveau:2,
     but:"Caler les yeux sur un battement régulier, en sautant d'un point à l'autre de l'écran : la saccade se cale sur le temps au lieu de flotter.",
     blocks:[{k:'metronome'}],
     crit:l=>{
-      const r=countRuns(l,{comp:.75,wpm:200});
-      return {items:[
-        {label:"Une lecture au métronome à 200 mots/min, 3/4 compris", ok:r>=1, val:r+'/1'}
-      ]};
-    }
-  },
-  {
-    id:4, nom:'Flux continu', cible:220, niveau:2,
-    but:"Lire un texte continu derrière un curseur, sans revenir en arrière. Le curseur impose un flux ; il ne mesure pas les retours oculaires.",
-    blocks:[{k:'pacer'}],
-    crit:l=>{
       const r=countRuns(l,{comp:.75,wpm:220});
       return {items:[
-        {label:"Une lecture guidée à 220 mots/min avec 3/4 de compréhension", ok:r>=1, val:r+'/1'}
+        {label:"Une lecture au métronome à 220 mots/min, 3/4 compris", ok:r>=1, val:r+'/1'}
       ]};
     }
   },
   {
     id:5, nom:'Empan large', cible:250, niveau:3,
-    but:"Prendre deux ou trois mots d'un seul regard, sans perdre le fil. C'est la prise de groupes qui rend la vocalisation inutile.",
-    blocks:[{k:'empan',n:8},{k:'rsvp',chunk:2}],
+    but:"Prendre plusieurs mots d'un seul regard, à l'horizontale puis à la verticale. C'est la prise de groupes qui rend la vocalisation inutile.",
+    blocks:[{k:'empan',n:8},{k:'empanV',n:6}],
     crit:l=>{
-      const sp=maxRecent(l,'empanBestSpan'), r=countRuns(l,{comp:.75,wpm:250});
+      const em=lastBlk(l,'empan'), ev=lastBlk(l,'empanV');
+      const h=em?(em.bestSpan||em.span):null, v=ev?(ev.bestSpan||ev.span):null;
       return {items:[
-        {label:"Empan stable à 5 mots", ok:(sp!=null?sp:S.span)>=5, val:'empan '+(sp!=null?sp:S.span)+' mots'},
-        {label:"Flash en groupes de 2 mots à 250, avec 3/4 de compréhension", ok:r>=1, val:r+'/1'}
+        {label:"Empan horizontal stable à 5 mots", ok:(h!=null?h:S.span)>=5, val:'empan '+(h!=null?h:S.span)+' mots'},
+        {label:"Empan vertical stable à 5 mots", ok:(v!=null?v:S.spanV)>=5, val:'colonne de '+(v!=null?v:S.spanV)+' mots'}
       ]};
     }
   },
   {
-    id:6, nom:'Voix intérieure', cible:250, niveau:3,
-    but:"Faire taire la bouche et l'oreille : lire en occupant volontairement la voix intérieure. Si la compréhension tient, la lecture est passée par les yeux. L'écart avec le contrôle est affiché à titre indicatif — il ne bloque pas l'étape.",
-    blocks:[{k:'suppression',wpm:250},{k:'ortho',n:20}],
+    id:15, nom:'Empan chiffré', cible:250, niveau:3,
+    but:"Prendre un nombre entier d'un seul regard, puis chercher plus vite dans un texte plus long : la prise d'information devient un réflexe.",
+    blocks:[{k:'eventail',n:12,len:3},{k:'chasse',secs:45}],
     crit:l=>{
-      const s=countRuns(l,{comp:.75,wpm:250});
+      const ev=lastBlk(l,'eventail'), ch=lastBlk(l,'chasse');
+      return {items:[
+        {label:"Éventail visuel : 6 nombres justes sur 12, jusqu'à 4 chiffres", ok:!!ev&&ev.correct>=6&&(ev.bestSpan||0)>=4,
+          val:ev?ev.correct+'/'+ev.total+' · jusqu\u2019à '+(ev.bestSpan||0)+' chiffres':'—'},
+        {label:"Chasse au mot : toutes les cibles trouvées, une erreur tolérée", ok:!!ch&&ch.total>0&&ch.hits>=ch.total&&(ch.falseTaps||0)<=1,
+          val:ch?(ch.hits+'/'+ch.total+' cibles · '+Math.round(ch.perMin)+'/min'+(ch.falseTaps?' · '+ch.falseTaps+' erreur'+(ch.falseTaps>1?'s':''):'')):'—'}
+      ]};
+    }
+  },
+  {
+    id:4, nom:'Flux continu', cible:260, niveau:3,
+    but:"Lire un texte derrière un curseur, sans revenir en arrière, et attraper le sujet d'un extrait sans en lire les détails.",
+    blocks:[{k:'pacer'},{k:'gist',n:5}],
+    crit:l=>{
+      const r=countRuns(l,{comp:.75,wpm:260}), gi=lastBlk(l,'gist');
+      return {items:[
+        {label:"Une lecture guidée à 260 mots/min avec 3/4 de compréhension", ok:r>=1, val:r+'/1'},
+        {label:"Gist éclair : 3 sujets retrouvés sur 5", ok:!!gi&&gi.correct>=3, val:gi?gi.correct+'/'+gi.total:'—'}
+      ]};
+    }
+  },
+  {
+    id:8, nom:'Groupes et tri', cible:280, niveau:4,
+    but:"Lire par groupes de deux mots à 280, et décider vite quel paragraphe mérite d'être lu.",
+    blocks:[{k:'rsvp',chunk:2},{k:'tri',rounds:3}],
+    crit:l=>{
+      const r=countRuns(l,{comp:.75,wpm:280}), tr=lastBlk(l,'tri');
+      return {items:[
+        {label:"Flash en groupes de 2 mots à 280, 3/4 compris", ok:r>=1, val:r+'/1'},
+        {label:"Tri de paragraphes : 9 décisions justes sur 12", ok:!!tr&&tr.correct>=9, val:tr?tr.correct+'/'+tr.total:'—'}
+      ]};
+    }
+  },
+  {
+    id:6, nom:'Voix intérieure', cible:280, niveau:4,
+    but:"Faire taire la bouche et l'oreille : lire en occupant volontairement la voix intérieure. Si la compréhension tient, la lecture est passée par les yeux. L'écart avec le contrôle est affiché à titre indicatif — il ne bloque pas l'étape.",
+    blocks:[{k:'suppression',wpm:280},{k:'ortho',n:20}],
+    crit:l=>{
+      const s=countRuns(l,{comp:.75,wpm:280});
       const o=maxRecent(l,'orthoScore'), m=bestRecent(l,'orthoMedian');
       return {items:[
-        {label:"Lecture sous boucle à 250 mots/min, 3/4 compris", ok:s>=1, val:Math.min(s,1)+'/1'},
+        {label:"Lecture sous boucle à 280 mots/min, 3/4 compris", ok:s>=1, val:Math.min(s,1)+'/1'},
         {label:"Lettres muettes : 15 mots justes sur 20", ok:o!=null&&o>=15, val:(o||0)+'/20'},
         {label:"… avec une médiane sous 1,1 s par mot", ok:m!=null&&m<=1100, val:m!=null?m+' ms':'—'}
       ]};
     }
   },
   {
-    id:7, nom:'Comprendre sous vitesse', cible:280, niveau:4,
-    but:"Tenir la vitesse sans lâcher le sens : c'est ici que se joue la vraie lecture rapide.",
-    blocks:[{k:'pacer'}],
+    id:7, nom:'Survol', cible:320, niveau:5,
+    but:"Tenir 320 mots/min sans lâcher le sens, et trouver l'information utile dans un texte qui défile plus vite que la lecture.",
+    blocks:[{k:'pacer'},{k:'survol',nq:3,wpm:650}],
     crit:l=>{
-      const r=countRuns(l,{comp:.75,wpm:280});
+      const r=countRuns(l,{comp:.75,wpm:320}), sv=lastBlk(l,'survol');
       return {items:[
-        {label:"Deux lectures guidées à 280 mots/min avec 3/4 de compréhension", ok:r>=2, val:Math.min(r,2)+'/2'}
+        {label:"Une lecture guidée à 320 mots/min avec 3/4 de compréhension", ok:r>=1, val:r+'/1'},
+        {label:"Survol : 2 phrases utiles sur 3, en moins de 30 s", ok:!!sv&&sv.correct>=2&&sv.seconds!=null&&sv.seconds<=30,
+          val:sv?(sv.correct+'/'+sv.total+(sv.seconds?' · '+sv.seconds.toFixed(1)+' s':'') ):'—'}
       ]};
     }
   },
   {
-    id:8, nom:'Vitesse soutenue', cible:320, niveau:5,
-    but:"Enchaîner deux textes denses au même rythme, sans dégrader la saisie.",
-    blocks:[{k:'rsvp',chunk:2}],
+    id:9, nom:'Lecture réelle', cible:360, niveau:5,
+    but:"Lire sans consigne de vitesse puis restituer, et retrouver l'information à 750 mots/min : c'est la seule mesure qui vaut transfert.",
+    blocks:[{k:'rappel'},{k:'survol',nq:4,wpm:750},{k:'examen'}],
     crit:l=>{
-      const r=countRuns(l,{comp:.75,wpm:320});
-      return {items:[
-        {label:"Deux Flash à 320 mots/min avec 3/4 de compréhension", ok:r>=2, val:Math.min(r,2)+'/2'}
-      ]};
-    }
-  },
-  {
-    id:9, nom:'Lecture réelle', cible:340, niveau:5,
-    but:"Lire sans consigne de vitesse, puis restituer : c'est la seule mesure qui vaut transfert.",
-    blocks:[{k:'rappel'}],
-    crit:l=>{
-      const s=maxRecent(l,'recall');
-      const w=maxRecent(l,'recallWords');
+      const s=maxRecent(l,'recall'), w=maxRecent(l,'recallWords');
+      const sv=lastBlk(l,'survol'), ex=lastBlk(l,'examen');
       return {items:[
         {label:"Rappel libre : couverture des idées clés ≥ 50 %", ok:s!=null&&s>=.5, val:s!=null?Math.round(s*100)+' %':'—'},
-        {label:"Rappel réellement rédigé (25 mots minimum)", ok:w!=null&&w>=25, val:(w||0)+' mots'}
+        {label:"Rappel réellement rédigé (25 mots minimum)", ok:w!=null&&w>=25, val:(w||0)+' mots'},
+        {label:"Survol à 750 mots/min : 3 phrases utiles sur 4, en moins de 25 s",
+          ok:!!sv&&sv.correct>=3&&sv.seconds!=null&&sv.seconds<=25,
+          val:sv?(sv.correct+'/'+sv.total+(sv.seconds?' · '+sv.seconds.toFixed(1)+' s':'')):'—'},
+        {label:"QCM complet : 60 % de réponses justes", ok:!!ex&&ex.comp!=null&&ex.comp>=.6,
+          val:ex?Math.round(ex.comp*100)+' % · '+ex.correct+'/'+ex.total:'—'}
       ]};
     }
   }
 ];
-
 const EXOS = [
   {id:'rsvp', fam:'Lecture', nom:'Flash RSVP', desc:"Les mots défilent un par un, ancrés sur un point fixe. À cette cadence, l'articulation interne ne peut plus suivre : c'est la vitesse qui empêche de « dire » les mots.", meta:'1–2 min'},
   {id:'pacer', fam:'Lecture', nom:'Lecture guidée', desc:"Un curseur vertical balaie la ligne à vitesse constante et le texte lu disparaît complètement derrière lui. Aucun point de fixation, aucun retour, aucune relecture possible : c'est le flux seul.", meta:'2–3 min'},
@@ -771,6 +860,12 @@ const EXOS = [
   {id:'empan', fam:'Vision', nom:'Empan visuel', desc:"Une phrase apparaît une fraction de seconde. Tu choisis celle que tu as vue : on mesure la largeur de ton regard.", meta:'1–2 min'},
   {id:'empanV', fam:'Vision', nom:'Empan vertical', desc:"Une colonne de 4 à 7 mots, deux flèches au centre : on fixe le milieu et on lit la colonne d'un seul regard, du haut vers le bas.", meta:'1–2 min'},
   {id:'eventail', fam:'Vision', nom:'Éventail visuel', desc:"Un nombre s'affiche une fraction de seconde, puis disparaît : à toi de le retaper. À chaque réussite il s'allonge et s'affiche moins longtemps — de 2 à 8 chiffres. Mesure ce que ton œil prend d'un seul regard.", meta:'2 min'},
+  {id:'chasse', fam:'Repérage', nom:'Chasse au mot', desc:"Un texte courant, un mot à retrouver partout. Tu ne lis pas : ton œil tombe sur la forme. C'est la recherche dans du texte réel, pas dans une grille de symboles.", meta:'45 s'},
+  {id:'sosies', fam:'Repérage', nom:'Sosies', desc:"Deux mots qui ne diffèrent que d'une lettre — revenir et devenir, sorte et forte. La cible est annoncée : tu appuies quand tu la vois, et l'exposition raccourcit tant que tu réussis.", meta:'2 min'},
+  {id:'doublon', fam:'Repérage', nom:'Doublon éclair', desc:"Une ligne de 6 à 12 mots dont un apparaît deux fois, flashée puis masquée. Repérer le doublon d'un seul regard, c'est balayer la ligne en parallèle au lieu de la lire.", meta:'2 min'},
+  {id:'survol', fam:'Écrémage', nom:'Survol à question', desc:"La question d'abord, le texte ensuite qui défile vite : tu cliques la phrase qui répond. Lire pour trouver, pas pour tout lire — c'est la compétence qui compte au-delà de 400 mots/min.", meta:'2–3 min'},
+  {id:'gist', fam:'Écrémage', nom:'Gist éclair', desc:"Un extrait de trois lignes flashé à près de 1 000 mots/min, puis trois titres possibles. Attraper le sujet sans les détails : le contraire du QCM, qui exige la précision.", meta:'1 min 30'},
+  {id:'tri', fam:'Écrémage', nom:'Tri de paragraphes', desc:"Une question, puis quatre paragraphes affichés une fraction de seconde : utile ou inutile ? Tu décides ce qui mérite d'être lu, sans chercher la réponse.", meta:'2 min'},
   {id:'suppression', fam:'Voix', nom:'Bouche fermée', desc:"Deux textes à la même cadence : d'abord un contrôle lu normalement, puis le même exercice en répétant mentalement « ta-ta-ta ». La boucle occupe la voix intérieure ; l'écart de compréhension entre les deux dit à quel point tu dépends d'elle.", meta:'3 min'},
   {id:'ortho', fam:'Voix', nom:'Lettres muettes', desc:"Un mot s'affiche 1,5 s : a-t-il une lettre muette ? Au clavier (O / N ou 1 / 2), impossible de répondre en l'entendant, il faut voir l'orthographe. Mesure l'accès direct à la forme écrite.", meta:'1 min'}
 ];
@@ -820,6 +915,8 @@ const maxOf = (l,field)=>{ const v=l.map(x=>x[field]).filter(x=>typeof x==='numb
 const bestRecent = (l,field,n=2)=>{ const v=l.slice(-n).map(x=>x[field]).filter(x=>typeof x==='number'&&!isNaN(x)); return v.length?Math.min(...v):null; };
 const maxRecent  = (l,field,n=2)=>{ const v=l.slice(-n).map(x=>x[field]).filter(x=>typeof x==='number'&&!isNaN(x)); return v.length?Math.max(...v):null; };
 const countRuns = (l,{comp,wpm},tail=3)=>l.slice(-tail).filter(x=>(x.comp!=null&&x.comp>=comp)&&(x.wpm!=null&&x.wpm>=wpm)).length;
+// dernier passage d'un exercice donné dans l'historique d'une étape
+const lastBlk=(l,k)=>{ for(let i=l.length-1;i>=0;i--){ const b=((l[i]&&l[i].blocks)||[]).find(x=>x&&x.k===k); if(b) return b; } return null; };
 
 /* =========================================================
    2. ÉTAT
@@ -1853,6 +1950,402 @@ async function blockEventail(tok,trials=12,startLen){
   return {correct,total:n,span:len,bestSpan:Math.max(bestLen,len),comp:correct/n};
 }
 
+/* =========================================================
+   4c. REPÉRAGE ET ÉCRÉMAGE
+   ========================================================= */
+// paires de mots réels qui ne diffèrent que d'une lettre : la discrimination se joue sur la forme
+const SOSIES=[['revenir','devenir'],['sorte','forte'],['ligne','signe'],['atteindre','attendre'],
+  ['dessus','dessous'],['parfois','parois'],['forme','force'],['encore','encre'],['espèce','espace'],
+  ['peser','poser'],['poche','proche'],['glace','place'],['passage','paysage'],['reste','geste'],
+  ['contre','centre'],['monde','monte'],['change','charge'],['suivre','cuivre'],['jeune','jaune'],
+  ['pleine','plaine'],['libre','livre'],['manque','marque'],['couleur','coureur'],['savant','avant']];
+
+const estMot = t => t.length>=4 && !STOP.has(t) && /^[a-z]+$/.test(t);
+function phrasesOf(corps){
+  return corps.split(/(?<=[.!?…])\s+/).map(s=>s.trim()).filter(s=>s.length>=25);
+}
+// phrase du texte qui porte réellement la réponse : recouvrement des mots porteurs, avec marge
+function answerSpot(corps,rep){
+  const at=new Set(norm(rep).split(' ').filter(estMot).map(w=>w.slice(0,6)));
+  if(!at.size) return null;
+  const ss=phrasesOf(corps);
+  if(!ss.length) return null;
+  const scores=ss.map(s=>{
+    const st=new Set(norm(s).split(' ').filter(estMot).map(w=>w.slice(0,6)));
+    let h=0; at.forEach(a=>{ if(st.has(a)) h++; });
+    return h/at.size;
+  });
+  let bi=0; scores.forEach((v,i)=>{ if(v>scores[bi]) bi=i; });
+  const top=scores[bi];
+  const second=scores.filter((v,i)=>i!==bi).sort((a,b)=>b-a)[0]||0;
+  return {idx:bi, score:top, margin:top-second, n:ss.length, ss, scores};
+}
+
+/* -------- Chasse au mot : repérer une cible dans du texte courant -------- */
+async function blockChasse(tok,secs=45,text){
+  const t=text||pickText(niveauCourant(),{maxWords:420});
+  const count=new Map();
+  words(t.corps).forEach(w=>{ const k=norm(w); if(estMot(k)&&k.length<=9) count.set(k,(count.get(k)||0)+1); });
+  let cands=Array.from(count.entries()).filter(([k,c])=>c>=3&&c<=6);
+  if(!cands.length) cands=Array.from(count.entries()).filter(([k,c])=>c>=2&&c<=6);
+  if(!cands.length) cands=Array.from(count.entries()).filter(([k,c])=>c>=2);
+  if(!cands.length) return null;
+  const [cible,total]=cands[Math.floor(Math.random()*cands.length)];
+  let html='';
+  words(t.corps).forEach((w,i)=>{
+    const k=norm(w);
+    html+=(i?' ':'')+`<b class="cw" data-k="${k}" data-i="${i}">${esc(w)}</b>`;
+  });
+  setHost('top');
+  host.innerHTML=`<div class="block" style="max-width:820px;padding-top:8px">
+    <div class="block-head" style="text-align:left">
+      <span class="eyebrow">Chasse au mot · ${secs} s</span>
+      <h2 style="font-size:20px">Trouve toutes les occurrences de « ${esc(cible)} »</h2>
+      <p style="margin:0">${total} occurrences. Ne lis pas : laisse ton œil tomber sur le mot. Une erreur coûte autant qu'une cible manquée.</p>
+    </div>
+    <div class="chasse-top"><b class="chasse-word">${esc(cible)}</b><span class="mono" id="chasseN">0 / ${total}</span><span class="mono" id="chasseT">${secs} s</span></div>
+    <div class="chasse-text" id="chasseText">${html}</div>
+  </div>`;
+  const box=$('#chasseText'), nEl=$('#chasseN'), tEl=$('#chasseT');
+  const t0=performance.now();
+  let found=0, faux=0;
+  const doneFound=new Set();
+  return new Promise(res=>{
+    let fini=false;
+    const stop=v=>{ if(fini) return; fini=true; clearInterval(cd); box.removeEventListener('click',onClick); res(v); };
+    const onClick=e=>{
+      const el=e.target.closest('.cw');
+      if(!el) return;
+      if(el.dataset.k===cible){
+        if(doneFound.has(el.dataset.i)) return;
+        doneFound.add(el.dataset.i); found++; el.classList.add('hit');
+        if(nEl) nEl.textContent=found+' / '+total;
+        if(found>=total){ stop({hits:found,total,faux,seconds:(performance.now()-t0)/1000}); }
+      } else {
+        faux++; el.classList.add('bad');
+        setTimeout(()=>el.classList.remove('bad'),260);
+      }
+    };
+    box.addEventListener('click',onClick);
+    const cd=setInterval(()=>{
+      const left=secs-(performance.now()-t0)/1000;
+      if(tEl) tEl.textContent=Math.max(0,Math.ceil(left))+' s';
+      if(left<=0) stop({hits:found,total,faux,seconds:(performance.now()-t0)/1000});
+    },100);
+    cleanups.push(()=>{ clearInterval(cd); box.removeEventListener('click',onClick); res(null); });
+  }).then(r=>{
+    if(!r) return null;
+    const perMin=r.hits/Math.max(r.seconds,3)*60;   // un temps très court ne doit pas donner un débit absurde
+    return {k:'chasse',hits:r.hits,total:r.total,falseTaps:r.faux,seconds:r.seconds,perMin,
+      correct:r.hits,totalQ:r.total,comp:clamp(r.hits/Math.max(1,r.hits+(r.total-r.hits)+r.faux),0,1)};
+  });
+}
+
+/* -------- Sosies : deux mots presque identiques, une seule cible -------- */
+async function blockSosies(tok,n=12,startDur){
+  let dur=clamp(startDur||S.sosieDur||260,120,420);
+  const fam=SOSIES[Math.floor(Math.random()*SOSIES.length)];
+  const swap=Math.random()<.5;
+  const cible=swap?fam[1]:fam[0], autre=swap?fam[0]:fam[1];
+  const seq=shuffle(Array.from({length:n},(_,i)=>i%2?cible:autre));
+  let correct=0, fa=0, miss=0;
+  for(let i=0;i<n;i++){
+    if(!alive(tok)) return null;
+    const mot=seq[i], attendu=(mot===cible);
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:620px">
+      <div class="block-head" style="text-align:center">
+        <span class="eyebrow">Sosies · essai ${i+1}/${n}</span>
+        <h2 style="font-size:19px">Cible : « ${esc(cible)} »</h2>
+        <p style="margin:0">Appuie sur la barre d'espace dès que tu vois la cible. Si ce n'est pas elle, ne touche à rien.</p>
+      </div>
+      <div class="sosie-stage"><b class="sosie-word blank" id="sosieWord"></b></div>
+      <div class="empan-score" id="sosieScore">exposition ${dur} ms · ${correct} justes${fa?' · '+fa+' fausses alertes':''}</div>
+    </div>`;
+    const el=$('#sosieWord'), sc=$('#sosieScore');
+    await sleep(480,tok); if(!alive(tok)) return null;
+    el.textContent=mot; el.classList.remove('blank');
+    let pressed=false;
+    const press=()=>{ pressed=true; };
+    document.addEventListener('keydown',press,{once:true});
+    el.addEventListener('click',press,{once:true});
+    cleanups.push(()=>document.removeEventListener('keydown',press));
+    await sleep(dur,tok); if(!alive(tok)) return null;
+    el.classList.add('blank');
+    await sleep(700,tok); if(!alive(tok)) return null;
+    document.removeEventListener('keydown',press);
+    const bon=(pressed===attendu);
+    if(bon) correct++;
+    else if(pressed&&!attendu) fa++;
+    else miss++;
+    if(bon) dur=clamp(dur-20,120,420); else dur=clamp(dur+40,120,420);
+    if(sc) sc.textContent=`${bon?'juste':'raté'} · exposition ${dur} ms · ${correct} justes${fa?' · '+fa+' fausses alertes':''}`;
+    await sleep(bon?420:760,tok); if(!alive(tok)) return null;
+  }
+  S.sosieDur=dur; save();
+  return {k:'sosies',correct,total:n,falseAlarms:fa,missed:miss,dur,comp:correct/n};
+}
+
+/* -------- Doublon éclair : une ligne, un mot en double -------- */
+async function blockDoublon(tok,n=10,startN){
+  let N=clamp(startN||S.dblN||7,6,12), D=clamp(S.dblDur||1100,400,1600);
+  let correct=0;
+  for(let i=0;i<n;i++){
+    if(!alive(tok)) return null;
+    const t=pickText(niveauCourant(),{maxWords:420});
+    const pool=Array.from(new Set(words(t.corps).map(w=>w.replace(/[^\wÀ-ÿ'’-]/g,'')).filter(w=>{ const k=norm(w); return estMot(k)&&k.length>=4; })));
+    if(pool.length<N+2) return null;
+    const pick=shuffle(pool).slice(0,N-1);
+    const dup=pick[Math.floor(Math.random()*pick.length)];
+    const line=shuffle([...pick,dup]);   // le doublon est mêlé aux autres
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:760px">
+      <div class="block-head" style="text-align:center">
+        <span class="eyebrow">Doublon éclair · essai ${i+1}/${n}</span>
+        <h2 style="font-size:19px">${line.length} mots, ${D} ms</h2>
+        <p style="margin:0">Un mot apparaît deux fois. Prends la ligne d'un seul regard.</p>
+      </div>
+      <div class="dbl-stage"><div class="dbl-line" id="dblLine"></div></div>
+      <div class="empan-score" id="dblScore">${correct} justes</div>
+    </div>`;
+    const ln=$('#dblLine'), sc=$('#dblScore');
+    await sleep(520,tok); if(!alive(tok)) return null;
+    ln.innerHTML=line.map(w=>`<span>${esc(w)}</span>`).join(' ');
+    fitText(ln);
+    await sleep(D,tok); if(!alive(tok)) return null;
+    ln.innerHTML='<span class="dbl-mask">— — —</span>';
+    await sleep(320,tok); if(!alive(tok)) return null;
+    // restitution : les mots reviennent dans le même ordre, un clic désigne le doublon
+    ln.innerHTML=line.map((w,idx)=>`<b class="cw" data-w="${esc(norm(w))}" data-i="${idx}">${esc(w)}</b>`).join(' ');
+    fitText(ln);
+    const jete=await new Promise(res=>{
+      let fini=false;
+      const clic=e=>{ const el=e.target.closest('.cw'); if(!el||fini) return; fini=true; ln.removeEventListener('click',clic); res(el); };
+      ln.addEventListener('click',clic);
+      cleanups.push(()=>{ ln.removeEventListener('click',clic); res(null); });
+    });
+    if(!alive(tok)) return null;
+    const bon=!!jete&&jete.dataset.w===norm(dup);
+    if(bon) correct++;
+    ln.querySelectorAll('.cw').forEach(el=>{ if(el.dataset.w===norm(dup)) el.classList.add('hit'); });
+    if(jete&&!bon) jete.classList.add('bad');
+    if(sc) sc.textContent=`${bon?'juste':'raté'} · le doublon était « ${esc(dup)} » · ${correct} justes`;
+    // escalier : trois réussites de suite allongent la ligne, deux échecs la raccourcissent
+    S.dblStreak=bon?(S.dblStreak||0)+1:0;
+    if(S.dblStreak>=3){ N=clamp(N+1,6,12); S.dblStreak=0; D=clamp(D-60,400,1600); }
+    else if(!bon){ D=clamp(D+120,400,1600); }
+    await sleep(bon?800:1300,tok); if(!alive(tok)) return null;
+  }
+  S.dblN=N; S.dblDur=D; save();
+  return {k:'doublon',correct,total:n,line:N,dur:D,comp:correct/n};
+}
+
+/* -------- Gist éclair : saisir le sujet sans lire les détails -------- */
+async function blockGist(tok,n=5,flashMs){
+  let correct=0;
+  const pool=TEXTS.filter(x=>wc(x.corps)>=120);
+  for(let i=0;i<n;i++){
+    if(!alive(tok)) return null;
+    const t=pool[Math.floor(Math.random()*pool.length)];
+    const all=words(t.corps);
+    const len=Math.min(34,Math.max(18,Math.round(all.length*0.12)));
+    const start=Math.floor(Math.random()*Math.max(1,all.length-len));
+    const extrait=all.slice(start,start+len).join(' ');
+    const ms=flashMs||Math.max(900,Math.round(len/950*60000));
+    const autres=shuffle(pool.filter(x=>x.id!==t.id&&x.theme===t.theme)).slice(0,2);
+    const opts=shuffle([t,...autres].filter(Boolean).map(x=>({id:x.id,titre:x.titre})));
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:700px">
+      <div class="block-head" style="text-align:center">
+        <span class="eyebrow">Gist éclair · extrait ${i+1}/${n}</span>
+        <h2 style="font-size:19px">${len} mots, ${ms} ms</h2>
+        <p style="margin:0">Ne lis pas : attrape le sujet. Les détails sont hors sujet.</p>
+      </div>
+      <div class="gist-stage"><div class="gist-text blank" id="gistText"></div></div>
+      <div class="empan-score" id="gistScore">${correct} justes</div>
+    </div>`;
+    const el=$('#gistText');
+    await sleep(520,tok); if(!alive(tok)) return null;
+    el.textContent=extrait; el.classList.remove('blank');
+    await sleep(ms,tok); if(!alive(tok)) return null;
+    el.classList.add('blank');
+    setHost();
+    host.innerHTML=`<div class="block" style="max-width:700px">
+      <div class="block-head" style="text-align:left">
+        <span class="eyebrow">Gist éclair · extrait ${i+1}/${n}</span>
+        <h2 style="font-size:19px">De quel texte venait cet extrait ?</h2>
+      </div>
+      <div class="gist-opts" id="gistOpts">${opts.map(o=>`<button class="gist-opt" data-id="${o.id}">${esc(o.titre)}</button>`).join('')}</div>
+    </div>`;
+    const jete=await new Promise(res=>{
+      const clic=e=>{ const b=e.target.closest('.gist-opt'); if(!b) return; $('#gistOpts').removeEventListener('click',clic); res(b.dataset.id); };
+      $('#gistOpts').addEventListener('click',clic);
+      cleanups.push(()=>{ const g=$('#gistOpts'); if(g) g.removeEventListener('click',clic); res(null); });
+    });
+    if(!alive(tok)) return null;
+    const bon=jete===t.id;
+    if(bon) correct++;
+    $('#gistOpts').querySelectorAll('.gist-opt').forEach(b=>{
+      if(b.dataset.id===t.id) b.classList.add('hit');
+      else if(b.dataset.id===jete) b.classList.add('bad');
+    });
+    await sleep(bon?700:1100,tok); if(!alive(tok)) return null;
+  }
+  return {k:'gist',correct,total:n,comp:correct/n};
+}
+
+/* -------- réservoir de questions « à phrase-réponse » (calculé une fois) -------- */
+let SPOT_POOL=null;
+function spotPool(){
+  if(SPOT_POOL) return SPOT_POOL;
+  const out=[];
+  for(const t of TEXTS){
+    if(wc(t.corps)<140) continue;
+    t.q.forEach((q,i)=>{
+      const s=answerSpot(t.corps,q.o[q.r]);
+      if(s&&s.score>=.6&&s.margin>=.15&&s.n>=4) out.push({t,q,spot:s});
+    });
+  }
+  // repli : corpus plus étroit que prévu, on abaisse un peu l'exigence
+  if(out.length<20){
+    for(const t of TEXTS){
+      if(wc(t.corps)<140) continue;
+      t.q.forEach((q,i)=>{
+        const s=answerSpot(t.corps,q.o[q.r]);
+        if(s&&s.score>=.45&&s.margin>=.1&&s.n>=3) out.push({t,q,spot:s});
+      });
+    }
+  }
+  SPOT_POOL=out;
+  return out;
+}
+
+/* -------- Tri de paragraphes : ce paragraphe peut-il contenir la réponse ? -------- */
+async function blockTri(tok,rounds=3,perRound=4){
+  let correct=0, decisions=0;
+  const pool=spotPool();
+  if(!pool.length) return null;
+  for(let r=0;r<rounds;r++){
+    if(!alive(tok)) return null;
+    let pick=null, ps=null, bonne=null;
+    for(let i=0;i<12&&!pick;i++){
+      const c=pool[Math.floor(Math.random()*pool.length)];
+      const paras=c.t.corps.split(/\n+/).map(p=>p.trim()).filter(p=>p.length>60);
+      const b=paras.find(p=>p.includes(c.spot.ss[c.spot.idx]))||paras.find(p=>answerSpot(p,c.q.o[c.q.r]));
+      if(paras.length>=2&&b){ pick=c; ps=paras; bonne=b; }
+    }
+    if(!pick) continue;
+    const t=pick.t, q=pick.q, spot=pick.spot;
+    const autres=shuffle(ps.filter(p=>p!==bonne)).slice(0,perRound-1);
+    let garde=0;
+    while(autres.length<perRound-1&&garde++<12){
+      const o=TEXTS[Math.floor(Math.random()*TEXTS.length)];
+      o.corps.split(/\n+/).map(p=>p.trim()).filter(p=>p.length>60).forEach(p=>{ if(autres.length<perRound-1&&p!==bonne) autres.push(p); });
+    }
+    if(autres.length<perRound-1) continue;
+    const lot=shuffle([bonne,...autres]);
+    setHost('top');
+    host.innerHTML=`<div class="block" style="max-width:760px">
+      <div class="block-head" style="text-align:left">
+        <span class="eyebrow">Tri de paragraphes · série ${r+1}/${rounds}</span>
+        <h2 style="font-size:19px">${esc(q.q)}</h2>
+        <p style="margin:0">Chaque paragraphe s'affiche une fraction de seconde. Tu ne cherches pas la réponse : tu décides s'il vaut la peine d'être lu.</p>
+      </div>
+      <div class="tri-stage" id="triStage"></div>
+      <div class="tri-foot"><button class="btn" id="triOui">Utile <small>U</small></button><button class="btn" id="triNon">Inutile <small>I</small></button></div>
+    </div>`;
+    for(const p of lot){
+      if(!alive(tok)) return null;
+      $('#triStage').innerHTML=`<div class="tri-para">${esc(p)}</div>`;
+      const rep=await new Promise(res=>{
+        let fini=false;
+        const stop=v=>{ if(fini) return; fini=true; document.removeEventListener('keydown',onKey); res(v); };
+        const onKey=e=>{ const k=e.key.toLowerCase(); if(k==='u') stop(true); if(k==='i') stop(false); };
+        document.addEventListener('keydown',onKey);
+        $('#triOui').onclick=()=>stop(true);
+        $('#triNon').onclick=()=>stop(false);
+        cleanups.push(()=>{ document.removeEventListener('keydown',onKey); res(null); });
+      });
+      if(rep==null||!alive(tok)) return null;
+      const estUtile=(p===bonne);
+      decisions++;
+      if(rep===estUtile) correct++;
+      $('#triStage').innerHTML=`<div class="tri-para ${rep===estUtile?'ok':'no'}">${esc(p.slice(0,140))}${p.length>140?'…':''}</div>`;
+      await sleep(320,tok); if(!alive(tok)) return null;
+    }
+  }
+  return {k:'tri',correct,total:decisions,comp:decisions?correct/decisions:0};
+}
+
+/* -------- Survol à question : lire pour trouver, pas pour tout lire -------- */
+async function blockSurvol(tok,nq=3,wpmArg){
+  const lvl=niveauCourant();
+  const wpm=clamp(wpmArg||Math.max(600,S.wpm),300,WPM_MAX);
+  const pool=spotPool();
+  if(!pool.length) return null;
+  const lots=[];
+  const vus=new Set();
+  for(let i=0;i<60&&lots.length<nq;i++){
+    const c=pool[Math.floor(Math.random()*pool.length)];
+    if(vus.has(c.t.id)) continue;
+    vus.add(c.t.id);
+    lots.push(c);
+  }
+  if(!lots.length) return null;
+  const temps=[]; let correct=0;
+  for(let i=0;i<lots.length;i++){
+    if(!alive(tok)) return null;
+    const {t,q,spot}=lots[i];
+    setHost('top');
+    host.innerHTML=`<div class="block" style="max-width:820px;padding-top:8px">
+      <div class="block-head" style="text-align:left">
+        <span class="eyebrow">Survol à question · ${i+1}/${lots.length} · ${wpm} mots/min</span>
+        <h2 style="font-size:20px">${esc(q.q)}</h2>
+        <p style="margin:0">Le texte défile. Clique la phrase qui répond. Tu n'as pas à tout lire.</p>
+      </div>
+      <div class="survol-box" id="survolBox"><div class="survol-scroll" id="survolScroll">
+        ${spot.ss.map((s,j)=>`<div class="survol-s" data-i="${j}">${esc(s)}</div>`).join('')}
+      </div></div>
+      <div class="block-foot"><span class="hint" id="survolT">00:00</span><span class="hint">${wc(t.corps)} mots · ${spot.ss.length} phrases</span></div>
+    </div>`;
+    const box=$('#survolBox'), sc=$('#survolScroll'), tEl=$('#survolT');
+    const t0=performance.now();
+    const dur=Math.max(4,wc(t.corps)/wpm*60);
+    const tick=setInterval(()=>{
+      const el=(performance.now()-t0)/1000;
+      if(tEl) tEl.textContent=mmss(el*1000);
+      const max=sc.scrollHeight-box.clientHeight;
+      if(max>0) box.scrollTop=Math.min(max,max*(el/dur));
+    },80);
+    cleanups.push(()=>clearInterval(tick));
+    const clic=await new Promise(res=>{
+      let fini=false;
+      const on=e=>{ const d=e.target.closest('.survol-s'); if(!d||fini) return; fini=true; box.removeEventListener('click',on); res({i:+d.dataset.i,t:(performance.now()-t0)/1000}); };
+      box.addEventListener('click',on);
+      cleanups.push(()=>{ box.removeEventListener('click',on); res(null); });
+    });
+    clearInterval(tick);
+    if(!clic||!alive(tok)) return null;
+    const bon = clic.i===spot.idx || (spot.scores[clic.i]>=Math.max(.7,spot.score*.75));
+    if(bon) correct++;
+    temps.push(clic.t);
+    box.querySelectorAll('.survol-s').forEach(d=>{
+      const j=+d.dataset.i;
+      if(j===spot.idx) d.classList.add('hit');
+      else if(j===clic.i) d.classList.add('bad');
+    });
+    if(!bon){
+      const fb=document.createElement('div');
+      fb.className='verdict'; fb.innerHTML=`La phrase utile : « ${esc(spot.ss[spot.idx])} »`;
+      box.parentElement.insertBefore(fb,box.nextSibling);
+    }
+    await sleep(1500,tok); if(!alive(tok)) return null;
+  }
+  temps.sort((a,b)=>a-b);
+  const med=temps.length?temps[Math.floor(temps.length/2)]:null;
+  return {k:'survol',correct,total:lots.length,seconds:med,wpm,comp:correct/lots.length};
+}
+
 async function blockFreeRead(tok,text){
   setHost('top');
   host.innerHTML=`<div class="block" style="max-width:760px;padding-top:10px">
@@ -1929,6 +2422,12 @@ function specLabel(spec){
     case 'empan': return 'Empan visuel — '+(spec.n||6)+' essais'+(spec.span?' dès '+spec.span+' mots':'');
     case 'empanV': return 'Empan vertical — colonne de mots'+(spec.span?' dès '+spec.span+' mots':'');
     case 'eventail': return 'Éventail visuel — '+(spec.n||12)+' nombres'+(spec.len?' dès '+spec.len+' chiffres':'');
+    case 'chasse': return 'Chasse au mot — '+(spec.secs||45)+' s';
+    case 'sosies': return 'Sosies — '+(spec.n||12)+' essais';
+    case 'doublon': return 'Doublon éclair — '+(spec.n||10)+' lignes';
+    case 'survol': return 'Survol à question — '+(spec.nq||3)+' questions';
+    case 'gist': return 'Gist éclair — '+(spec.n||5)+' extraits';
+    case 'tri': return 'Tri de paragraphes — '+(spec.rounds||3)+' séries';
     case 'saccades': return 'Saccades guidées — '+(spec.rounds||3)+' séquences';
     case 'peripherie': return 'Vision périphérique — '+(spec.rounds||8)+' essais'+(spec.dur?' à '+spec.dur+' ms':'');
     case 'rsvp': return 'Flash RSVP'+(spec.chunk>1?' ('+spec.chunk+' mots)':'')+' + questions';
@@ -1948,6 +2447,12 @@ function specMeta(spec){
     case 'empan': return '~1 min';
     case 'empanV': return '~1 min 30';
     case 'eventail': return '~2 min';
+    case 'chasse': return '~1 min';
+    case 'sosies': return '~2 min';
+    case 'doublon': return '~2 min';
+    case 'survol': return '~3 min';
+    case 'gist': return '~1 min 30';
+    case 'tri': return '~2 min';
     case 'saccades': return '~1 min';
     case 'peripherie': return '~1 min';
     case 'rsvp': case 'pacer': case 'metronome': case 'guide': return '~2 min';
@@ -1958,7 +2463,7 @@ function specMeta(spec){
   }
 }
 function specMetaOfEtape(e){
-  const per={schulte:0.7,lettres:0.7,empan:1,saccades:1,peripherie:1,rsvp:2,pacer:2.5,metronome:2,guide:2.5,rappel:3};
+  const per={schulte:0.7,lettres:0.7,empan:1,saccades:1,peripherie:1,rsvp:2,pacer:2.5,metronome:2,guide:2.5,rappel:3,chasse:1,sosies:2,doublon:2,survol:3,gist:1.5,tri:2};
   const min=e.blocks.reduce((a,b)=>a+(per[b.k]||1),0);
   return e.blocks.length+' exercices · ~'+Math.round(min)+' min · '+e.cible+' mots/min';
 }
@@ -1988,6 +2493,12 @@ async function runSpec(spec,tok,ctx){
     case 'empan': return await blockEmpan(tok,spec.n||8,spec.span);
     case 'empanV': return await blockEmpanV(tok,spec.n||8,spec.span);
     case 'eventail': return await blockEventail(tok,spec.n||12,spec.len);
+    case 'chasse': return await blockChasse(tok,spec.secs||45,ctx&&ctx.text);
+    case 'sosies': return await blockSosies(tok,spec.n||12);
+    case 'doublon': return await blockDoublon(tok,spec.n||10);
+    case 'survol': return await blockSurvol(tok,spec.nq||3,spec.wpm);
+    case 'gist': return await blockGist(tok,spec.n||5);
+    case 'tri': return await blockTri(tok,spec.rounds||3);
     case 'saccades': return await blockSaccades(tok,spec.rounds||3);
     case 'peripherie': { if(spec.dur){ S.periphDur=clamp(spec.dur,80,320); save(); } return await blockPeriph(tok,spec.rounds||8); }
     case 'ortho': return await blockOrtho(tok,spec.n||20);
@@ -2068,6 +2579,11 @@ async function launchEtape(idx){
     if(READ_MODES.has(spec.k)){ res.words=r.words; res.seconds=r.seconds; }
   }
   if(!res.blocks.length){ toast('Séance interrompue'); return endStage(); }
+  // performance des exercices hors lecture : sert au gain d'XP, jamais à la vitesse cible
+  if(res.comp==null){
+    const nb=res.blocks.filter(b=>b.comp!=null);
+    if(nb.length) res.acc=nb.reduce((a,b)=>a+b.comp,0)/nb.length;
+  }
   // journalisation
   const logs=S.logs[e.id]||(S.logs[e.id]=[]);
   logs.push(res);
@@ -2104,6 +2620,17 @@ async function showEtapeResult(res,e,tok,idx){
     let v='—';
     if(b.k==='schulte'||b.k==='lettres') v=b.completed?b.seconds.toFixed(1)+' s':'passé';
     if(b.k==='empan') v=b.correct+'/'+b.total+' justes · empan '+b.span+' mots';
+    if(b.k==='empanV') v=b.correct+'/'+b.total+' justes · colonne de '+b.span+' mots';
+    if(b.k==='eventail') v=b.correct+'/'+b.total+' justes · jusqu’à '+(b.bestSpan||b.span)+' chiffres';
+    if(b.k==='chasse') v=b.hits+'/'+b.total+' cibles · '+Math.round(b.perMin)+'/min'+(b.falseTaps?' · '+b.falseTaps+' erreur(s)':'');
+    if(b.k==='sosies') v=b.correct+'/'+b.total+' justes · à '+b.dur+' ms'+(b.falseAlarms?' · '+b.falseAlarms+' fausse(s) alerte(s)':'');
+    if(b.k==='doublon') v=b.correct+'/'+b.total+' doublons';
+    if(b.k==='survol') v=b.correct+'/'+b.total+' phrases · '+Math.round(b.wpm)+' mpm'+(b.seconds?' · '+b.seconds.toFixed(1)+' s':'');
+    if(b.k==='gist') v=b.correct+'/'+b.total+' sujets';
+    if(b.k==='tri') v=b.correct+'/'+b.total+' décisions';
+    if(b.k==='peripherie') v=b.correct+'/'+b.total+' lettres à '+b.dur+' ms';
+    if(b.k==='ortho') v=b.correct+'/'+b.total+' mots';
+    if(b.k==='examen') v=b.correct+'/'+b.total+' questions · '+Math.round(b.comp*100)+' %';
     if(b.k==='saccades') v=b.correct+'/'+b.total+' séquences';
     if(READ_MODES.has(b.k)) v=b.correct+'/'+b.total+' justes · '+Math.round(b.wpm)+' mpm';
     if(b.k==='rappel') v=Math.round(b.recall*100)+' % des idées · '+b.recallWords+' mots écrits';
@@ -2222,6 +2749,12 @@ const EXO_CFG={
   empan:[{key:'n',label:'Essais',vals:[6,8,12]},{key:'span',label:'Mots au départ',vals:[3,4,5,6,7]}],
   empanV:[{key:'n',label:'Essais',vals:[6,8,12]},{key:'span',label:'Mots au départ',vals:[3,4,5,6,7]}],
   eventail:[{key:'n',label:'Essais',vals:[6,12,18]},{key:'len',label:'Chiffres au départ',vals:[2,3,4,5,6,7,8]}],
+  chasse:[{key:'secs',label:'Durée',vals:[30,45,60,90],fmt:v=>v+' s'}],
+  sosies:[{key:'n',label:'Essais',vals:[6,12,18]}],
+  doublon:[{key:'n',label:'Lignes',vals:[6,10,14]}],
+  survol:[{key:'nq',label:'Questions',vals:[2,3,4]},{key:'wpm',type:'range',label:'Défilement',unit:'mots/min'}],
+  gist:[{key:'n',label:'Extraits',vals:[3,5,8]}],
+  tri:[{key:'rounds',label:'Séries',vals:[2,3,4]}],
   saccades:[{key:'rounds',label:'Séquences',vals:[2,3,5]}],
   peripherie:[{key:'rounds',label:'Essais',vals:[6,8,12]},{key:'dur',label:'Exposition',vals:[120,160,220,280],fmt:v=>v+' ms'}],
   rsvp:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'chunk',label:'Mots par affichage',vals:[0,1,2,3,4,5,6,7,8],fmt:v=>v===0?'auto':v}],
@@ -2238,6 +2771,12 @@ function exoDefaults(kind){
     empan:{n:8,span:clamp(S.span||4,3,9)},
     empanV:{n:8,span:clamp(S.spanV||4,3,7)},
     eventail:{n:12,len:clamp(S.fanLen||2,2,8)},
+    chasse:{secs:45},
+    sosies:{n:12},
+    doublon:{n:10},
+    survol:{nq:3,wpm:Math.max(600,S.wpm)},
+    gist:{n:5},
+    tri:{rounds:3},
     saccades:{rounds:3},
     peripherie:{rounds:8,dur:clamp(S.periphDur||220,80,320)},
     rsvp:{wpm:S.wpm,chunk:clamp(dispChunk(),1,8)},
@@ -2256,6 +2795,12 @@ function specFromPrefs(kind,p){
     case 'empan': return {k:'empan',n:p.n,span:p.span};
     case 'empanV': return {k:'empanV',n:p.n,span:p.span};
     case 'eventail': return {k:'eventail',n:p.n,len:p.len};
+    case 'chasse': return {k:'chasse',secs:p.secs};
+    case 'sosies': return {k:'sosies',n:p.n};
+    case 'doublon': return {k:'doublon',n:p.n};
+    case 'survol': return {k:'survol',nq:p.nq,wpm:p.wpm};
+    case 'gist': return {k:'gist',n:p.n};
+    case 'tri': return {k:'tri',rounds:p.rounds};
     case 'saccades': return {k:'saccades',rounds:p.rounds};
     case 'peripherie': return {k:'peripherie',rounds:p.rounds,dur:p.dur};
     case 'rsvp': return {k:'rsvp',wpm:p.wpm,chunk:p.chunk||undefined};
@@ -2351,8 +2896,10 @@ async function launchFree(kind, missionIdx=null, specOverride=null){
   const r=await runSpec(spec,tok,{text,niveau:lvl});
   if(!r||!alive(tok)) return endStage();
   const rec={ts:Date.now(),mode:kind,label:'Libre — '+specLabel(spec),wpm:r.wpm||null,
-    comp:r.comp!=null?r.comp:null,effective:(r.comp!=null&&r.wpm)?r.wpm*r.comp:null,words:r.words||0,seconds:r.seconds||0,span:r.span||null,
-    recall:r.recall!=null?r.recall:null,saccades:r.k==='saccades'?r.correct:null,mission:missionIdx!=null?missionIdx:null};
+    comp:r.comp!=null?r.comp:null,effective:(READ_MODES.has(kind)&&r.comp!=null&&r.wpm)?r.wpm*r.comp:null,words:r.words||0,seconds:r.seconds||0,span:r.span||null,
+    recall:r.recall!=null?r.recall:null,saccades:r.k==='saccades'?r.correct:null,mission:missionIdx!=null?missionIdx:null,
+    hits:(r.hits!=null?r.hits:(r.k==='survol'?r.correct:null)),hitTotal:r.total!=null?r.total:null,perMin:r.perMin!=null?r.perMin:null,
+    falseTaps:r.falseTaps!=null?r.falseTaps:null,dur:r.dur!=null?r.dur:null,line:r.line!=null?r.line:null};
   if(r.k==='schulte'||r.k==='lettres'){ const key=r.size+(r.k==='lettres'?'L':'N'); if(r.completed&&(!S.schulteBest[key]||r.seconds<S.schulteBest[key])) S.schulteBest[key]=r.seconds; }
   S.history.push(rec); save();
   // la vitesse ne bouge que sur une lecture mesurée en compréhension
@@ -2370,13 +2917,19 @@ async function launchFree(kind, missionIdx=null, specOverride=null){
     <div class="result-grid">
       ${r.wpm?`<div><span class="eyebrow">Vitesse</span><b>${Math.round(r.wpm)}</b><small>mots/min</small></div>`:''}
       ${r.comp!=null?`<div><span class="eyebrow">Compréhension</span><b>${Math.round(r.comp*100)}</b><small>%${r.total?' · '+r.correct+'/'+r.total:''}</small></div>
-        ${r.k!=='suppression'?`<div class="hi"><span class="eyebrow">Lecture utile</span><b>${Math.round(r.wpm*r.comp)}</b><small>indice, pas une mesure du regard</small></div>`:''}`:''}
+        ${r.k!=='suppression'&&r.k!=='survol'?`<div class="hi"><span class="eyebrow">Lecture utile</span><b>${Math.round(r.wpm*r.comp)}</b><small>indice, pas une mesure du regard</small></div>`:''}`:''}
       ${r.k==='empan'?`<div><span class="eyebrow">Empan</span><b>${r.span}</b><small>mots</small></div>`:''}
       ${r.k==='saccades'?`<div><span class="eyebrow">Séquences justes</span><b>${r.correct}/${r.total}</b><small>séquences</small></div>`:''}
       ${r.k==='peripherie'?`<div><span class="eyebrow">Périphérie</span><b>${r.correct}/${r.total}</b><small>à ${r.dur} ms</small></div>`:''}
       ${r.k==='suppression'?`<div><span class="eyebrow">Contrôle</span><b>${r.compCtrl!=null?Math.round(r.compCtrl*100):'—'}</b><small>% sans boucle</small></div>
         <div class="hi"><span class="eyebrow">Écart</span><b>${r.gap!=null?(r.gap>0?'−'+r.gap:'+'+Math.abs(r.gap)):'—'}</b><small>points sous boucle</small></div>`:''}
       ${r.k==='ortho'?`<div><span class="eyebrow">Justes</span><b>${r.correct}/${r.total}</b><small>médiane ${r.median!=null?r.median+' ms':'—'}${r.timeouts?' · '+r.timeouts+' hors délai':''}</small></div>`:''}
+      ${r.k==='chasse'?`<div><span class="eyebrow">Cibles</span><b>${r.hits}/${r.total}</b><small>${r.perMin?Math.round(r.perMin)+' cibles/min':'—'}${r.falseTaps?' · '+r.falseTaps+' erreur'+(r.falseTaps>1?'s':''):''}</small></div>`:''}
+      ${r.k==='sosies'?`<div><span class="eyebrow">Détection</span><b>${r.correct}/${r.total}</b><small>à ${r.dur} ms${r.falseAlarms?' · '+r.falseAlarms+' fausse'+(r.falseAlarms>1?'s':'')+' alerte'+(r.falseAlarms>1?'s':''):''}</small></div>`:''}
+      ${r.k==='doublon'?`<div><span class="eyebrow">Doublons vus</span><b>${r.correct}/${r.total}</b><small>lignes de ${r.line} mots à ${r.dur} ms</small></div>`:''}
+      ${r.k==='gist'?`<div><span class="eyebrow">Sujets trouvés</span><b>${r.correct}/${r.total}</b><small>sans lire les détails</small></div>`:''}
+      ${r.k==='tri'?`<div><span class="eyebrow">Tri juste</span><b>${r.correct}/${r.total}</b><small>paragraphes jugés</small></div>`:''}
+      ${r.k==='survol'?`<div><span class="eyebrow">Phrases trouvées</span><b>${r.correct}/${r.total}</b><small>${r.seconds?r.seconds.toFixed(1)+' s en médiane':'—'} à ${r.wpm} mots/min</small></div>`:''}
       ${(r.k==='schulte'||r.k==='lettres')?`<div><span class="eyebrow">Temps</span><b>${r.seconds?r.seconds.toFixed(1):'—'}</b><small>secondes</small></div>`:''}
       ${r.recall!=null?`<div><span class="eyebrow">Couverture</span><b>${Math.round(r.recall*100)}</b><small>% des idées</small></div>`:''}
       <div><span class="eyebrow">Gain</span><b>+${xp.pts}</b><small>XP${(S.combo||1)>1?' · série ×'+comboMult():''}</small></div>
@@ -2457,8 +3010,8 @@ function xpFor(r){
 }
 
 const MISSION_KINDS={
-  vision:['schulte','lettres','saccades','peripherie','empanV','eventail'],
-  lecture:['metronome','pacer','rsvp','examen'],
+  vision:['schulte','lettres','saccades','peripherie','empanV','eventail','chasse','sosies','doublon'],
+  lecture:['metronome','pacer','rsvp','examen','survol','gist','tri'],
   voix:['suppression','ortho','ortho','suppression'],
   autre:['rappel','empan','lettres']
 };
@@ -2475,6 +3028,12 @@ const MISSION_LABEL={
   empan:['Empan visuel','reconnaître la bonne phrase'],
   empanV:['Empan vertical','colonne de 4 à 7 mots'],
   eventail:['Éventail visuel','nombres flashés, de 2 à 8 chiffres'],
+  chasse:['Chasse au mot','retrouver une cible dans le texte'],
+  sosies:['Sosies','distinguer deux mots presque identiques'],
+  doublon:['Doublon éclair','un mot en double, une ligne flashée'],
+  survol:['Survol à question','trouver la phrase utile, sans tout lire'],
+  gist:['Gist éclair','attraper le sujet sans les détails'],
+  tri:['Tri de paragraphes','décider ce qui mérite d’être lu'],
   suppression:['Bouche fermée','lire en répétant ta-ta-ta'],
   ortho:['Lettres muettes','20 mots, 1,5 s chacun']
 };
@@ -2603,7 +3162,7 @@ function renderDash(){
   const mi=missionState();
   const missionHtml=`<div class="mission${mi.complete?' done':''}" style="margin-bottom:22px">
     <div class="mission-h">
-        <div class="mission-t"><span>Mission du jour</span><b>${mi.complete?'Accomplie — revenir demain':'3 exercices · ~8 min · un visuel, un rythmique, un de voix'}</b></div>
+        <div class="mission-t"><span>Mission du jour</span><b>${mi.complete?'Accomplie — revenir demain':'3 exercices · ~8 min · un visuel ou un repérage, un rythmique ou un écrémage, un de voix'}</b></div>
       <span class="mono" style="font-size:11px;color:var(--dim)">${mi.done.filter(Boolean).length}/3${mi.complete?' · +'+mi.xp+' XP':''}</span>
     </div>
     ${mi.plan.map((k,i)=>`<div class="m-task${mi.done[i]?' ok':''}">
@@ -2617,9 +3176,10 @@ function renderDash(){
   const chart=chartSvg(reads.slice(-20));
   const week=weekStrip(7);
   const fams=[...new Set(EXOS.map(x=>x.fam))];
-  const exoList=fams.map(f=>`<span class="exo-fam">${f==='Lecture'?'Lecture — rythme, saisie':f==='Vision'?'Fixations et vision':'La voix intérieure'}</span>`+
+  const FAM_LABEL={Lecture:'Lecture — rythme, saisie',Vision:'Fixations et vision',Repérage:'Repérage dans le texte',Écrémage:'Écrémage — lire pour trouver',Voix:'La voix intérieure'};
+  const exoList=fams.map(f=>`<span class="exo-fam">${FAM_LABEL[f]||f}</span>`+
     EXOS.filter(x=>x.fam===f).map(x=>`<button class="row-btn" data-free="${x.id}">
-      <span class="row-num">${x.id==='metronome'?'♪':x.id==='saccades'?'↔':x.id==='guide'?'|':x.id==='lettres'?'A':x.id==='schulte'?'1':x.id==='empan'?'⌷':x.id==='empanV'?'↕':x.id==='eventail'?'⌗':x.id==='rappel'?'✎':x.id==='pacer'?'›':x.id==='peripherie'?'◎':'≡'}</span>
+      <span class="row-num">${x.id==='metronome'?'♪':x.id==='saccades'?'↔':x.id==='guide'?'|':x.id==='lettres'?'A':x.id==='schulte'?'1':x.id==='empan'?'⌷':x.id==='empanV'?'↕':x.id==='eventail'?'⌗':x.id==='rappel'?'✎':x.id==='pacer'?'›':x.id==='peripherie'?'◎':x.id==='chasse'?'⌕':x.id==='sosies'?'≒':x.id==='doublon'?'⁝':x.id==='survol'?'⌖':x.id==='gist'?'◍':x.id==='tri'?'⊟':'≡'}</span>
       <span class="row-body"><b>${esc(x.nom)}</b><span>${esc(x.desc)}</span></span>
       <span class="row-meta">${x.meta}</span></button>`).join('')).join('');
 
@@ -3021,8 +3581,8 @@ function renderGuide(){
         <p class="note">Bibliothèque actuelle : ${BIBLIO_SRC==='secours'?'textes de secours (bibliothèque externe absente)':'textes.js'}. Aucun texte n'est téléchargé : tout est dans le fichier.</p>
 
         <h2>Le parcours, étape par étape</h2>
-        <p>${ETAPES.length} étapes, dans l'ordre. Elles commencent par l'outil (le champ visuel, les fixations), passent par le rythme et la prise de groupes, puis par la voix intérieure et enfin la vitesse. Chacune a un objectif, deux ou trois exercices imposés, et un critère de passage chiffré. Tant que le critère n'est pas atteint, l'étape se refait : c'est normal, la régularité compte plus que le record.</p>
-        <ul>${ETAPES.map(e=>`<li><strong style="color:var(--ink)">${e.id}. ${esc(e.nom)}</strong> — ${esc(e.but)} <span class="mono" style="font-size:11px;color:var(--dim)">(${e.cible} mots/min)</span></li>`).join('')}</ul>
+        <p>${ETAPES.length} étapes, dans l'ordre. Elles commencent par l'outil (le champ visuel, le repérage), passent par les fixations, la périphérie, le rythme et la prise de groupes, puis par la voix intérieure, et finissent par l'écrémage et la vitesse. Chacune a un objectif, deux ou trois exercices imposés, et un critère de passage chiffré. Tant que le critère n'est pas atteint, l'étape se refait : c'est normal, la régularité compte plus que le record.</p>
+        <ul>${ETAPES.map((e,i)=>`<li><strong style="color:var(--ink)">${i+1}. ${esc(e.nom)}</strong> — ${esc(e.but)} <span class="mono" style="font-size:11px;color:var(--dim)">(${e.cible} mots/min)</span></li>`).join('')}</ul>
 
         <h2>Comment la vitesse bouge</h2>
         <ul>

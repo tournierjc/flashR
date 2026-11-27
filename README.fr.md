@@ -31,17 +31,20 @@ python3 -m http.server 8000 --directory /opt/data/flashR
 
 ## Le parcours (progressif)
 
-Neuf étapes dans l'ordre : l'outil d'abord (champ visuel, fixations), le rythme et la prise de groupes ensuite, la voix intérieure, la vitesse en dernier. Chacune a un objectif, des exercices imposés et un **critère de passage chiffré** :
+Douze étapes dans l'ordre, à difficulté croissante : l'outil d'abord (champ visuel, repérage), les fixations et la périphérie ensuite, puis le rythme et la prise de groupes, la voix intérieure, et pour finir l'écrémage et la vitesse. **Les 21 exercices de l'app apparaissent tous dans le parcours**, et ceux qui reviennent — chasse au mot, sosies, doublon, lecture guidée, survol — reviennent avec des paramètres plus durs. Chacune a un objectif, deux ou trois exercices imposés et un **critère de passage chiffré** :
 
 1. **Champ visuel** — grille de chiffres 4×4 < 26 s et grille de lettres A→P < 28 s
-2. **Fixations guidées** — 2 séquences de saccades justes sur 3 + un texte suivi à l'indicateur visuel, 3/4
-3. **Rythme au métronome** — une lecture au métronome à 200, 3/4
-4. **Flux continu** — lecture guidée à 220, 3/4
-5. **Empan large** — empan stable à 5 mots + Flash 2 mots à 250, 3/4
-6. **Voix intérieure** — lecture sous boucle articulatoire à 250, 3/4 ; lettres muettes 15/20 avec une médiane sous 1,1 s. L'écart avec le contrôle est **affiché à titre indicatif** : il ne bloque pas l'étape (la voix reste utile sur un texte dense)
-7. **Comprendre sous vitesse** — deux lectures guidées à 280, 3/4
-8. **Vitesse soutenue** — deux Flash à 320, 3/4
-9. **Lecture réelle** — rappel libre ≥ 50 % des idées clés **et** au moins 25 mots rédigés ; la vitesse réelle de lecture est enregistrée à côté
+2. **Repérage** — chasse au mot : 6 cibles/min avec une erreur au plus ; doublon éclair 4/6
+3. **Fixations guidées** — 2 séquences de saccades justes sur 3 + un texte suivi à l'indicateur visuel, 3/4 + sosies 8/12
+4. **Périphérie et sosies** — 5 lettres sur 8 à 260 ms + sosies 9/12 à 260 ms + doublon 5/8
+5. **Rythme au métronome** — une lecture au métronome à 220, 3/4
+6. **Empan large** — empan horizontal stable à 5 mots et empan vertical stable à 5 mots
+7. **Empan chiffré** — éventail : 6 nombres justes sur 12 jusqu'à 4 chiffres + chasse au mot : 9 cibles/min
+8. **Flux continu** — lecture guidée à 260, 3/4 + gist éclair : 3 sujets sur 5
+9. **Groupes et tri** — Flash 2 mots à 280, 3/4 + tri de paragraphes 9/12
+10. **Voix intérieure** — lecture sous boucle articulatoire à 280, 3/4 ; lettres muettes 15/20 avec une médiane sous 1,1 s. L'écart avec le contrôle est **affiché à titre indicatif** : il ne bloque pas l'étape
+11. **Survol** — lecture guidée à 320, 3/4 + survol : 2 phrases utiles sur 3 en moins de 30 s
+12. **Lecture réelle** — rappel libre ≥ 50 % des idées clés **et** 25 mots rédigés + survol 3/4 à 750 mots/min en moins de 25 s + QCM complet à 60 %
 
 Les critères ne se valident que sur des passages **récents** (deux ou trois derniers essais) et **à la cible exacte** de l'étape : un vieux record ou un essai 20 mots/min sous la cible ne suffit pas. Une étape non validée se refait.
 
@@ -54,6 +57,10 @@ Chaque exercice libre ouvre une **feuille de réglages** avant de démarrer — 
 **Lecture** : Flash RSVP (groupes d'1 à 8 mots, ancrage ORP ; le groupe suit le palier de vitesse — 2 mots à 300, 4 à 520, 6 à 800, 8 à 1000), **lecture guidée** (curseur vertical qui balaie la ligne, texte lu effacé — pas de point de fixation), **métronome deux points** (les groupes s'allument alternativement à gauche et à droite, l'œil traverse le champ à chaque battement ; le groupe suit le même réglage « mots par affichage » que le Flash, de 1 à 8, donc il grandit avec le palier de vitesse), lecture + rappel libre.
 
 **Fixations et vision** : **grille de chiffres** (4×4 → 1 à 16, 5×5 → 1 à 25), **grille de lettres** (4×4 → A à P, 5×5 → A à Y), **saccades guidées** (lettres flashées sur 4 ancres, séquence à restituer), **vision périphérique** (fixation centrale, lettre flashée hors du centre puis masquée, durée d'exposition auto-adaptative), **indicateur visuel** (un point de fixation sous chaque groupe de 3 mots, au centre du groupe), **empan visuel** (exposition fixe 600 ms, escalier 2 réussites sur 3 pour monter), **empan vertical** (colonne de 4 à 7 mots, deux flèches au centre, exposition 750 ms, escalier 2 sur 3), **éventail visuel** (un nombre de 2 à 8 chiffres flashé puis restitué au clavier ; exposition qui rétrécit avec la longueur, 420 ms à 180 ms ; 3 réussites d'affilée allongent, 2 échecs raccourcissent).
+
+**Repérage** : **chasse au mot** (retrouver toutes les occurrences d'un mot dans un paragraphe, cibles par minute et erreurs comptées) et **doublon éclair** (une ligne de 6 à 12 mots dont un apparaît deux fois, flashée puis restituée au clic ; l'escalier allonge la ligne et raccourcit l'exposition), **sosies** (deux mots réels à une lettre d'écart — revenir et devenir, sorte et forte — appui quand la cible est vue, exposition qui se raccourcit).
+
+**Écrémage** : **survol à question** (la question s'affiche, le texte défile à 600-750 mots/min, il faut cliquer la phrase qui répond ; la bonne phrase est déterminée par recouvrement lexical avec la réponse, avec marge), **gist éclair** (un extrait de trois lignes flashé à près de 1 000 mots/min, puis trois titres possibles) et **tri de paragraphes** (utile ou inutile pour répondre, quatre paragraphes par série).
 
 Sur les grilles, le retour visuel dépend du niveau : **débutant**, une case trouvée reste verte ; **avancé**, elle flashe vert puis redevient neutre (la mémoire de la grille doit rester dans la tête). Une mauvaise case passe au rouge un tiers de seconde, est comptée comme erreur, et n'empêche rien.
 
@@ -105,7 +112,7 @@ Un bouton « 20 secondes » sur le tableau de bord les ouvre à la demande, un c
 
 Tout est stocké dans `localStorage` (`flashR.v1`, avec reprise automatique d'une sauvegarde `lectureEclair.v1` si elle existe) : aucune requête réseau, aucun compte. L'historique complet des séances est conservé (date, vitesse, compréhension, indice). Deux exports : **CSV** des séances (tableur) et **JSON** de la sauvegarde complète, restaurable via le sélecteur de fichier. « Effacer mes données » remet le parcours à zéro.
 
-Le format du parcours est versionné (`parcoursV`) : si la liste des étapes change, les journaux d'étapes sont réinitialisés mais l'historique des séances est conservé.
+Le parcours est versionné (`parcoursV`) et chaque étape porte un identifiant stable : quand un critère change, l'étape se revalide sur les journaux existants — aucune mesure n'est effacée.
 
 ## Limites assumées
 
