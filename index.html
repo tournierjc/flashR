@@ -2187,17 +2187,18 @@ async function blockGist(tok,n=5,flashMs){
     if(!alive(tok)) return null;
     const t=pool[Math.floor(Math.random()*pool.length)];
     const all=words(t.corps);
-    const len=Math.min(34,Math.max(18,Math.round(all.length*0.12)));
+    const cap=clamp(18+levelIdx()*2,18,34);            // un extrait plus court au début
+    const len=Math.min(cap,Math.max(16,Math.round(all.length*0.10)));
     const start=Math.floor(Math.random()*Math.max(1,all.length-len));
     const extrait=all.slice(start,start+len).join(' ');
-    const ms=flashMs||Math.max(900,Math.round(len/950*60000));
+    const ms=clamp(flashMs||exoDefaults('gist').ms,1500,9000);   // sans réglage explicite : la règle du niveau
     const autres=shuffle(pool.filter(x=>x.id!==t.id&&x.theme===t.theme)).slice(0,2);
     const opts=shuffle([t,...autres].filter(Boolean).map(x=>({id:x.id,titre:x.titre})));
     setHost();
     host.innerHTML=`<div class="block" style="max-width:700px">
       <div class="block-head" style="text-align:center">
         <span class="eyebrow">Gist éclair · extrait ${i+1}/${n}</span>
-        <h2 style="font-size:19px">${len} mots, ${ms} ms</h2>
+        <h2 style="font-size:19px">${len} mots, ${(ms/1000).toFixed(1).replace('.',',')} s</h2>
         <p style="margin:0">Ne lis pas : attrape le sujet. Les détails sont hors sujet.</p>
       </div>
       <div class="gist-stage"><div class="gist-text blank" id="gistText"></div></div>
@@ -2828,7 +2829,7 @@ const EXO_CFG={
   sosies:[{key:'n',label:'Essais',vals:[6,12,18]},{key:'dur',type:'range',label:'Exposition',min:120,max:460,step:20,unit:'ms'}],
   doublon:[{key:'n',label:'Lignes',vals:[6,10,14]},{key:'dur',type:'range',label:'Affichage de la ligne',min:400,max:1600,step:100,unit:'ms'}],
   survol:[{key:'nq',label:'Questions',vals:[2,3,4]},{key:'wpm',type:'range',label:'Vitesse de défilement',min:300,max:1000,step:10,unit:'mots/min'},{key:'auto',label:'Défilement',vals:[1,0],fmt:v=>v?'automatique':'manuel'}],
-  gist:[{key:'n',label:'Extraits',vals:[3,5,8]},{key:'ms',type:'range',label:'Extrait affiché',min:900,max:3000,step:100,unit:'ms'}],
+  gist:[{key:'n',label:'Extraits',vals:[3,5,8]},{key:'ms',type:'range',label:'Extrait affiché',min:1500,max:9000,step:250,unit:'ms'}],
   tri:[{key:'rounds',label:'Séries',vals:[2,3,4]}],
   saccades:[{key:'rounds',label:'Séquences',vals:[2,3,5]}],
   peripherie:[{key:'rounds',label:'Essais',vals:[6,8,12]},{key:'dur',label:'Exposition',vals:[120,160,220,280],fmt:v=>v+' ms'}],
@@ -2850,7 +2851,7 @@ function exoDefaults(kind){
     sosies:{n:12,dur:clamp(440-levelIdx()*26,140,460)},
     doublon:{n:10,dur:clamp(1500-levelIdx()*95,400,1600)},
     survol:{nq:3,wpm:clamp(480+levelIdx()*45,480,1000),auto:S.survolAuto===false?0:1},
-    gist:{n:5,ms:clamp(2600-levelIdx()*150,1000,3000)},
+    gist:{n:5,ms:clamp(5200-levelIdx()*320,2200,5500)},
     tri:{rounds:3},
     saccades:{rounds:3},
     peripherie:{rounds:8,dur:clamp(S.periphDur||220,80,320)},
