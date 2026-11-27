@@ -60,7 +60,6 @@ ul,ol{margin:0;padding:0;list-style:none}
 .dial-num{font-size:22px;letter-spacing:-.02em;color:var(--ink)}
 .dial-row.small{font-size:10.5px;color:var(--dim);font-family:var(--mono);letter-spacing:.04em}
 input[type=range]{width:100%;accent-color:var(--accent);height:22px}
-.rail-toggles{display:flex;flex-wrap:wrap;gap:6px}
 .chip{border:1px solid var(--line);padding:5px 9px;font-size:11px;color:var(--muted);border-radius:2px;
   font-family:var(--mono);letter-spacing:.04em;min-height:28px}
 .chip:hover{border-color:var(--line-2);color:var(--ink)}
@@ -453,11 +452,6 @@ textarea.recall:focus{border-color:var(--accent);outline:none}
         <input id="railRange" type="range" min="120" max="1000" step="10" aria-label="Vitesse cible d'entraînement en mots par minute">
         <div class="dial-row small"><span id="railEtape">Étape 1</span><span id="railComp"></span></div>
         <div class="dial-row small"><span title="Déterminé par le palier de vitesse : 1 mot jusqu'à 250, 2 dès 300, 4 dès 520, 8 à 1000. La feuille de réglages d'un exercice peut s'en écarter.">Mots affichés</span><span class="mono" id="railChunk">1 mot · auto</span></div>
-      </div>
-      <div class="rail-toggles">
-        <button class="chip" id="themeBtn" title="Basculer encre / papier">INVERSER</button>
-        <button class="chip" id="sizeBtn" title="Taille du texte de lecture">TEXTE</button>
-        <button class="chip" id="orpBtn" title="Point d'ancrage optimal">ORP</button>
       </div>
     </div>
   </aside>
@@ -2548,9 +2542,6 @@ function renderRail(){
   const rc=$('#railChunk'); if(rc){ const cl=chunkForLevel(); rc.textContent=cl+(cl>1?' mots':' mot')+' · auto'; }
   document.documentElement.dataset.theme=S.theme;
   document.documentElement.style.setProperty('--tscale',S.size);
-  $('#orpBtn').classList.toggle('is-on',!!S.orp);
-  $('#themeBtn').textContent=S.theme==='ink'?'INVERSER':'INVERSER';
-  $('#sizeBtn').textContent='TEXTE '+['A','A+','A++'][S.size===1?0:S.size===1.14?1:2];
 }
 
 function renderDash(){
@@ -2721,7 +2712,7 @@ function renderDash(){
     if(p==='eyeAuto'){ S.eyeAuto=!S.eyeAuto; if(!S.eyeAuto) S.eyeMs=0; }
     if(p==='theme') S.theme=S.theme==='ink'?'paper':'ink';
     if(p==='size'){ const sizes=[1,1.14,1.28]; S.size=sizes[(sizes.indexOf(S.size)+1)%3]; }
-    save(); renderDash();
+    save(); renderAll();
   }));
   $('#resetAll').addEventListener('click',()=>{
     if(confirm("Effacer tout l'historique et repartir de zéro ?")){ localStorage.removeItem(KEY); S=load(); renderDash(); toast('Données effacées'); }
@@ -3079,9 +3070,6 @@ $('#railRange').addEventListener('input',e=>{
   S.wpm=+e.target.value; $('#railWpm').textContent=S.wpm; save();
   if(!$('#view-dash').hidden) renderDash();
 });
-$('#themeBtn').addEventListener('click',()=>{ S.theme=S.theme==='ink'?'paper':'ink'; save(); renderAll(); });
-$('#sizeBtn').addEventListener('click',()=>{ const sizes=[1,1.14,1.28]; S.size=sizes[(sizes.indexOf(S.size)+1)%3]; save(); renderAll(); });
-$('#orpBtn').addEventListener('click',()=>{ S.orp=!S.orp; save(); renderAll(); });
 $('#stageExit').addEventListener('click',()=>{ endStage(); });
 $('#stageRestart').addEventListener('click',()=>restartRun());
 document.addEventListener('keydown',e=>{
