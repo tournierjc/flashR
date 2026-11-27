@@ -115,6 +115,7 @@ Between two exercises (never in the middle of a quiz), after 4 minutes of screen
 - **Useful reading = rate × comprehension** — a comparison *index* between sessions, not a measurement of gaze (280 wpm at 75 % → 210).
 - **Inner voice = comprehension gap, control → loop.** Readings done under the loop never count in the index nor in speed adaptation: it is a diagnostic, not a performance.
 - **Daily progression** — every session is timestamped; the "Progression" view aggregates per day (sessions, time, mean comprehension, mean index, delta with the last measured day), with a seven-day strip on the dashboard. A day without a session does not lower the curve.
+- **Progression by category** — the "Progression" view scores the five families separately (reading, fixations and vision, scanning, skimming, inner voice) on the share of correct answers in their blocks: last 8 passages, delta against the previous 8, a mini trend line, and the weakest axis called out with a button to work on it. A family never practised is flagged as such.
 - Starting measurement: timed free read + 4 questions → real natural speed, initial target.
 - Span, grids, saccades, periphery and free recall each keep their own record (best time per grid type, max span reached, coverage percentage).
 

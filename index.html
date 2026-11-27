@@ -154,6 +154,26 @@ table.sess tr:hover td{background:var(--surface-2)}
 .mini-stats div:nth-child(odd){padding-right:12px}
 .mini-stats b{font-family:var(--mono);font-size:17px;font-weight:400;display:block}
 .mini-stats small{color:var(--dim);font-size:11px}
+/* progression par catégorie */
+.fam-row{padding:9px 0;border-bottom:1px solid var(--line)}
+.fam-row.empty{opacity:.62}
+.fam-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.fam-n{font-size:12.5px}
+.fam-v{font-family:var(--mono);font-size:13px;color:var(--ink)}
+.fam-row.empty .fam-v{color:var(--dim)}
+.fam-bar{height:5px;background:var(--surface-2);margin-top:6px;position:relative;overflow:hidden}
+.fam-bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);transition:width .35s ease}
+.fam-row.empty .fam-bar i{background:var(--line-2)}
+.fam-s{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:5px;
+  font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.02em}
+.fam-d{color:var(--dim)}
+.fam-d.up{color:var(--ok)}
+.fam-d.down{color:var(--warn)}
+.fam-sp{display:inline-flex;color:var(--line-2)}
+.fam-axe{margin:12px 0 0;font-size:12.5px;line-height:1.5;color:var(--muted);
+  border-left:2px solid var(--accent);padding-left:10px}
+.fam-axe b{color:var(--ink);font-weight:600}
+.fam-axe .chip{margin-left:6px}
 
 /* ---------- stage ---------- */
 .stage{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;flex-direction:column}
@@ -256,6 +276,17 @@ table.sess tr:hover td{background:var(--surface-2)}
 .dbl-line{font-family:var(--serif);font-size:calc(clamp(1.5rem,3.6vw,2.4rem) * var(--tscale));letter-spacing:.02em;white-space:nowrap;text-align:center;width:100%}
 .dbl-line .cw{font-weight:400}
 .dbl-mask{color:var(--dim);letter-spacing:.3em}
+.dbl-line .hit{background:var(--accent);color:var(--accent-ink);padding:0 .12em;border-radius:3px}
+.dbl-bank{white-space:normal;display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.dbl-bank .cw{font-size:calc(.62em * var(--tscale));border:1px solid var(--line-2);padding:7px 13px;border-radius:4px;cursor:pointer;font-family:var(--sans);font-weight:400}
+.dbl-bank .cw:hover{background:var(--accent-soft);border-color:var(--accent)}
+.dbl-bank .cw.hit{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.dbl-bank .cw.bad{border-color:var(--warn);color:var(--warn)}
+.tri-fix{margin-top:6px}
+.tri-verdict{font-size:12.5px;margin-bottom:8px;color:var(--muted)}
+.tri-fix.ok .tri-verdict{color:var(--ok)}
+.tri-fix.no .tri-verdict{color:var(--warn)}
+.tri-next{margin-top:12px;display:flex;justify-content:center}
 .gist-stage{display:grid;place-items:center;min-height:clamp(150px,24vh,210px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:4px;padding:8px 0}
 .gist-text{font-family:var(--serif);font-size:calc(1.14rem * var(--tscale));line-height:1.75;text-align:left;color:var(--ink)}
 .gist-text.blank{color:transparent}
@@ -273,7 +304,9 @@ table.sess tr:hover td{background:var(--surface-2)}
 .tri-foot small{color:var(--dim);font-size:11px;margin-left:6px}
 .survol-box{height:clamp(230px,42vh,360px);overflow:hidden;position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:12px}
 .survol-box:after{content:'';position:absolute;inset:auto 0 0 0;height:44px;background:linear-gradient(to bottom,transparent,var(--bg))}
-.survol-scroll{height:100%;overflow:hidden}
+.survol-scroll{height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.survol-scroll:focus{outline:none}
+.survol-auto.is-on{border-color:var(--accent);color:var(--accent)}
 .survol-s{font-family:var(--serif);font-size:calc(1.1rem * var(--tscale));line-height:1.62;padding:5px 8px;cursor:pointer;border-radius:3px;transition:background .1s}
 .survol-s:hover{background:var(--accent-soft)}
 .survol-s.hit{background:var(--accent);color:var(--accent-ink)}
@@ -2042,8 +2075,8 @@ async function blockChasse(tok,secs=45,text){
 }
 
 /* -------- Sosies : deux mots presque identiques, une seule cible -------- */
-async function blockSosies(tok,n=12,startDur){
-  let dur=clamp(startDur||S.sosieDur||260,120,420);
+async function blockSosies(tok,n=12,startDur,durArg){
+  let dur=clamp(durArg||startDur||S.sosieDur||260,120,460);
   const fam=SOSIES[Math.floor(Math.random()*SOSIES.length)];
   const swap=Math.random()<.5;
   const cible=swap?fam[1]:fam[0], autre=swap?fam[0]:fam[1];
@@ -2078,7 +2111,7 @@ async function blockSosies(tok,n=12,startDur){
     if(bon) correct++;
     else if(pressed&&!attendu) fa++;
     else miss++;
-    if(bon) dur=clamp(dur-20,120,420); else dur=clamp(dur+40,120,420);
+    if(bon) dur=clamp(dur-20,120,460); else dur=clamp(dur+40,120,460);
     if(sc) sc.textContent=`${bon?'juste':'raté'} · exposition ${dur} ms · ${correct} justes${fa?' · '+fa+' fausses alertes':''}`;
     await sleep(bon?420:760,tok); if(!alive(tok)) return null;
   }
@@ -2087,8 +2120,8 @@ async function blockSosies(tok,n=12,startDur){
 }
 
 /* -------- Doublon éclair : une ligne, un mot en double -------- */
-async function blockDoublon(tok,n=10,startN){
-  let N=clamp(startN||S.dblN||7,6,12), D=clamp(S.dblDur||1100,400,1600);
+async function blockDoublon(tok,n=10,startN,durArg){
+  let N=clamp(startN||S.dblN||7,6,12), D=clamp(durArg||S.dblDur||1100,400,1600);
   let correct=0;
   for(let i=0;i<n;i++){
     if(!alive(tok)) return null;
@@ -2103,7 +2136,7 @@ async function blockDoublon(tok,n=10,startN){
       <div class="block-head" style="text-align:center">
         <span class="eyebrow">Doublon éclair · essai ${i+1}/${n}</span>
         <h2 style="font-size:19px">${line.length} mots, ${D} ms</h2>
-        <p style="margin:0">Un mot apparaît deux fois. Prends la ligne d'un seul regard.</p>
+        <p style="margin:0">Un mot apparaît deux fois. Prends la ligne d'un seul regard, puis retrouve-le de mémoire.</p>
       </div>
       <div class="dbl-stage"><div class="dbl-line" id="dblLine"></div></div>
       <div class="empan-score" id="dblScore">${correct} justes</div>
@@ -2115,9 +2148,11 @@ async function blockDoublon(tok,n=10,startN){
     await sleep(D,tok); if(!alive(tok)) return null;
     ln.innerHTML='<span class="dbl-mask">— — —</span>';
     await sleep(320,tok); if(!alive(tok)) return null;
-    // restitution : les mots reviennent dans le même ordre, un clic désigne le doublon
-    ln.innerHTML=line.map((w,idx)=>`<b class="cw" data-w="${esc(norm(w))}" data-i="${idx}">${esc(w)}</b>`).join(' ');
-    fitText(ln);
+    // restitution : le mot doublé est à retrouver dans une liste de mots, pas dans la ligne
+    // (redonner la ligne entière permettrait de la relire au lieu de se fier au regard)
+    const uniq=shuffle(Array.from(new Set(line.map(w=>w))));
+    ln.classList.add('dbl-bank');
+    ln.innerHTML=uniq.map(w=>`<b class="cw" data-w="${esc(norm(w))}">${esc(w)}</b>`).join('');
     const jete=await new Promise(res=>{
       let fini=false;
       const clic=e=>{ const el=e.target.closest('.cw'); if(!el||fini) return; fini=true; ln.removeEventListener('click',clic); res(el); };
@@ -2127,8 +2162,11 @@ async function blockDoublon(tok,n=10,startN){
     if(!alive(tok)) return null;
     const bon=!!jete&&jete.dataset.w===norm(dup);
     if(bon) correct++;
-    ln.querySelectorAll('.cw').forEach(el=>{ if(el.dataset.w===norm(dup)) el.classList.add('hit'); });
     if(jete&&!bon) jete.classList.add('bad');
+    // correction : la ligne d'origine revient, les deux occurrences marquées
+    ln.classList.remove('dbl-bank');
+    ln.innerHTML=line.map(w=>`<span class="${norm(w)===norm(dup)?'hit':''}">${esc(w)}</span>`).join(' ');
+    fitText(ln);
     if(sc) sc.textContent=`${bon?'juste':'raté'} · le doublon était « ${esc(dup)} » · ${correct} justes`;
     // escalier : trois réussites de suite allongent la ligne, deux échecs la raccourcissent
     S.dblStreak=bon?(S.dblStreak||0)+1:0;
@@ -2252,10 +2290,11 @@ async function blockTri(tok,rounds=3,perRound=4){
         <p style="margin:0">Chaque paragraphe s'affiche une fraction de seconde. Tu ne cherches pas la réponse : tu décides s'il vaut la peine d'être lu.</p>
       </div>
       <div class="tri-stage" id="triStage"></div>
-      <div class="tri-foot"><button class="btn" id="triOui">Utile <small>U</small></button><button class="btn" id="triNon">Inutile <small>I</small></button></div>
+      <div class="tri-foot" id="triFoot"><button class="btn" id="triOui">Utile <small>U</small></button><button class="btn" id="triNon">Inutile <small>I</small></button></div>
     </div>`;
     for(const p of lot){
       if(!alive(tok)) return null;
+      $('#triFoot').innerHTML='<button class="btn" id="triOui">Utile <small>U</small></button><button class="btn" id="triNon">Inutile <small>I</small></button>';
       $('#triStage').innerHTML=`<div class="tri-para">${esc(p)}</div>`;
       const rep=await new Promise(res=>{
         let fini=false;
@@ -2270,8 +2309,24 @@ async function blockTri(tok,rounds=3,perRound=4){
       const estUtile=(p===bonne);
       decisions++;
       if(rep===estUtile) correct++;
-      $('#triStage').innerHTML=`<div class="tri-para ${rep===estUtile?'ok':'no'}">${esc(p.slice(0,140))}${p.length>140?'…':''}</div>`;
-      await sleep(320,tok); if(!alive(tok)) return null;
+      // correction : le paragraphe entier reste affiché, avec la raison, et on ne passe pas tout seul
+      $('#triStage').innerHTML=`<div class="tri-fix ${rep===estUtile?'ok':'no'}">
+        <div class="tri-verdict"><b>${rep===estUtile?'Juste':'Raté'}</b> — ce paragraphe ${estUtile?'contenait la phrase qui répond : il valait la peine d’être lu.':'ne contenait pas la réponse : il fallait passer.'}</div>
+        <div class="tri-para ${estUtile?'ok':'no'}">${esc(p)}</div>
+        ${estUtile?`<div class="verdict">La phrase qui répond : « ${esc(spot.ss[spot.idx])} »</div>`:''}
+        <div class="tri-next"><button class="btn" id="triNext">Suivant <small>Espace</small></button></div>
+      </div>`;
+      $('#triFoot').innerHTML='<span class="hint">Prends le temps de lire — rien ne s’enchaîne sans toi.</span>';
+      await new Promise(res=>{
+        let done=false;
+        const go=()=>{ if(done) return; done=true; document.removeEventListener('keydown',onSkip); res(); };
+        const onSkip=e=>{ const k=e.key.toLowerCase(); if(e.key===' '||e.key==='Enter'||k==='u'||k==='i'){ e.preventDefault(); go(); } };
+        document.addEventListener('keydown',onSkip);
+        const b=$('#triNext'); if(b) b.onclick=go;
+        cleanups.push(()=>{ document.removeEventListener('keydown',onSkip); res(null); });
+        sleep(9000,tok).then(go);           // garde-fou : on ne reste pas bloqué si personne ne clique
+      });
+      if(!alive(tok)) return null;
     }
   }
   return {k:'tri',correct,total:decisions,comp:decisions?correct/decisions:0};
@@ -2301,21 +2356,38 @@ async function blockSurvol(tok,nq=3,wpmArg){
       <div class="block-head" style="text-align:left">
         <span class="eyebrow">Survol à question · ${i+1}/${lots.length} · ${wpm} mots/min</span>
         <h2 style="font-size:20px">${esc(q.q)}</h2>
-        <p style="margin:0">Le texte défile. Clique la phrase qui répond. Tu n'as pas à tout lire.</p>
+        <p style="margin:0">Le texte défile. Clique la phrase qui répond. Tu peux aussi le faire défiler à la main : le défilement automatique s'arrête, et le bouton le relance.</p>
       </div>
-      <div class="survol-box" id="survolBox"><div class="survol-scroll" id="survolScroll">
+      <div class="survol-box" id="survolBox"><div class="survol-scroll" id="survolScroll" tabindex="0">
         ${spot.ss.map((s,j)=>`<div class="survol-s" data-i="${j}">${esc(s)}</div>`).join('')}
       </div></div>
-      <div class="block-foot"><span class="hint" id="survolT">00:00</span><span class="hint">${wc(t.corps)} mots · ${spot.ss.length} phrases</span></div>
+      <div class="block-foot"><span class="hint" id="survolT">00:00</span><span class="hint">${wc(t.corps)} mots · ${spot.ss.length} phrases</span>
+        <button class="chip survol-auto is-on" id="survolAuto">Défilement auto · on</button></div>
     </div>`;
-    const box=$('#survolBox'), sc=$('#survolScroll'), tEl=$('#survolT');
+    const box=$('#survolBox'), sc=$('#survolScroll'), tEl=$('#survolT'), bAuto=$('#survolAuto');
+    let auto=true;
+    const setAuto=v=>{ auto=v; if(bAuto){ bAuto.textContent='Défilement auto · '+(v?'on':'off'); bAuto.classList.toggle('is-on',v); } };
+    const manuel=e=>{ if(e&&e.type==='wheel'&&Math.abs(e.deltaY)<1&&Math.abs(e.deltaX)<1) return; setAuto(false); };
+    sc.addEventListener('wheel',manuel,{passive:true});
+    sc.addEventListener('touchstart',manuel,{passive:true});
+    sc.addEventListener('pointerdown',manuel);
+    sc.addEventListener('keydown',manuel);
+    if(bAuto) bAuto.onclick=()=>setAuto(!auto);
+    cleanups.push(()=>{
+      sc.removeEventListener('wheel',manuel); sc.removeEventListener('touchstart',manuel);
+      sc.removeEventListener('pointerdown',manuel); sc.removeEventListener('keydown',manuel);
+      if(bAuto) bAuto.onclick=null;
+    });
     const t0=performance.now();
     const dur=Math.max(4,wc(t.corps)/wpm*60);
     const tick=setInterval(()=>{
       const el=(performance.now()-t0)/1000;
       if(tEl) tEl.textContent=mmss(el*1000);
-      const max=sc.scrollHeight-box.clientHeight;
-      if(max>0) box.scrollTop=Math.min(max,max*(el/dur));
+      if(!auto) return;                       // l'utilisateur a pris la main : on ne le combat pas
+      const max=sc.scrollHeight-sc.clientHeight;
+      if(max<=0) return;
+      sc.scrollTop=Math.min(max,max*(el/dur));
+      if(sc.scrollTop>=max-1) setAuto(false);
     },80);
     cleanups.push(()=>clearInterval(tick));
     const clic=await new Promise(res=>{
@@ -2494,10 +2566,10 @@ async function runSpec(spec,tok,ctx){
     case 'empanV': return await blockEmpanV(tok,spec.n||8,spec.span);
     case 'eventail': return await blockEventail(tok,spec.n||12,spec.len);
     case 'chasse': return await blockChasse(tok,spec.secs||45,ctx&&ctx.text);
-    case 'sosies': return await blockSosies(tok,spec.n||12);
-    case 'doublon': return await blockDoublon(tok,spec.n||10);
+    case 'sosies': return await blockSosies(tok,spec.n||12,null,spec.dur);
+    case 'doublon': return await blockDoublon(tok,spec.n||10,null,spec.dur);
     case 'survol': return await blockSurvol(tok,spec.nq||3,spec.wpm);
-    case 'gist': return await blockGist(tok,spec.n||5);
+    case 'gist': return await blockGist(tok,spec.n||5,spec.ms);
     case 'tri': return await blockTri(tok,spec.rounds||3);
     case 'saccades': return await blockSaccades(tok,spec.rounds||3);
     case 'peripherie': { if(spec.dur){ S.periphDur=clamp(spec.dur,80,320); save(); } return await blockPeriph(tok,spec.rounds||8); }
@@ -2750,10 +2822,10 @@ const EXO_CFG={
   empanV:[{key:'n',label:'Essais',vals:[6,8,12]},{key:'span',label:'Mots au départ',vals:[3,4,5,6,7]}],
   eventail:[{key:'n',label:'Essais',vals:[6,12,18]},{key:'len',label:'Chiffres au départ',vals:[2,3,4,5,6,7,8]}],
   chasse:[{key:'secs',label:'Durée',vals:[30,45,60,90],fmt:v=>v+' s'}],
-  sosies:[{key:'n',label:'Essais',vals:[6,12,18]}],
-  doublon:[{key:'n',label:'Lignes',vals:[6,10,14]}],
+  sosies:[{key:'n',label:'Essais',vals:[6,12,18]},{key:'dur',type:'range',label:'Exposition',min:120,max:460,step:20,unit:'ms'}],
+  doublon:[{key:'n',label:'Lignes',vals:[6,10,14]},{key:'dur',type:'range',label:'Affichage de la ligne',min:400,max:1600,step:100,unit:'ms'}],
   survol:[{key:'nq',label:'Questions',vals:[2,3,4]},{key:'wpm',type:'range',label:'Défilement',unit:'mots/min'}],
-  gist:[{key:'n',label:'Extraits',vals:[3,5,8]}],
+  gist:[{key:'n',label:'Extraits',vals:[3,5,8]},{key:'ms',type:'range',label:'Extrait affiché',min:900,max:3000,step:100,unit:'ms'}],
   tri:[{key:'rounds',label:'Séries',vals:[2,3,4]}],
   saccades:[{key:'rounds',label:'Séquences',vals:[2,3,5]}],
   peripherie:[{key:'rounds',label:'Essais',vals:[6,8,12]},{key:'dur',label:'Exposition',vals:[120,160,220,280],fmt:v=>v+' ms'}],
@@ -2771,11 +2843,11 @@ function exoDefaults(kind){
     empan:{n:8,span:clamp(S.span||4,3,9)},
     empanV:{n:8,span:clamp(S.spanV||4,3,7)},
     eventail:{n:12,len:clamp(S.fanLen||2,2,8)},
-    chasse:{secs:45},
-    sosies:{n:12},
-    doublon:{n:10},
-    survol:{nq:3,wpm:Math.max(600,S.wpm)},
-    gist:{n:5},
+    chasse:{secs:clamp(30+levelIdx()*5,30,90)},
+    sosies:{n:12,dur:clamp(440-levelIdx()*26,140,460)},
+    doublon:{n:10,dur:clamp(1500-levelIdx()*95,400,1600)},
+    survol:{nq:3,wpm:clamp(480+levelIdx()*45,480,1000)},
+    gist:{n:5,ms:clamp(2600-levelIdx()*150,1000,3000)},
     tri:{rounds:3},
     saccades:{rounds:3},
     peripherie:{rounds:8,dur:clamp(S.periphDur||220,80,320)},
@@ -2796,10 +2868,10 @@ function specFromPrefs(kind,p){
     case 'empanV': return {k:'empanV',n:p.n,span:p.span};
     case 'eventail': return {k:'eventail',n:p.n,len:p.len};
     case 'chasse': return {k:'chasse',secs:p.secs};
-    case 'sosies': return {k:'sosies',n:p.n};
-    case 'doublon': return {k:'doublon',n:p.n};
+    case 'sosies': return {k:'sosies',n:p.n,dur:p.dur};
+    case 'doublon': return {k:'doublon',n:p.n,dur:p.dur};
     case 'survol': return {k:'survol',nq:p.nq,wpm:p.wpm};
-    case 'gist': return {k:'gist',n:p.n};
+    case 'gist': return {k:'gist',n:p.n,ms:p.ms};
     case 'tri': return {k:'tri',rounds:p.rounds};
     case 'saccades': return {k:'saccades',rounds:p.rounds};
     case 'peripherie': return {k:'peripherie',rounds:p.rounds,dur:p.dur};
@@ -2834,7 +2906,7 @@ function askExoSettings(kind){
     body.innerHTML=fields.map(f=>{
       if(f.type==='range'){
         return `<div class="cfg-row"><div class="cfg-lab"><span>${f.label}</span><b class="mono" data-v="${f.key}">${p[f.key]} ${f.unit||''}</b></div>
-          <input type="range" min="120" max="1000" step="10" data-r="${f.key}" value="${p[f.key]}"></div>`;
+          <input type="range" min="${f.min||120}" max="${f.max||1000}" step="${f.step||10}" data-r="${f.key}" value="${p[f.key]}"></div>`;
       }
       return `<div class="cfg-row"><div class="cfg-lab"><span>${f.label}</span></div><div class="cfg-chips" data-g="${f.key}">
         ${f.vals.map(v=>`<button class="chip ${p[f.key]===v?'is-on':''}" data-k="${f.key}" data-v="${v}">${f.fmt?f.fmt(v):v}</button>`).join('')}</div></div>`;
@@ -2916,8 +2988,8 @@ async function launchFree(kind, missionIdx=null, specOverride=null){
     <h2>${miss&&miss.complete?'Mission accomplie.':'Séance enregistrée'}</h2>
     <div class="result-grid">
       ${r.wpm?`<div><span class="eyebrow">Vitesse</span><b>${Math.round(r.wpm)}</b><small>mots/min</small></div>`:''}
-      ${r.comp!=null?`<div><span class="eyebrow">Compréhension</span><b>${Math.round(r.comp*100)}</b><small>%${r.total?' · '+r.correct+'/'+r.total:''}</small></div>
-        ${r.k!=='suppression'&&r.k!=='survol'?`<div class="hi"><span class="eyebrow">Lecture utile</span><b>${Math.round(r.wpm*r.comp)}</b><small>indice, pas une mesure du regard</small></div>`:''}`:''}
+      ${r.comp!=null?`<div><span class="eyebrow">Compréhension</span><b>${Math.round(r.comp*100)}</b><small>%${r.total?' · '+r.correct+'/'+r.total:''}</small></div>`:''}
+      ${READ_MODES.has(r.k)&&r.comp!=null&&r.wpm&&isFinite(r.wpm*r.comp)?`<div class="hi"><span class="eyebrow">Lecture utile</span><b>${Math.round(r.wpm*r.comp)}</b><small>indice, pas une mesure du regard</small></div>`:''}
       ${r.k==='empan'?`<div><span class="eyebrow">Empan</span><b>${r.span}</b><small>mots</small></div>`:''}
       ${r.k==='saccades'?`<div><span class="eyebrow">Séquences justes</span><b>${r.correct}/${r.total}</b><small>séquences</small></div>`:''}
       ${r.k==='peripherie'?`<div><span class="eyebrow">Périphérie</span><b>${r.correct}/${r.total}</b><small>à ${r.dur} ms</small></div>`:''}
@@ -3176,7 +3248,6 @@ function renderDash(){
   const chart=chartSvg(reads.slice(-20));
   const week=weekStrip(7);
   const fams=[...new Set(EXOS.map(x=>x.fam))];
-  const FAM_LABEL={Lecture:'Lecture — rythme, saisie',Vision:'Fixations et vision',Repérage:'Repérage dans le texte',Écrémage:'Écrémage — lire pour trouver',Voix:'La voix intérieure'};
   const exoList=fams.map(f=>`<span class="exo-fam">${FAM_LABEL[f]||f}</span>`+
     EXOS.filter(x=>x.fam===f).map(x=>`<button class="row-btn" data-free="${x.id}">
       <span class="row-num">${x.id==='metronome'?'♪':x.id==='saccades'?'↔':x.id==='guide'?'|':x.id==='lettres'?'A':x.id==='schulte'?'1':x.id==='empan'?'⌷':x.id==='empanV'?'↕':x.id==='eventail'?'⌗':x.id==='rappel'?'✎':x.id==='pacer'?'›':x.id==='peripherie'?'◎':x.id==='chasse'?'⌕':x.id==='sosies'?'≒':x.id==='doublon'?'⁝':x.id==='survol'?'⌖':x.id==='gist'?'◍':x.id==='tri'?'⊟':'≡'}</span>
@@ -3429,6 +3500,103 @@ function barsSvg(days){
   </div>`;
 }
 
+/* ---------- progression par catégorie ---------- */
+const FAM_LABEL={Lecture:'Lecture — rythme, saisie',Vision:'Fixations et vision',Repérage:'Repérage dans le texte',Écrémage:'Écrémage — lire pour trouver',Voix:'La voix intérieure'};
+const FAM_ORDER=['Lecture','Vision','Repérage','Écrémage','Voix'];
+const FAM_HINT={Lecture:'débit compris des lectures suivies',Vision:'justesse des blocs visuels',Repérage:'cibles et doublons trouvés',Écrémage:'phrase, gist et paragraphes justes',Voix:'boucle articulatoire et lettres muettes'};
+let KIND_FAM=null;
+function kindFam(){
+  if(KIND_FAM) return KIND_FAM;
+  const m={};
+  EXOS.forEach(x=>{ m[x.id]=x.fam; });
+  Object.assign(m,{
+    schulte:'Vision',lettres:'Vision',empan:'Vision',empanV:'Vision',eventail:'Vision',saccades:'Vision',peripherie:'Vision',
+    chasse:'Repérage',sosies:'Repérage',doublon:'Repérage',
+    survol:'Écrémage',gist:'Écrémage',tri:'Écrémage',
+    metronome:'Lecture',pacer:'Lecture',rsvp:'Lecture',guide:'Lecture',examen:'Lecture',rappel:'Lecture',
+    suppression:'Voix',ortho:'Voix'
+  });
+  KIND_FAM=m; return m;
+}
+// une série de points par famille : chaque bloc chiffré d'une étape, chaque exercice libre ou mission
+function familySeries(){
+  const K=kindFam(), out={};
+  FAM_ORDER.forEach(f=>out[f]=[]);
+  const push=(f,e)=>{ if(f&&out[f]&&e.s!=null) out[f].push(e); };
+  Object.keys(S.logs||{}).forEach(id=>{
+    (S.logs[id]||[]).forEach(res=>{
+      (res.blocks||[]).forEach(b=>{ if(b.comp==null) return; push(K[b.k],{ts:res.ts||0,s:b.comp,k:b.k,c:b.correct,t:b.total}); });
+    });
+  });
+  (S.history||[]).forEach(h=>{
+    if(/^etape /.test(h.mode||'')||h.comp==null) return;
+    push(K[h.mode],{ts:h.ts||0,s:h.comp,k:h.mode,c:h.hits,t:h.hitTotal,perMin:h.perMin,span:h.span,recall:h.recall});
+  });
+  FAM_ORDER.forEach(f=>out[f].sort((a,b)=>a.ts-b.ts));
+  return out;
+}
+function familyStats(){
+  const ser=familySeries();
+  return FAM_ORDER.map(f=>{
+    const xs=ser[f], mean=a=>a.length?a.reduce((s,x)=>s+x.s,0)/a.length:null;
+    const recent=xs.slice(-8), before=xs.slice(-16,-8);
+    const score=mean(recent), prev=before.length?mean(before):null;
+    return {fam:f,label:FAM_LABEL[f],n:xs.length,score,prev,delta:(score!=null&&prev!=null)?score-prev:null,recent,last:xs.length?xs[xs.length-1]:null};
+  });
+}
+function sparkline(vals,w=82,h=20){
+  if(!vals.length) return '';
+  const pts=vals.length===1?[vals[0],vals[0]]:vals;
+  const min=Math.min(...pts),max=Math.max(...pts),span=Math.max(.001,max-min);
+  const d=pts.map((v,i)=>`${(i/(pts.length-1)*(w-2)+1).toFixed(1)},${(h-2-((v-min)/span)*(h-4)).toFixed(1)}`).join(' ');
+  return `<svg class="fam-spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline points="${d}" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>`;
+}
+function famBlock(){
+  const st=familyStats();
+  const done=st.filter(x=>x.n>0);
+  if(!done.length) return `<div class="panel">
+    <div class="panel-h"><h2>Par catégorie</h2></div>
+    <div class="empty" style="margin-top:6px">Aucun passage mesuré pour l'instant. Le parcours et les exercices libres alimentent ce tableau : chaque bloc réussi ou manqué y laisse une trace.</div>
+  </div>`;
+  const rows=st.map(x=>{
+    const pct=x.score!=null?Math.round(x.score*100):null;
+    const d=x.delta!=null?Math.round(x.delta*100):null;
+    const dd=d==null?'':`<span class="fam-d ${d>2?'up':d<-2?'down':''}">${d>0?'+':''}${d} pts</span>`;
+    const last=x.last&&x.last.c!=null&&x.last.t?`<span>dernier ${x.last.c}/${x.last.t}</span>`:'';
+    return `<div class="fam-row${x.n?'':' empty'}">
+      <div class="fam-h"><span class="fam-n">${esc(x.label)}</span>
+        <span class="fam-v">${pct!=null?pct+' %':'—'}</span></div>
+      <div class="fam-bar"><i style="width:${pct!=null?pct:0}%"></i></div>
+      <div class="fam-s"><span>${x.n?x.n+' passage'+(x.n>1?'s':''):'jamais travaillée'}</span>${dd}${last}<span class="fam-sp">${sparkline(x.recent.map(y=>y.s))}</span></div>
+    </div>`;
+  }).join('');
+  const judged=done.filter(x=>x.n>=2);
+  const weak=judged.length?judged.slice().sort((a,b)=>a.score-b.score)[0]:null;
+  const never=st.filter(x=>!x.n);
+  let axe='';
+  if(weak&&weak.score<0.78){
+    const ex=EXOS.filter(e=>e.fam===weak.fam);
+    axe=`<p class="fam-axe">Axe à travailler : <b>${esc(weak.label)}</b> — ${Math.round(weak.score*100)} % sur ${weak.n} passages. ${ex.length?`<button class="chip" data-fam="${weak.fam}">Travailler</button>`:''}</p>`;
+  } else if(never.length){
+    axe=`<p class="fam-axe">Jamais travaillée : <b>${esc(never[0].label)}</b>. <button class="chip" data-fam="${never[0].fam}">Travailler</button></p>`;
+  } else if(judged.length){
+    axe=`<p class="fam-axe">Toutes les familles mesurées sont au-dessus de 78 % : l'axe suivant est le débit, pas la justesse.</p>`;
+  }
+  return `<div class="panel">
+    <div class="panel-h"><h2>Par catégorie</h2><span class="eyebrow">8 derniers passages</span></div>
+    ${rows}
+    ${axe}
+    <p class="hint">Chaque famille est notée sur sa propre réussite : la part de réponses justes dans les blocs de cette famille (compter une cible, retrouver un doublon, choisir la bonne phrase, répondre au QCM). Les séances du parcours comptent bloc par bloc, comme les exercices libres. Ce n'est pas une note globale : 70 % en écrémage et 70 % en voix ne veulent pas dire la même chose.</p>
+  </div>`;
+}
+function wireFam(){
+  $$('#view-progress [data-fam]').forEach(b=>b.addEventListener('click',()=>{
+    const list=EXOS.filter(e=>e.fam===b.dataset.fam);
+    if(!list.length) return;
+    askFree(list[Math.floor(Math.random()*list.length)].id);
+  }));
+}
+
 function renderProgress(){
   renderRail();
   const h=S.history.slice().reverse();
@@ -3515,6 +3683,7 @@ function renderProgress(){
           <div class="panel-h"><h2>Parcours</h2></div>
           <div class="ladder">${etapeRows}</div>
         </div>
+        ${famBlock()}
         <div class="panel">
           <div class="panel-h"><h2>Repères</h2></div>
           <div class="mini-stats">
@@ -3526,7 +3695,7 @@ function renderProgress(){
         </div>
       </div>
     </div>`;
-  wireExports();
+  wireExports(); wireFam();
 }
 
 function renderGuide(){
