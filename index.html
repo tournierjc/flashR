@@ -60,9 +60,17 @@ ul,ol{margin:0;padding:0;list-style:none}
 .dial-num{font-size:22px;letter-spacing:-.02em;color:var(--ink)}
 .dial-row.small{font-size:10.5px;color:var(--dim);font-family:var(--mono);letter-spacing:.04em}
 input[type=range]{width:100%;accent-color:var(--accent);height:22px}
+.rail-sel{width:100%;margin-top:7px;height:26px;background:transparent;border:1px solid var(--line);color:var(--ink);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;padding:0 6px;border-radius:2px;cursor:pointer}
+.rail-sel:hover{border-color:var(--line-2)}
 .chip{border:1px solid var(--line);padding:5px 9px;font-size:11px;color:var(--muted);border-radius:2px;
   font-family:var(--mono);letter-spacing:.04em;min-height:28px}
 .chip:hover{border-color:var(--line-2);color:var(--ink)}
+/* grille d'options : mêmes largeurs et hauteurs quelle que soit la taille de l'écran */
+.opts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px}
+.opts-grid .chip{width:100%;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.25;
+  min-height:32px;height:32px;padding:6px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.opts-grid+ .btn.wide,.btn.wide{width:100%;justify-content:center}
 .chip.is-on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 main{padding:30px 36px 90px;max-width:1320px;width:100%}
 
@@ -411,19 +419,25 @@ textarea.recall:focus{border-color:var(--accent);outline:none}
 .prose .note{border-left:2px solid var(--accent);padding:2px 0 2px 14px;color:var(--muted)}
 
 @media (max-width:980px){
-  .app{grid-template-columns:1fr}
+  .app{grid-template-columns:minmax(0,1fr)}
   .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);flex-direction:row;
-    flex-wrap:wrap;align-items:center;gap:14px;padding:12px 16px}
+    flex-wrap:wrap;align-items:center;gap:14px;padding:12px 16px;max-width:100%;box-sizing:border-box}
   .brand-sub{display:none}
   .nav{flex-direction:row;overflow:auto;flex:1;min-width:0}
   .nav-item{white-space:nowrap;padding:8px 10px;min-height:36px}
-  .rail-foot{margin:0;flex-direction:row;align-items:center;gap:10px;border:0;padding:0}
-  .dial{display:none}
+  .rail-foot{margin:0;flex-direction:column;align-items:stretch;gap:8px;border:0;border-top:1px solid var(--line);
+    padding:10px 0 0;flex:0 0 100%;width:auto;min-width:0}
+  .dial{display:block;width:100%}
   main{padding:20px 16px 70px}
   .grid-main{grid-template-columns:1fr}
   .statusbar{grid-template-columns:1fr 1fr}
   .stage-host{padding:18px 14px}
   .read-text{font-size:calc(17px * var(--tscale))}
+}
+@media (max-width:480px){
+  /* la barre de navigation passe sur sa propre ligne : sinon marque + nav dépassent la largeur */
+  .nav{flex:1 1 100%;order:3;min-width:0}
+  .rail-foot{order:4}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none !important;animation:none !important}
@@ -451,7 +465,18 @@ textarea.recall:focus{border-color:var(--accent);outline:none}
         <div class="dial-row"><span class="eyebrow" title="Cible d'entraînement : déterminée par ton niveau, elle monte ou descend de ±20 mots/min selon ta compréhension">Cible d'entraînement</span><span class="mono dial-num" id="railWpm">180</span></div>
         <input id="railRange" type="range" min="120" max="1000" step="10" aria-label="Vitesse cible d'entraînement en mots par minute">
         <div class="dial-row small"><span id="railEtape">Étape 1</span><span id="railComp"></span></div>
-        <div class="dial-row small"><span title="Déterminé par le palier de vitesse : 1 mot jusqu'à 250, 2 dès 300, 4 dès 520, 8 à 1000. La feuille de réglages d'un exercice peut s'en écarter.">Mots affichés</span><span class="mono" id="railChunk">1 mot · auto</span></div>
+        <div class="dial-row small"><span title="Déterminé par le palier de vitesse (1 mot jusqu'à 250, 2 dès 300, 4 dès 520, 8 à 1000), ou forcé à la main juste en dessous.">Mots affichés</span><span class="mono" id="railChunk">1 mot</span></div>
+        <select id="railChunkSel" class="rail-sel" aria-label="Mots affichés : automatique ou valeur forcée">
+          <option value="auto">auto — suit le palier</option>
+          <option value="1">forcé : 1 mot</option>
+          <option value="2">forcé : 2 mots</option>
+          <option value="3">forcé : 3 mots</option>
+          <option value="4">forcé : 4 mots</option>
+          <option value="5">forcé : 5 mots</option>
+          <option value="6">forcé : 6 mots</option>
+          <option value="7">forcé : 7 mots</option>
+          <option value="8">forcé : 8 mots</option>
+        </select>
       </div>
     </div>
   </aside>
@@ -755,10 +780,14 @@ const LEVELS = [
   {wpm:650, nom:'Fusée'},{wpm:800, nom:'Hyper'},{wpm:1000, nom:'Limite'}
 ];
 const WPM_MAX=1000;
-// mots par affichage : suit le palier de vitesse (1 → 8), la préférence de l'utilisateur ne peut que monter
+// mots par affichage : suit le palier de vitesse (1 → 8), sauf si l'utilisateur force une valeur
 function chunkForLevel(){
   const i=levelIdx();
   return i>=9?8 : i>=8?6 : i>=7?5 : i>=6?4 : i>=5?3 : i>=3?2 : 1;
+}
+// valeur effectivement utilisée : « auto » suit le palier, « forcé » prend la valeur choisie
+function dispChunk(){
+  return S.chunkMode==='forced' ? clamp(S.chunk||1,1,8) : chunkForLevel();
 }
 
 /* =========================================================
@@ -807,7 +836,7 @@ const PARCOURS_V=4;
 const DEFAULTS={wpm:180,chunk:1,orp:true,theme:'ink',size:1,span:4,history:[],logs:{},onboarded:false,
   streak:{last:null,count:0},schulteBest:{},lastText:null,click:true,parcoursV:PARCOURS_V,
   xp:0,combo:0,textUse:{},periphDur:220,mission:null,week:null,etapeFloor:null,voix:null,voixN:0,
-  spanV:4,fanLen:2,exoPrefs:{},
+  spanV:4,fanLen:2,exoPrefs:{},chunkMode:'auto',
   eyeMs:0,eyeAuto:true,eyeBreaks:null,eyeIdx:0,eyeSnooze:0};
 let S=load();
 function load(){
@@ -1050,7 +1079,7 @@ async function blockMetronome(tok,text,wpm,wpBeat){
   setHost();
   const ws=readTokens(text.corps);
   // taille du groupe : le même réglage que le Flash (mots par affichage), qui monte avec le palier de vitesse
-  const per=wpBeat||clamp(chunkForLevel(),1,8);
+  const per=wpBeat||clamp(dispChunk(),1,8);
   const groups=[];
   let cur=[];
   for(const w of ws){
@@ -1937,7 +1966,7 @@ const READ_MODES=new Set(['rsvp','pacer','metronome','guide']);
 async function runReadingBlock(spec,tok,text,niveau){
   const wpm=clamp(spec.wpm||S.wpm,120,WPM_MAX);
   // taille du groupe : la préférence de l'utilisateur est un plancher, le niveau impose le reste
-  const chunk=spec.chunk||clamp(chunkForLevel(),1,8);
+  const chunk=spec.chunk||clamp(dispChunk(),1,8);
   const t=text||pickText(niveau||niveauCourant(),{maxWords:800});
   let read=null;
   if(spec.k==='rsvp') read=await blockRsvp(tok,t,wpm,chunk);
@@ -2193,11 +2222,11 @@ const EXO_CFG={
   eventail:[{key:'n',label:'Essais',vals:[6,12,18]},{key:'len',label:'Chiffres au départ',vals:[2,3,4,5,6,7,8]}],
   saccades:[{key:'rounds',label:'Séquences',vals:[2,3,5]}],
   peripherie:[{key:'rounds',label:'Essais',vals:[6,8,12]},{key:'dur',label:'Exposition',vals:[120,160,220,280],fmt:v=>v+' ms'}],
-  rsvp:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'chunk',label:'Mots par affichage',vals:[1,2,3,4,5,6,7,8]}],
-  metronome:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'chunk',label:'Mots par affichage',vals:[1,2,3,4,5,6,7,8]}],
+  rsvp:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'chunk',label:'Mots par affichage',vals:[0,1,2,3,4,5,6,7,8],fmt:v=>v===0?'auto':v}],
+  metronome:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'chunk',label:'Mots par affichage',vals:[0,1,2,3,4,5,6,7,8],fmt:v=>v===0?'auto':v}],
   pacer:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'}],
   guide:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'group',label:'Mots par point',vals:[2,3,4]}],
-  suppression:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'},{key:'chunk',label:'Mots par affichage',vals:[1,2]}],
+  suppression:[{key:'wpm',type:'range',label:'Vitesse',unit:'mots/min'}],
   ortho:[{key:'n',label:'Mots',vals:[10,20,30]}]
 };
 function exoDefaults(kind){
@@ -2209,8 +2238,8 @@ function exoDefaults(kind){
     eventail:{n:12,len:clamp(S.fanLen||2,2,8)},
     saccades:{rounds:3},
     peripherie:{rounds:8,dur:clamp(S.periphDur||220,80,320)},
-    rsvp:{wpm:S.wpm,chunk:clamp(chunkForLevel(),1,8)},
-    metronome:{wpm:S.wpm,chunk:clamp(chunkForLevel(),1,8)},
+    rsvp:{wpm:S.wpm,chunk:clamp(dispChunk(),1,8)},
+    metronome:{wpm:S.wpm,chunk:clamp(dispChunk(),1,8)},
     pacer:{wpm:S.wpm},
     guide:{wpm:S.wpm,group:3},
     suppression:{wpm:Math.max(250,S.wpm),chunk:1},
@@ -2227,8 +2256,8 @@ function specFromPrefs(kind,p){
     case 'eventail': return {k:'eventail',n:p.n,len:p.len};
     case 'saccades': return {k:'saccades',rounds:p.rounds};
     case 'peripherie': return {k:'peripherie',rounds:p.rounds,dur:p.dur};
-    case 'rsvp': return {k:'rsvp',wpm:p.wpm,chunk:p.chunk};
-    case 'metronome': return {k:'metronome',wpm:p.wpm,chunk:p.chunk};
+    case 'rsvp': return {k:'rsvp',wpm:p.wpm,chunk:p.chunk||undefined};
+    case 'metronome': return {k:'metronome',wpm:p.wpm,chunk:p.chunk||undefined};
     case 'pacer': return {k:'pacer',wpm:p.wpm};
     case 'guide': return {k:'guide',wpm:p.wpm,group:p.group};
     case 'suppression': return {k:'suppression',wpm:p.wpm,chunk:p.chunk};
@@ -2539,7 +2568,8 @@ function renderRail(){
   const c=avgComp(5);
   $('#railComp').textContent=c!=null?Math.round(c*100)+' % compréh.':'pas encore de mesure';
   $('#railEtape').textContent='Étape '+Math.min(currentEtapeIdx()+1,ETAPES.length)+'/'+ETAPES.length;
-  const rc=$('#railChunk'); if(rc){ const cl=chunkForLevel(); rc.textContent=cl+(cl>1?' mots':' mot')+' · auto'; }
+  const rc=$('#railChunk'); if(rc){ const c=dispChunk(); rc.textContent=c+(c>1?' mots':' mot')+(S.chunkMode==='forced'?' · forcé':''); }
+  const rsel=$('#railChunkSel'); if(rsel) rsel.value=S.chunkMode==='forced'?String(clamp(S.chunk||1,1,8)):'auto';
   document.documentElement.dataset.theme=S.theme;
   document.documentElement.style.setProperty('--tscale',S.size);
 }
@@ -2675,10 +2705,10 @@ function renderDash(){
           </div>
           <div>
             <span class="eyebrow">Options</span>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+            <div class="opts-grid" style="margin-top:6px">
               <button class="chip ${S.orp?'is-on':''}" data-pref="orp">Ancrage ORP</button>
               <button class="chip ${S.click?'is-on':''}" data-pref="click">Son du métronome</button>
-              <button class="chip ${S.eyeAuto?'is-on':''}" data-pref="eyeAuto">Pauses des yeux auto</button>
+              <button class="chip ${S.eyeAuto?'is-on':''}" data-pref="eyeAuto">Pauses des yeux</button>
               <button class="chip" data-pref="theme">Thème ${S.theme==='ink'?'encre':'papier'}</button>
               <button class="chip" data-pref="size">Taille ${['normale','grande','max'][[1,1.14,1.28].indexOf(S.size)]||'grande'}</button>
             </div>
@@ -2686,11 +2716,11 @@ function renderDash(){
           <div>
             <span class="eyebrow">Données</span>
             <p class="hint" style="margin:6px 0 8px">Stockées localement dans ce navigateur. Aucun envoi, aucun compte.</p>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+            <div class="opts-grid">
               <button class="chip" id="exportJson">Sauvegarde (JSON)</button>
-              <label class="chip" style="cursor:pointer;display:inline-flex;align-items:center">Restaurer<input type="file" id="importJson" accept="application/json,.json" hidden></label>
+              <label class="chip" style="cursor:pointer">Restaurer<input type="file" id="importJson" accept="application/json,.json" hidden></label>
             </div>
-            <button class="btn ghost" id="resetAll" style="align-self:flex-start">Effacer mes données</button>
+            <button class="btn ghost wide" id="resetAll" style="margin-top:8px">Effacer mes données</button>
           </div>
         </div>
       </div>
@@ -3068,7 +3098,16 @@ function renderAll(){ renderRail(); if(!$('#view-dash').hidden) renderDash(); if
 $$('.nav-item').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
 $('#railRange').addEventListener('input',e=>{
   S.wpm=+e.target.value; $('#railWpm').textContent=S.wpm; save();
+  const rc=$('#railChunk'); if(rc && S.chunkMode!=='forced'){ const c=chunkForLevel(); rc.textContent=c+(c>1?' mots':' mot'); }
   if(!$('#view-dash').hidden) renderDash();
+});
+$('#railChunkSel').addEventListener('change',e=>{
+  const v=e.target.value;
+  if(v==='auto'){ S.chunkMode='auto'; }
+  else { S.chunkMode='forced'; S.chunk=+v; }
+  save(); renderRail();
+  if(!$('#view-dash').hidden) renderDash();
+  toast(v==='auto'?'Mots affichés : auto, suit le palier':'Mots affichés forcés : '+v+' mot'+(+v>1?'s':''));
 });
 $('#stageExit').addEventListener('click',()=>{ endStage(); });
 $('#stageRestart').addEventListener('click',()=>restartRun());
