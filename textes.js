@@ -710,14 +710,14 @@ window.BIBLIO = [
     "e": "Le texte explique la réaction qui libère un gaz irritant pour l'œil."
    },
    {
-    "q": "Pourquoi l'auteur termine-t-il par des astuces pratiques ?",
+    "q": "Pourquoi l'auteur donne-t-il des astuces pratiques ?",
     "o": [
      "Pour relier l'explication à un usage quotidien",
      "Pour vendre un ustensile de cuisine",
      "Pour décrire la récolte des oignons"
     ],
     "r": 0,
-    "e": "Les conseils découlent directement de la réaction chimique expliquée avant."
+    "e": "Les astuces arrivent juste après l'explication du mécanisme : elles relient la chimie à un geste quotidien."
    }
   ]
  },
@@ -3345,14 +3345,14 @@ window.BIBLIO = [
     "e": "Les sols enterrés sous les décombres ont échappé à l'usure et aux pillages."
    },
    {
-    "q": "Pourquoi les tesselles forment-elles un motif lisible de loin ?",
+    "q": "Comment les tesselles sont-elles posées ?",
     "o": [
-     "Parce que les pierres sont polies au sable",
-     "Parce que le mortier est coloré",
-     "Parce que les couleurs sont choisies pour se contraster"
+     "Une à une, sur un lit de mortier, avec un joint régulier",
+     "En plaques, avant la pose du mortier",
+     "Collées à la résine sur un panneau de bois"
     ],
-    "r": 2,
-    "e": "Le dessin naît du contraste entre des tesselles de teintes différentes, assemblées en surfaces."
+    "r": 0,
+    "e": "Le texte décrit la pose : « on prépare un lit de mortier, on dessine le motif, puis on plante les tesselles une à une en laissant un joint régulier »."
    },
    {
     "q": "Pourquoi les visages gagnent-ils en expression grâce à l'orientation des tesselles ?",
@@ -4270,14 +4270,14 @@ window.BIBLIO = [
     "e": "L'auteur insiste sur ce point : l'écriture naît de la comptabilité, pas de la littérature."
    },
    {
-    "q": "Pourquoi l'argile était-elle un support commode en Mésopotamie ?",
+    "q": "Quels signes les scribes tracent-ils sur l'argile ?",
     "o": [
-     "Elle était importée à grand prix",
-     "On en trouve en abondance près des fleuves",
-     "Elle durcissait au contact de l'eau"
+     "Des signes en forme de coins",
+     "Des dessins d'animaux",
+     "Des lettres grecques"
     ],
-    "r": 1,
-    "e": "L'argile est un matériau courant dans une région de fleuves, donc disponible sans transport coûteux."
+    "r": 0,
+    "e": "Les scribes tracent des signes en forme de coins avec un roseau taillé ; l'écriture s'appelle pour cela le cunéiforme."
    },
    {
     "q": "Que peut-on déduire de la présence de tablettes comptables dans les temples ?",
@@ -5205,14 +5205,14 @@ window.BIBLIO = [
     "e": "Le texte souligne que les molécules sont bien plus petites que les longueurs d'onde, ce qui favorise la diffusion des plus courtes."
    },
    {
-    "q": "Pourquoi le ciel paraît-il plus foncé en haute montagne ?",
+    "q": "Pourquoi l'ombre sur la neige paraît-elle bleue à la montagne ?",
     "o": [
-     "Parce que le Soleil y est plus faible",
-     "Parce que la neige absorbe le bleu",
-     "Parce qu'il y a moins d'air pour diffuser la lumière"
+     "Parce qu'elle est éclairée par la lumière du ciel, appauvrie en grandes longueurs d'onde",
+     "Parce que la neige contient un pigment bleu",
+     "Parce que le froid bleuit la lumière"
     ],
-    "r": 2,
-    "e": "L'air se raréfie avec l'altitude : moins de molécules diffusent donc moins de lumière bleue."
+    "r": 0,
+    "e": "Le texte explique que la lumière éclairant cette ombre vient du ciel, donc d'une lumière appauvrie en grandes longueurs d'onde."
    },
    {
     "q": "Que prouve l'observation faite sur la Lune ?",
@@ -5384,14 +5384,14 @@ window.BIBLIO = [
     "e": "Le texte cite le fromager qui demande des nouvelles, et la boulangère qui connaît les prénoms."
    },
    {
-    "q": "Pourquoi un producteur vend-il plus cher au détail sur un marché ?",
+    "q": "Quel avantage un marché offre-t-il aux petits producteurs ?",
     "o": [
-     "Parce que les produits y sont plus rares",
-     "Parce qu'il supprime la marge d'un intermédiaire",
-     "Parce que la mairie fixe les prix"
+     "Vendre sans intermédiaire et garder une part plus grande du prix",
+     "Vendre plus cher qu'en grande surface",
+     "Recevoir une aide de la mairie"
     ],
-    "r": 1,
-    "e": "En vendant directement, il conserve la part que prendrait normalement un intermédiaire."
+    "r": 0,
+    "e": "Le texte parle d'une fonction économique discrète : vendre sans intermédiaire, donc garder une part plus grande du prix."
    },
    {
     "q": "Pourquoi la météo est-elle un problème pour ces producteurs ?",
@@ -6110,14 +6110,14 @@ window.BIBLIO = [
     "e": "Le texte situe les premiers réfrigérateurs domestiques au début du XXe siècle."
    },
    {
-    "q": "Pourquoi les fluides ont-ils changé plusieurs fois ?",
+    "q": "Que fait le compresseur dans le circuit ?",
     "o": [
-     "Pour des raisons de sécurité et d'environnement",
-     "Pour réduire le prix du métal",
-     "Pour accélérer la fabrication"
+     "Il aspire le gaz et le comprime, ce qui le réchauffe",
+     "Il refroidit le gaz pour le liquéfier",
+     "Il abaisse la pression avant l'évaporateur"
     ],
     "r": 0,
-    "e": "Le texte mentionne des raisons de sécurité et d'environnement."
+    "e": "Le compresseur aspire le gaz et le comprime, ce qui le réchauffe ; c'est le détendeur qui abaisse la pression."
    },
    {
     "q": "Pourquoi faut-il garder la porte fermée ?",
@@ -6321,12 +6321,12 @@ window.BIBLIO = [
    {
     "q": "Quel défaut le texte reconnaît-il au stylo à bille ?",
     "o": [
-     "Il ne fonctionne pas sur le papier glacé",
-     "Le trait s'épaissit quand la bille s'use",
-     "Il faut le secouer avant chaque usage"
+     "Un gaucher qui appuie étale l'encre fraîche et se tache",
+     "Il fuit dès qu'on le secoue",
+     "Il ne fonctionne pas en altitude"
     ],
-    "r": 1,
-    "e": "Le texte mentionne l'encre qui sèche mal sur certains papiers et le trait qui s'épaissit avec l'usure."
+    "r": 0,
+    "e": "« Un défaut subsiste : un gaucher qui pousse la pointe sur le papier étale l'encre encore fraîche et se tache la main. »"
    },
    {
     "q": "Pourquoi l'encre du journal était-elle une piste intéressante ?",
@@ -7523,14 +7523,14 @@ window.BIBLIO = [
     "e": "L'eau et les relais en faisaient des étapes indispensables, donc des lieux d'activité."
    },
    {
-    "q": "Pourquoi les marchands ne traversaient-ils pas tout le trajet ?",
+    "q": "Comment les marchandises progressaient-elles vers l'ouest ?",
     "o": [
-     "Parce qu'une loi le leur interdisait",
-     "Parce qu'ils ne parlaient qu'une langue",
-     "Parce que le voyage était long, coûteux et risqué"
+     "De main en main, de caravane en caravane",
+     "Par un seul convoi, de la Chine à Rome",
+     "Par bateau le long des côtes"
     ],
-    "r": 2,
-    "e": "La durée et les dangers du parcours encourageaient un commerce par relais successifs."
+    "r": 0,
+    "e": "Aucun marchand ne parcourait l'ensemble du trajet : les cargaisons passaient de main en main, de caravane en caravane."
    },
    {
     "q": "Quel est le sujet principal du texte ?",
@@ -11274,14 +11274,14 @@ window.BIBLIO = [
     "e": "Le temps dépend du nombre de couches et du volume de matière déposé."
    },
    {
-    "q": "Qu'appelle-t-on un moule perdu ?",
+    "q": "À quoi l'impression 3D convient-elle le mieux ?",
     "o": [
-     "Un moule égaré en atelier",
-     "Un moule détruit après avoir servi",
-     "Un moule imprimé en couleur"
+     "Aux formes complexes et aux petites séries",
+     "Aux millions d'objets identiques",
+     "Aux pièces plates produites en grande quantité"
     ],
-    "r": 1,
-    "e": "Le moule est consommé lors du moulage, d'où son nom."
+    "r": 0,
+    "e": "Le texte conclut que l'impression 3D convient surtout aux formes complexes et aux petites séries, là où un moule coûterait trop cher."
    },
    {
     "q": "Pourquoi l'impression 3D ne remplace-t-elle pas le moulage ?",
@@ -15952,24 +15952,24 @@ window.BIBLIO = [
     "e": "Le prix élevé du volume et le risque de perte expliquent la réticence initiale à prêter."
    },
    {
-    "q": "Pourquoi Carnegie exigeait-il un financement local ?",
+    "q": "À quelle condition Carnegie finançait-il une bibliothèque ?",
     "o": [
-     "Pour garantir l'engagement durable de la commune",
-     "Pour récupérer une partie de sa fortune",
-     "Pour choisir lui-même les bibliothécaires"
+     "La commune devait fournir le terrain et le budget de fonctionnement",
+     "La ville devait lui verser une redevance annuelle",
+     "La bibliothèque devait porter son nom"
     ],
     "r": 0,
-    "e": "En faisant payer le terrain et le fonctionnement, il s'assurait que la ville soutiendrait l'établissement."
+    "e": "Carnegie finançait à condition que la commune fournisse le terrain et le budget de fonctionnement."
    },
    {
-    "q": "Pourquoi les bibliothèques se développèrent-elles dans les villes industrielles ?",
+    "q": "Qui payait la bibliothèque publique ouverte en 1850 ?",
     "o": [
-     "Les livres y étaient fabriqués",
-     "Les campagnes refusaient les impôts",
-     "L'alphabétisation y progressait"
+     "La collectivité, par ses impôts, et non l'usager",
+     "Les lecteurs, par un abonnement",
+     "Un industriel, à lui seul"
     ],
-    "r": 2,
-    "e": "Le texte relie cette diffusion à une alphabétisation croissante dans les villes industrielles."
+    "r": 0,
+    "e": "La loi de 1850 autorisait les villes à financer sur leurs impôts une bibliothèque ouverte à tous : un service public payé par la collectivité."
    },
    {
     "q": "Pourquoi le système de Dewey fut-il adopté par tant d'établissements ?",
@@ -19051,12 +19051,12 @@ window.BIBLIO = [
    {
     "q": "Pourquoi l'écholocation exige-t-elle un cerveau rapide ?",
     "o": [
+     "Parce qu'une espèce peut produire jusqu'à deux cents cris par seconde",
      "Parce que les échos reviennent presque instantanément",
-     "Parce que les cris sont très longs à produire",
-     "Parce que l'animal doit mémoriser des milliers d'espèces"
+     "Parce que les ultrasons sont inaudibles pour l'homme"
     ],
     "r": 0,
-    "e": "Un grand nombre de cris par seconde impose un traitement immédiat."
+    "e": "Le texte relie la rapidité du traitement au nombre de cris par seconde, jusqu'à deux cents pendant la phase finale de la chasse."
    },
    {
     "q": "Pourquoi la disparition des chauves-souris serait-elle coûteuse ?",
