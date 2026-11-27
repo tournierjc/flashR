@@ -968,7 +968,8 @@ const DEFAULTS={wpm:180,chunk:1,orp:true,theme:'ink',size:1,span:4,history:[],lo
   streak:{last:null,count:0},schulteBest:{},lastText:null,click:true,parcoursV:PARCOURS_V,
   xp:0,combo:0,textUse:{},periphDur:220,mission:null,week:null,etapeFloor:null,voix:null,voixN:0,
   spanV:4,fanLen:2,exoPrefs:{},chunkMode:'auto',
-  eyeMs:0,eyeAuto:true,eyeBreaks:null,eyeIdx:0,eyeSnooze:0};
+  eyeMs:0,eyeAuto:true,eyeBreaks:null,eyeIdx:0,eyeSnooze:0,
+  survolAuto:true};
 let S=load();
 function load(){
   try{
@@ -2333,7 +2334,7 @@ async function blockTri(tok,rounds=3,perRound=4){
 }
 
 /* -------- Survol à question : lire pour trouver, pas pour tout lire -------- */
-async function blockSurvol(tok,nq=3,wpmArg){
+async function blockSurvol(tok,nq=3,wpmArg,autoArg){
   const lvl=niveauCourant();
   const wpm=clamp(wpmArg||Math.max(600,S.wpm),300,WPM_MAX);
   const pool=spotPool();
@@ -2365,8 +2366,10 @@ async function blockSurvol(tok,nq=3,wpmArg){
         <button class="chip survol-auto is-on" id="survolAuto">Défilement auto · on</button></div>
     </div>`;
     const box=$('#survolBox'), sc=$('#survolScroll'), tEl=$('#survolT'), bAuto=$('#survolAuto');
-    let auto=true;
+    const initial=(autoArg!=null)?!!autoArg:(S.survolAuto!==false);
+    let auto=initial;
     const setAuto=v=>{ auto=v; if(bAuto){ bAuto.textContent='Défilement auto · '+(v?'on':'off'); bAuto.classList.toggle('is-on',v); } };
+    setAuto(initial);
     const manuel=e=>{ if(e&&e.type==='wheel'&&Math.abs(e.deltaY)<1&&Math.abs(e.deltaX)<1) return; setAuto(false); };
     sc.addEventListener('wheel',manuel,{passive:true});
     sc.addEventListener('touchstart',manuel,{passive:true});
@@ -2568,7 +2571,7 @@ async function runSpec(spec,tok,ctx){
     case 'chasse': return await blockChasse(tok,spec.secs||45,ctx&&ctx.text);
     case 'sosies': return await blockSosies(tok,spec.n||12,null,spec.dur);
     case 'doublon': return await blockDoublon(tok,spec.n||10,null,spec.dur);
-    case 'survol': return await blockSurvol(tok,spec.nq||3,spec.wpm);
+    case 'survol': return await blockSurvol(tok,spec.nq||3,spec.wpm,spec.auto);
     case 'gist': return await blockGist(tok,spec.n||5,spec.ms);
     case 'tri': return await blockTri(tok,spec.rounds||3);
     case 'saccades': return await blockSaccades(tok,spec.rounds||3);
@@ -2824,7 +2827,7 @@ const EXO_CFG={
   chasse:[{key:'secs',label:'Durée',vals:[30,45,60,90],fmt:v=>v+' s'}],
   sosies:[{key:'n',label:'Essais',vals:[6,12,18]},{key:'dur',type:'range',label:'Exposition',min:120,max:460,step:20,unit:'ms'}],
   doublon:[{key:'n',label:'Lignes',vals:[6,10,14]},{key:'dur',type:'range',label:'Affichage de la ligne',min:400,max:1600,step:100,unit:'ms'}],
-  survol:[{key:'nq',label:'Questions',vals:[2,3,4]},{key:'wpm',type:'range',label:'Défilement',unit:'mots/min'}],
+  survol:[{key:'nq',label:'Questions',vals:[2,3,4]},{key:'wpm',type:'range',label:'Vitesse de défilement',min:300,max:1000,step:10,unit:'mots/min'},{key:'auto',label:'Défilement',vals:[1,0],fmt:v=>v?'automatique':'manuel'}],
   gist:[{key:'n',label:'Extraits',vals:[3,5,8]},{key:'ms',type:'range',label:'Extrait affiché',min:900,max:3000,step:100,unit:'ms'}],
   tri:[{key:'rounds',label:'Séries',vals:[2,3,4]}],
   saccades:[{key:'rounds',label:'Séquences',vals:[2,3,5]}],
@@ -2846,7 +2849,7 @@ function exoDefaults(kind){
     chasse:{secs:clamp(30+levelIdx()*5,30,90)},
     sosies:{n:12,dur:clamp(440-levelIdx()*26,140,460)},
     doublon:{n:10,dur:clamp(1500-levelIdx()*95,400,1600)},
-    survol:{nq:3,wpm:clamp(480+levelIdx()*45,480,1000)},
+    survol:{nq:3,wpm:clamp(480+levelIdx()*45,480,1000),auto:S.survolAuto===false?0:1},
     gist:{n:5,ms:clamp(2600-levelIdx()*150,1000,3000)},
     tri:{rounds:3},
     saccades:{rounds:3},
@@ -2870,7 +2873,7 @@ function specFromPrefs(kind,p){
     case 'chasse': return {k:'chasse',secs:p.secs};
     case 'sosies': return {k:'sosies',n:p.n,dur:p.dur};
     case 'doublon': return {k:'doublon',n:p.n,dur:p.dur};
-    case 'survol': return {k:'survol',nq:p.nq,wpm:p.wpm};
+    case 'survol': return {k:'survol',nq:p.nq,wpm:p.wpm,auto:p.auto};
     case 'gist': return {k:'gist',n:p.n,ms:p.ms};
     case 'tri': return {k:'tri',rounds:p.rounds};
     case 'saccades': return {k:'saccades',rounds:p.rounds};
@@ -2924,7 +2927,9 @@ function askExoSettings(kind){
     document.addEventListener('keydown',onKey);
     $('#sheetCancel').onclick=()=>close(null);
     $('#sheetGo').onclick=()=>{
-      S.exoPrefs=Object.assign({},S.exoPrefs||{},{[kind]:p}); save();
+      S.exoPrefs=Object.assign({},S.exoPrefs||{},{[kind]:p});
+      if(kind==='survol') S.survolAuto=!!p.auto;   // vaut aussi pour les étapes et les missions
+      save();
       close(specFromPrefs(kind,p));
     };
     sheet.onclick=e=>{ if(e.target===sheet) close(null); };
@@ -3783,6 +3788,10 @@ function renderGuide(){
           <li><strong style="color:var(--ink)">Empan vertical</strong> — une colonne de 4 à 7 mots, deux flèches au centre : tu fixes le milieu et la colonne se lit d'un seul regard vertical. On mesure la hauteur du champ, pas la largeur — c'est ce qui compte pour descendre une page sans balayer.</li>
           <li><strong style="color:var(--ink)">Éventail visuel</strong> — un nombre s'affiche une fraction de seconde puis disparaît, et tu le retapes. Deux chiffres au départ, huit au plus haut, et plus le nombre est long moins il reste affiché : deux chiffres 420 ms, huit chiffres 180 ms. Trois réussites d'affilée allongent le nombre, deux échecs le raccourcissent. L'idée est celle du livre : réduire la durée de fixation tout en augmentant ce qui est pris à chaque fixation.</li>
         </ul>
+
+        <h2>Les rythmes se règlent</h2>
+        <p>Chaque exercice ouvre une feuille de réglages : durée d'affichage du doublon (400 à 1 600 ms), exposition des sosies (120 à 460 ms), extrait du gist (900 à 3 000 ms), vitesse et mode de défilement du survol, durée de la chasse, vitesse du Flash, du métronome et du pacer, mots par affichage. <strong style="color:var(--ink)">Ces valeurs suivent ton niveau</strong> tant que tu ne les touches pas : plus tu lis vite, plus l'exposition se raccourcit et plus le survol défile vite. Dès que tu fixes une valeur à la main, elle est conservée telle quelle.</p>
+        <p class="note">Le survol peut rester en <strong style="color:var(--ink)">défilement manuel</strong> par défaut : le texte ne bouge pas tant que tu ne le fais pas défiler, et le minuteur continue. Utile pour travailler le repérage sans la pression du défilement.</p>
 
         <h2>L'historique et la progression journalière</h2>
         <p>Chaque séance est enregistrée dans ce navigateur (date, vitesse, compréhension, vitesse efficace). La vue <em>Progression</em> agrège ces séances <strong style="color:var(--ink)">par jour</strong> : moyenne de vitesse efficace, temps de pratique, écart avec la journée précédente, et le nombre de jours actifs. La bande des sept derniers jours sur le tableau de bord donne la même information d'un coup d'œil.</p>
